@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Places',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -18,11 +18,14 @@ class MyApp extends StatelessWidget {
 }
 
 class MyFirstWidget extends StatelessWidget {
-  int i = 0;
+  
+  // Type getContextRunTime() {
+  //   return context.runtimeType;
+  // }
+
   @override
   Widget build(BuildContext context) {
-    i++;
-    print(i);
+    print(context.runtimeType);
     return Container(
       child: Center(
         child: Text('Hello!'),
@@ -38,10 +41,16 @@ class MySecondWidget extends StatefulWidget {
 
 class _MySecondWidgetState extends State<MySecondWidget> {
   int i = 0;
+
+  Type getContextRunTime() {
+    return context.runtimeType;
+  }
+
   @override
   Widget build(BuildContext context) {
     i++;
     print(i);
+    print(getContextRunTime);
     return Container(
       child: Center(
         child: Text('Hello!'),
