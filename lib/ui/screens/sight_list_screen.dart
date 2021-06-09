@@ -6,6 +6,13 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  TextStyle textStyle = TextStyle(
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w700,
+    fontSize: 32,
+    color: Color(0xFF252849),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,13 +21,26 @@ class _SightListScreenState extends State<SightListScreen> {
         centerTitle: false,
         toolbarHeight: 150,
         shadowColor: Colors.transparent,
-        title: Text(
-          "Список\nинтересных мест",
-          style: TextStyle(
-            fontFamily: "Roboto",
-            fontWeight: FontWeight.w700,
-            fontSize: 32,
-            color: Color(0xFF252849),
+        title: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "C",
+                style: textStyle.copyWith(color: Color(0xff4CAF50)),
+              ),
+              TextSpan(
+                text: "писок\n",
+                style: textStyle,
+              ),
+              TextSpan(
+                text: "и",
+                style: textStyle.copyWith(color: Color(0xfffcdd3b)),
+              ),
+              TextSpan(
+                text: "нтересных мест",
+                style: textStyle,
+              ),
+            ],
           ),
         ),
       ),
