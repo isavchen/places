@@ -27,18 +27,22 @@ class _SightListScreenState extends State<SightListScreen> {
               TextSpan(
                 text: "C",
                 style: textStyle.copyWith(color: Color(0xff4CAF50)),
-              ),
-              TextSpan(
-                text: "писок\n",
-                style: textStyle,
+                children: [
+                  TextSpan(
+                    text: "писок\n",
+                    style: textStyle,
+                  ),
+                ],
               ),
               TextSpan(
                 text: "и",
                 style: textStyle.copyWith(color: Color(0xfffcdd3b)),
-              ),
-              TextSpan(
-                text: "нтересных мест",
-                style: textStyle,
+                children: [
+                  TextSpan(
+                    text: "нтересных мест",
+                    style: textStyle,
+                  ),
+                ],
               ),
             ],
           ),
