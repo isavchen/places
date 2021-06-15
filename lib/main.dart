@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:places/ui/screens/SightDetails.dart';
+// import 'package:places/ui/screens/SightDetails.dart';
 import 'package:places/ui/screens/sight_list_screen.dart';
 
 void main() {
@@ -15,7 +15,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SightDetailsScreen(),
+      home: SightListScreen(),
     );
   }
 }
