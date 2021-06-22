@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,8 +26,36 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.5,
                   width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.green,
+                  // decoration: BoxDecoration(
+                  //   color: Colors.green,
+                  // ),
+                  child: Image.network(
+                    'https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg',
+                    fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Center(
+                        child: Platform.isAndroid
+                            ? CircularProgressIndicator(
+                                color: Color(0xFF252849),
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              )
+                            : CupertinoActivityIndicator.partiallyRevealed(
+                                progress: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : 0,
+                              ),
+                      );
+                    },
                   ),
                 ),
                 Positioned(
@@ -129,14 +160,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white, width: 2),
-                        color: Colors.transparent,
-                      ),
-                    ),
+                    Image.asset("assets/img/union.png"),
                     SizedBox(
                       width: 10,
                     ),
@@ -172,17 +196,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 22,
-                            height: 19,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color.fromRGBO(124, 126, 146, 0.56),
-                                width: 2,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
+                          Image.asset("assets/img/calendar.png"),
                           SizedBox(
                             width: 9,
                           ),
@@ -206,17 +220,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 22,
-                            height: 19,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color(0xFF3B3E5B),
-                                width: 2,
-                              ),
-                              color: Colors.transparent,
-                            ),
-                          ),
+                          Image.asset("assets/img/heart_icon.png", color: Color(0xFF3B3E5B),),
                           SizedBox(
                             width: 9,
                           ),
