@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
+import 'package:places/ui/screens/my_custom_appbar.dart';
 import 'package:places/ui/screens/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
@@ -12,13 +12,9 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: false,
-        toolbarHeight: 120,
-        shadowColor: Colors.transparent,
+      appBar: MyCustomAppBar(
         title: Text(
-          "Список\nинтересных мест",
+          "Список интересных мест",
           style: TextStyle(
             fontFamily: "Roboto",
             fontWeight: FontWeight.w700,
@@ -26,7 +22,24 @@ class _SightListScreenState extends State<SightListScreen> {
             color: Color(0xFF252849),
           ),
         ),
+        height: 152,
+        backgroundColor: Colors.transparent,
       ),
+      // AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   centerTitle: false,
+      //   toolbarHeight: 120,
+      //   shadowColor: Colors.transparent,
+        // title: Text(
+        //   "Список\nинтересных мест",
+        //   style: TextStyle(
+        //     fontFamily: "Roboto",
+        //     fontWeight: FontWeight.w700,
+        //     fontSize: 32,
+        //     color: Color(0xFF252849),
+        //   ),
+        // ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
