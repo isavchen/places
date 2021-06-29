@@ -23,7 +23,7 @@ flutter:
 
   assets:
     - assets/img/
- 
+
   fonts:
     - family: Roboto
       fonts:
