@@ -2,20 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 
-class SightCard extends StatelessWidget {
+class VisitedSightCard extends StatelessWidget {
   final Sight sight;
-  const SightCard({Key? key, required this.sight}) : super(key: key);
+  const VisitedSightCard({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 192,
+      height: 218,
       child: Column(
         children: [
-          Expanded(
+          Container(
+            height: 96,
             child: Stack(
               children: [
                 ClipRRect(
@@ -68,33 +70,37 @@ class SightCard extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  top: 19,
-                  right: 18,
-                  child: Image.asset("assets/img/heart_icon.png"),
+                  top: 22,
+                  right: 22,
+                  child: SvgPicture.asset("assets/img/close.svg", color: Colors.white,),
+                ),
+                Positioned(
+                  top: 16,
+                  right: 56,
+                  child: SvgPicture.asset("assets/img/share.svg", color: Colors.white,),
                 ),
               ],
             ),
           ),
-          Expanded(
+          Container(
+            height: 122,
             child: Container(
-              padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+              padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(16.0),
-                  bottomRight: Radius.circular(16.0),
+                  bottomLeft: Radius.circular(12.0),
+                  bottomRight: Radius.circular(12.0),
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 151.0),
+                  Container(
+                    width: double.infinity,
+                    height: 40,
                     child: Text(
                       sight.name,
                       maxLines: 2,
@@ -103,20 +109,40 @@ class SightCard extends StatelessWidget {
                         fontFamily: "Roboto",
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
-                        height: 1.46,
                         color: Color(0xFF3B3E5B),
                       ),
                     ),
                   ),
-                  Text(
-                    sight.details,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      height: 1.28,
-                      color: Color(0xFF7C7E92),
+                  SizedBox(
+                    height: 2.0,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 28,
+                    child: Text(
+                      'Цель достигнута 12 окт. 2020',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFF7C7E92),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 2.0,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      "закрыто до 09:00",
+                      style: TextStyle(
+                        fontFamily: "Roboto",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: Color(0xFF7C7E92),
+                      ),
                     ),
                   ),
                 ],
