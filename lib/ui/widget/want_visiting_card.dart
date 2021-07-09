@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/colors.dart';
 
 class WantVisitingCard extends StatelessWidget {
   final Sight sight;
@@ -45,8 +46,7 @@ class WantVisitingCard extends StatelessWidget {
                                     : null,
                               )
                             : CupertinoActivityIndicator.partiallyRevealed(
-                                progress: loadingProgress
-                                            .expectedTotalBytes !=
+                                progress: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
                                         loadingProgress.expectedTotalBytes!
@@ -61,23 +61,27 @@ class WantVisitingCard extends StatelessWidget {
                   left: 16.0,
                   child: Text(
                     sight.type,
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
+                    style:
+                        Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                              color: Colors.white,
+                            ),
                   ),
                 ),
                 Positioned(
                   top: 22,
                   right: 22,
-                  child: SvgPicture.asset("assets/img/close.svg", color: Colors.white,),
+                  child: SvgPicture.asset(
+                    "assets/img/close.svg",
+                    color: Colors.white,
+                  ),
                 ),
                 Positioned(
                   top: 16,
                   right: 56,
-                  child: SvgPicture.asset("assets/img/calendar.svg", color: Colors.white,),
+                  child: SvgPicture.asset(
+                    "assets/img/calendar.svg",
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -87,7 +91,7 @@ class WantVisitingCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFFF5F5F5),
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12.0),
                   bottomRight: Radius.circular(12.0),
@@ -103,12 +107,7 @@ class WantVisitingCard extends StatelessWidget {
                     child: Text(
                       sight.name,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Color(0xFF3B3E5B),
-                      ),
+                      style: Theme.of(context).primaryTextTheme.subtitle1,
                     ),
                   ),
                   SizedBox(
@@ -120,12 +119,12 @@ class WantVisitingCard extends StatelessWidget {
                     child: Text(
                       'Запланировано на 12 окт. 2020',
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Color(0xFF4CAF50),
-                      ),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .bodyText2
+                          ?.copyWith(
+                            color: Theme.of(context).buttonColor,
+                          ),
                     ),
                   ),
                   SizedBox(
@@ -135,12 +134,12 @@ class WantVisitingCard extends StatelessWidget {
                     width: double.infinity,
                     child: Text(
                       "закрыто до 09:00",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Color(0xFF7C7E92),
-                      ),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .bodyText2
+                          ?.copyWith(
+                            color: dmSecondaryColor2,
+                          ),
                     ),
                   ),
                 ],

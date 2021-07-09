@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/colors.dart';
 
 class VisitedSightCard extends StatelessWidget {
   final Sight sight;
@@ -61,12 +62,9 @@ class VisitedSightCard extends StatelessWidget {
                   left: 16.0,
                   child: Text(
                     sight.type,
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                              color: Colors.white,
+                            ),
                   ),
                 ),
                 Positioned(
@@ -87,7 +85,7 @@ class VisitedSightCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Color(0xFFF5F5F5),
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12.0),
                   bottomRight: Radius.circular(12.0),
@@ -105,12 +103,7 @@ class VisitedSightCard extends StatelessWidget {
                       sight.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Color(0xFF3B3E5B),
-                      ),
+                      style: Theme.of(context).primaryTextTheme.subtitle1,
                     ),
                   ),
                   SizedBox(
@@ -122,12 +115,10 @@ class VisitedSightCard extends StatelessWidget {
                     child: Text(
                       'Цель достигнута 12 окт. 2020',
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Color(0xFF7C7E92),
-                      ),
+                      style: Theme.of(context)
+                        .primaryTextTheme
+                        .bodyText2
+                        ?.copyWith(color: dmSecondaryColor2),
                     ),
                   ),
                   SizedBox(
@@ -137,12 +128,10 @@ class VisitedSightCard extends StatelessWidget {
                     width: double.infinity,
                     child: Text(
                       "закрыто до 09:00",
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        color: Color(0xFF7C7E92),
-                      ),
+                      style: Theme.of(context)
+                        .primaryTextTheme
+                        .bodyText2
+                        ?.copyWith(color: dmSecondaryColor2),
                     ),
                   ),
                 ],

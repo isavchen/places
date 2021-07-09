@@ -21,34 +21,14 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyCustomAppBar(
+      appBar:
+       MyCustomAppBar(
         title: Text(
           "Список интересных мест",
-          style: TextStyle(
-            fontFamily: "Roboto",
-            fontWeight: FontWeight.w700,
-            fontSize: 32,
-            color: Color(0xFF252849),
-          ),
         ),
         height: 152,
         backgroundColor: Colors.transparent,
       ),
-      // AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   centerTitle: false,
-      //   toolbarHeight: 120,
-      //   shadowColor: Colors.transparent,
-      // title: Text(
-      //   "Список\nинтересных мест",
-      //   style: TextStyle(
-      //     fontFamily: "Roboto",
-      //     fontWeight: FontWeight.w700,
-      //     fontSize: 32,
-      //     color: Color(0xFF252849),
-      //   ),
-      // ),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -63,22 +43,26 @@ class _SightListScreenState extends State<SightListScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
-              top: BorderSide(
-                  color: Color(0xFF7C7E92).withOpacity(0.56), width: 0.8)),
+            top: BorderSide(
+                color: Color(0xFF7C7E92).withOpacity(0.56), width: 0.8),
+          ),
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
           onTap: _onTap,
-          elevation: 0,
           items: [
             BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/img/list.svg'),
-              activeIcon: SvgPicture.asset('assets/img/list_full.svg'),
+              icon: SvgPicture.asset(
+                'assets/img/list.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
+              ),
+              activeIcon: SvgPicture.asset('assets/img/list_full.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor),
               title: Text('List Places'),
-              // label: '',
             ),
             // BottomNavigationBarItem(
             //   icon: SvgPicture.asset('assets/img/map.svg'),
@@ -86,10 +70,15 @@ class _SightListScreenState extends State<SightListScreen> {
             //   label: '',
             // ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/img/heart_icon.svg'),
-              activeIcon: SvgPicture.asset("assets/img/heart_full.svg"),
+              icon: SvgPicture.asset('assets/img/heart_icon.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor),
+              activeIcon: SvgPicture.asset("assets/img/heart_full.svg",
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor),
               title: Text('Favorites'),
-              // label: '',
             ),
             // BottomNavigationBarItem(
             //   icon: SvgPicture.asset('assets/img/settings.svg'),

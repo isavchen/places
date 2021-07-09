@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/colors.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -44,8 +45,7 @@ class SightCard extends StatelessWidget {
                                     : null,
                               )
                             : CupertinoActivityIndicator.partiallyRevealed(
-                                progress: loadingProgress
-                                            .expectedTotalBytes !=
+                                progress: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
                                         loadingProgress.expectedTotalBytes!
@@ -60,18 +60,19 @@ class SightCard extends StatelessWidget {
                   left: 16.0,
                   child: Text(
                     sight.type,
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Colors.white,
-                    ),
+                    style:
+                        Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                              color: Colors.white,
+                            ),
                   ),
                 ),
                 Positioned(
                   top: 19,
                   right: 18,
-                  child: SvgPicture.asset("assets/img/heart_icon.svg", color: Colors.white,),
+                  child: SvgPicture.asset(
+                    "assets/img/heart_icon.svg",
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -80,7 +81,7 @@ class SightCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
               decoration: BoxDecoration(
-                color: Color(0xFFF5F5F5),
+                color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16.0),
                   bottomRight: Radius.circular(16.0),
@@ -100,25 +101,16 @@ class SightCard extends StatelessWidget {
                       sight.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        height: 1.46,
-                        color: Color(0xFF3B3E5B),
-                      ),
+                      style: Theme.of(context).primaryTextTheme.subtitle1,
                     ),
                   ),
                   Text(
                     sight.details,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: "Roboto",
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      height: 1.28,
-                      color: Color(0xFF7C7E92),
-                    ),
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .bodyText2
+                        ?.copyWith(color: dmSecondaryColor2),
                   ),
                 ],
               ),

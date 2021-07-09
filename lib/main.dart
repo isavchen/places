@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:places/ui/screens/SightDetails.dart';
+import 'package:places/ui/res/themes.dart';
+import 'package:places/ui/screens/SightDetailsScreen.dart';
 import 'package:places/ui/screens/VisitingScreen.dart';
-// import 'package:places/ui/screens/SightDetails.dart';
 import 'package:places/ui/screens/SightListScreen.dart';
 
 void main() {
@@ -13,12 +13,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: darkTheme,
+      // theme: lightTheme,
       title: 'Places',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: VisitingScreen(),
       // home: SightListScreen(),
+      home: VisitingScreen(),
+      // home: SightDetailsScreen(),
     );
   }
 }

@@ -21,6 +21,15 @@ class MyCustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _MyCustomAppBarState extends State<MyCustomAppBar> {
   @override
   Widget build(BuildContext context) {
+    TextStyle? titleTextStyle = Theme.of(context).primaryTextTheme.headline6?.copyWith(fontWeight: FontWeight.w700, fontSize: 32);
+
+    Widget title = widget.title;
+
+    title = DefaultTextStyle(
+      style: titleTextStyle!,
+      child: title,
+    );
+
     return Container(
       height: widget.height,
       decoration: BoxDecoration(
@@ -33,7 +42,7 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
           child: ConstrainedBox(
             constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.65),
-            child: widget.title,
+            child: title,
           ),
         ),
       ),
