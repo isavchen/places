@@ -6,85 +6,85 @@ const TextStyle _text = TextStyle(
   fontStyle: FontStyle.normal,
 );
 
-TextStyle dmMatHeadline6 = _text.copyWith(
+final TextStyle dmMatHeadline6 = _text.copyWith(
   fontWeight: FontWeight.w500,
   fontSize: 18,
   color: dmAccentColor,
 );
 
-TextStyle lmMatHeadline6 = _text.copyWith(
+final TextStyle lmMatHeadline6 = _text.copyWith(
   fontWeight: FontWeight.w500,
   fontSize: 18,
   color: lmAccentColor,
 );
 
-TextStyle dmMatHeadline5 = _text.copyWith(
+final TextStyle dmMatHeadline5 = _text.copyWith(
   fontWeight: FontWeight.w700,
   fontSize: 24,
   color: dmAccentColor,
 );
 
-TextStyle lmMatHeadline5 = _text.copyWith(
+final TextStyle lmMatHeadline5 = _text.copyWith(
   fontWeight: FontWeight.w700,
   fontSize: 24,
   color: lmSecondaryColor,
 );
 
-TextStyle dmMatSubtitle1 = _text.copyWith(
+final TextStyle dmMatSubtitle1 = _text.copyWith(
   fontSize: 16.0,
   fontWeight: FontWeight.w500,
   color: dmFocusColor,
   letterSpacing: 0,
 );
 
-TextStyle lmMatSubtitle1 = _text.copyWith(
+final TextStyle lmMatSubtitle1 = _text.copyWith(
   fontSize: 16.0,
   fontWeight: FontWeight.w500,
   color: lmFocusColor,
   letterSpacing: 0,
 );
 
-TextStyle dmMatSubtitle2 = _text.copyWith(
+final TextStyle dmMatSubtitle2 = _text.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w700,
   color: dmSecondaryColor2,
   letterSpacing: 0,
 );
 
-TextStyle lmMatSubtitle2 = _text.copyWith(
+final TextStyle lmMatSubtitle2 = _text.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w700,
   color: lmSecondaryColor,
   letterSpacing: 0,
 );
 
-TextStyle dmMatBodyText2 = _text.copyWith(
+final TextStyle dmMatBodyText2 = _text.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w400,
   color: dmInactiveColor,
   letterSpacing: 0,
 );
 
-TextStyle lmMatBodyText2 = _text.copyWith(
+final TextStyle lmMatBodyText2 = _text.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w400,
   color: lmSecondaryColor2,
   letterSpacing: 0,
 );
 
-TextStyle subtitleText = _text.copyWith(
+final TextStyle subtitleText = _text.copyWith(
   fontSize: 18.0,
   fontWeight: FontWeight.w500,
   color: dmInactiveColor,
 );
 
-TextStyle smallText = _text.copyWith(
+final TextStyle smallText = _text.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w400,
   color: dmInactiveColor,
 );
 
-TextStyle textButton = _text.copyWith(
+final TextStyle textButton = _text.copyWith(
   fontSize: 14.0,
   fontWeight: FontWeight.w700,
   color: Colors.white,
@@ -92,7 +92,7 @@ TextStyle textButton = _text.copyWith(
 );
 
 
-TextStyle tabBarLabel = _text.copyWith(
+final TextStyle tabBarLabel = _text.copyWith(
   fontWeight: FontWeight.w700,
   fontSize: 14,
 );
