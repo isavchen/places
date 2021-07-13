@@ -69,9 +69,14 @@ class SightCard extends StatelessWidget {
                 Positioned(
                   top: 19,
                   right: 18,
-                  child: SvgPicture.asset(
-                    "assets/img/heart_icon.svg",
-                    color: Colors.white,
+                  child: InkWell(
+                    onTap: (){
+                      print("Add to favorite");
+                    },
+                    child: SvgPicture.asset(
+                      "assets/img/heart_icon.svg",
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

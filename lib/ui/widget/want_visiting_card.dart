@@ -70,17 +70,27 @@ class WantVisitingCard extends StatelessWidget {
                 Positioned(
                   top: 22,
                   right: 22,
-                  child: SvgPicture.asset(
-                    "assets/img/close.svg",
-                    color: Colors.white,
+                  child: InkWell(
+                    onTap: () {
+                      print("Button Close");
+                    },
+                    child: SvgPicture.asset(
+                      "assets/img/close.svg",
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 Positioned(
                   top: 16,
                   right: 56,
-                  child: SvgPicture.asset(
-                    "assets/img/calendar.svg",
-                    color: Colors.white,
+                  child: InkWell(
+                    onTap: () {
+                      print("Button Calendar");
+                    },
+                    child: SvgPicture.asset(
+                      "assets/img/calendar.svg",
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

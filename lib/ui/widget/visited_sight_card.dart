@@ -46,8 +46,7 @@ class VisitedSightCard extends StatelessWidget {
                                     : null,
                               )
                             : CupertinoActivityIndicator.partiallyRevealed(
-                                progress: loadingProgress
-                                            .expectedTotalBytes !=
+                                progress: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
                                         loadingProgress.expectedTotalBytes!
@@ -62,7 +61,8 @@ class VisitedSightCard extends StatelessWidget {
                   left: 16.0,
                   child: Text(
                     sight.type,
-                    style: Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                    style:
+                        Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
                               color: Colors.white,
                             ),
                   ),
@@ -70,12 +70,28 @@ class VisitedSightCard extends StatelessWidget {
                 Positioned(
                   top: 22,
                   right: 22,
-                  child: SvgPicture.asset("assets/img/close.svg", color: Colors.white,),
+                  child: InkWell(
+                    onTap: () {
+                      print("Button Close");
+                    },
+                    child: SvgPicture.asset(
+                      "assets/img/close.svg",
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
                 Positioned(
                   top: 16,
                   right: 56,
-                  child: SvgPicture.asset("assets/img/share.svg", color: Colors.white,),
+                  child: InkWell(
+                    onTap: () {
+                      print("Button Share");
+                    },
+                    child: SvgPicture.asset(
+                      "assets/img/share.svg",
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -116,9 +132,9 @@ class VisitedSightCard extends StatelessWidget {
                       'Цель достигнута 12 окт. 2020',
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
-                        .primaryTextTheme
-                        .bodyText2
-                        ?.copyWith(color: dmSecondaryColor2),
+                          .primaryTextTheme
+                          .bodyText2
+                          ?.copyWith(color: dmSecondaryColor2),
                     ),
                   ),
                   SizedBox(
@@ -129,9 +145,9 @@ class VisitedSightCard extends StatelessWidget {
                     child: Text(
                       "закрыто до 09:00",
                       style: Theme.of(context)
-                        .primaryTextTheme
-                        .bodyText2
-                        ?.copyWith(color: dmSecondaryColor2),
+                          .primaryTextTheme
+                          .bodyText2
+                          ?.copyWith(color: dmSecondaryColor2),
                     ),
                   ),
                 ],

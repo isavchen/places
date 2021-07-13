@@ -21,8 +21,7 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-       MyCustomAppBar(
+      appBar: MyCustomAppBar(
         title: Text(
           "Список интересных мест",
         ),
@@ -58,33 +57,59 @@ class _SightListScreenState extends State<SightListScreen> {
                     .bottomNavigationBarTheme
                     .unselectedItemColor,
               ),
-              activeIcon: SvgPicture.asset('assets/img/list_full.svg',
-                  color: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .selectedItemColor),
+              activeIcon: SvgPicture.asset(
+                'assets/img/list_full.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
+              ),
               title: Text('List Places'),
             ),
-            // BottomNavigationBarItem(
-            //   icon: SvgPicture.asset('assets/img/map.svg'),
-            //   activeIcon: SvgPicture.asset('assets/img/map_full.svg'),
-            //   label: '',
-            // ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset('assets/img/heart_icon.svg',
-                  color: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .unselectedItemColor),
-              activeIcon: SvgPicture.asset("assets/img/heart_full.svg",
-                  color: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .selectedItemColor),
+              icon: SvgPicture.asset(
+                'assets/img/map.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/img/map_full.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
+              ),
+              title: Text('Map'),
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/img/heart_icon.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                "assets/img/heart_full.svg",
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
+              ),
               title: Text('Favorites'),
             ),
-            // BottomNavigationBarItem(
-            //   icon: SvgPicture.asset('assets/img/settings.svg'),
-            //   activeIcon: SvgPicture.asset('assets/img/settings_full.svg', color: Color(0xFF252849),),
-            //   label: '',
-            // ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/img/settings.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .unselectedItemColor,
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/img/settings_full.svg',
+                color: Theme.of(context)
+                    .bottomNavigationBarTheme
+                    .selectedItemColor,
+              ),
+              title: Text('Settings'),
+            ),
           ],
         ),
       ),

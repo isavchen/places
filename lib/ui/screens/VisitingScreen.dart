@@ -10,7 +10,7 @@ class VisitingScreen extends StatefulWidget {
 }
 
 class _VisitingScreenState extends State<VisitingScreen> {
-  int _currentIndex = 1;
+  int _currentIndex = 2;
 
   void _onTap(currentIndex) {
     setState(() {
@@ -101,11 +101,21 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 title: Text('List Places'),
                 // label: '',
               ),
-              // BottomNavigationBarItem(
-              //   icon: SvgPicture.asset('assets/img/map.svg'),
-              //   activeIcon: SvgPicture.asset('assets/img/map_full.svg'),
-              //   label: '',
-              // ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/img/map.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/img/map_full.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
+                title: Text('Map'),
+              ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset('assets/img/heart_icon.svg',
                     color: Theme.of(context)
@@ -120,11 +130,21 @@ class _VisitingScreenState extends State<VisitingScreen> {
                 title: Text('Favorites'),
                 // label: '',
               ),
-              // BottomNavigationBarItem(
-              //   icon: SvgPicture.asset('assets/img/settings.svg'),
-              //   activeIcon: SvgPicture.asset('assets/img/settings_full.svg', color: Color(0xFF252849),),
-              //   label: '',
-              // ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'assets/img/settings.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/img/settings_full.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
+                title: Text('Settings'),
+              ),
             ],
           ),
         ),
