@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/widget/visiting_content.dart';
-import 'package:places/ui/screens/SightListScreen.dart';
 
 class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -18,6 +17,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
       _currentIndex = currentIndex;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,11 +27,6 @@ class _VisitingScreenState extends State<VisitingScreen> {
           centerTitle: true,
           title: Text(
             "Избранное",
-            style: TextStyle(
-                color: Color(0xFF252849),
-                fontFamily: "Roboto",
-                fontWeight: FontWeight.w500,
-                fontSize: 18),
           ),
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -47,31 +42,18 @@ class _VisitingScreenState extends State<VisitingScreen> {
                     height: 40,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Color(0xFFF5F5F5),
+                      color: Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(40.0),
                     ),
                     child: TabBar(
                       overlayColor:
                           MaterialStateProperty.all(Colors.transparent),
-                      unselectedLabelColor: Color(0xFF7C7E92).withOpacity(0.56),
-                      labelColor: Colors.white,
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      labelStyle: TextStyle(
-                        fontFamily: "Roboto",
-                        fontWeight: FontWeight.w700,
-                        fontSize: 14,
-                      ),
-                      indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        color: Color(0xFF3B3E5B),
-                      ),
                       tabs: [
                         Tab(
                           text: "Хочу посетить",
                         ),
                         Tab(
                           text: "Посетил",
-                          iconMargin: EdgeInsets.symmetric(horizontal: 5),
                         ),
                       ],
                     ),
@@ -101,15 +83,21 @@ class _VisitingScreenState extends State<VisitingScreen> {
           ),
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            type: BottomNavigationBarType.fixed,
             onTap: _onTap,
-            elevation: 0,
             items: [
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/img/list.svg'),
-                activeIcon: SvgPicture.asset('assets/img/list_full.svg'),
+                icon: SvgPicture.asset(
+                  'assets/img/list.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .unselectedItemColor,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'assets/img/list_full.svg',
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
                 title: Text('List Places'),
                 // label: '',
               ),
@@ -119,8 +107,16 @@ class _VisitingScreenState extends State<VisitingScreen> {
               //   label: '',
               // ),
               BottomNavigationBarItem(
-                icon: SvgPicture.asset('assets/img/heart_icon.svg'),
-                activeIcon: SvgPicture.asset("assets/img/heart_full.svg"),
+                icon: SvgPicture.asset('assets/img/heart_icon.svg',
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .unselectedItemColor),
+                activeIcon: SvgPicture.asset(
+                  "assets/img/heart_full.svg",
+                  color: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
+                ),
                 title: Text('Favorites'),
                 // label: '',
               ),
