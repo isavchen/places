@@ -72,6 +72,18 @@ final TextStyle lmMatBodyText2 = _text.copyWith(
   letterSpacing: 0,
 );
 
+final TextStyle lmCaptionText = _text.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w400,
+  color: lmFocusColor,
+);
+
+final TextStyle dmCaptionText = _text.copyWith(
+  fontSize: 12.0,
+  fontWeight: FontWeight.w400,
+  color: dmFocusColor,
+);
+
 final TextStyle subtitleText = _text.copyWith(
   fontSize: 18.0,
   fontWeight: FontWeight.w500,
@@ -83,6 +95,7 @@ final TextStyle smallText = _text.copyWith(
   fontWeight: FontWeight.w400,
   color: dmInactiveColor,
 );
+
 
 final TextStyle textButton = _text.copyWith(
   fontSize: 14.0,
