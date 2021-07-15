@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
-import 'package:places/ui/screens/FiltersScreen.dart';
-import 'package:places/ui/screens/SightDetailsScreen.dart';
-import 'package:places/ui/screens/VisitingScreen.dart';
-import 'package:places/ui/screens/SightListScreen.dart';
+// import 'package:places/ui/screens/FiltersScreen.dart';
+import 'package:places/ui/screens/HomePage.dart';
 
+// import 'package:places/ui/screens/SightDetailsScreen.dart';
 void main() {
   runApp(App());
 }
 
-class App extends StatelessWidget {
+ChangeNotifier changeNotifier = ChangeNotifier();
+bool isDarkTheme = false;
+
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    changeNotifier.addListener(() {
+      setState(() {
+        isDarkTheme = !isDarkTheme;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: darkTheme,
-      // theme: lightTheme,
+      theme: isDarkTheme ? darkTheme : lightTheme,
       title: 'Places',
-      // home: SightListScreen(),
-      // home: VisitingScreen(),
+      home: HomePage(),
       // home: SightDetailsScreen(),
-      home: FiltersScreen(),
+      // home: FiltersScreen(),
     );
   }
 }

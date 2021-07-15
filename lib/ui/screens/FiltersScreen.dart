@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:places/domain/location.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/filter_item.dart';
@@ -63,9 +61,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Platform.isIOS
-            ? Icon(Icons.arrow_back_ios)
-            : Icon(Icons.arrow_back),
+        // leading: Platform.isIOS
+        //     ? Icon(Icons.arrow_back_ios)
+        //     : Icon(Icons.arrow_back),
         elevation: 0,
         actions: [
           TextButton(

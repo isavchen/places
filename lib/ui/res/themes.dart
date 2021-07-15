@@ -43,9 +43,8 @@ final lightTheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (Set<MaterialState> states) {
-             if (states.contains(MaterialState.disabled))
-              return lmBackgroundColor;
-            return lmGreenColor;
+          if (states.contains(MaterialState.disabled)) return lmBackgroundColor;
+          return lmGreenColor;
         },
       ),
       elevation: MaterialStateProperty.all<double>(0.0),
@@ -58,17 +57,12 @@ final lightTheme = ThemeData(
     ),
   ),
   textButtonTheme: TextButtonThemeData(
-      // style: ButtonStyle(
-      //   foregroundColor: MaterialStateProperty.all<Color>(lmGreenColor),
-      //   overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
-      //   textStyle: MaterialStateProperty.all<TextStyle>(lmMatSubtitle1),
-      //   padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16.0),),
-      // )
-      style: TextButton.styleFrom(
-    primary: lmGreenColor,
-    textStyle: lmMatSubtitle1,
-    padding: EdgeInsets.symmetric(horizontal: 16.0),
-  )),
+    style: TextButton.styleFrom(
+      primary: lmGreenColor,
+      textStyle: lmMatSubtitle1,
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+    ),
+  ),
   sliderTheme: SliderThemeData(
     activeTrackColor: lmGreenColor,
     inactiveTrackColor: lmInactiveColor,
@@ -78,6 +72,12 @@ final lightTheme = ThemeData(
     trackShape: CustomTrackShape(),
     trackHeight: 0.2,
   ),
+  // switchTheme: SwitchThemeData(
+  //   thumbColor: MaterialStateProperty.all<Color>(Colors.white),
+  //   trackColor: MaterialStateProperty.resolveWith((states) {
+  //     if (stat)
+  //   }),
+  // )
 );
 
 final darkTheme = ThemeData(
@@ -121,9 +121,8 @@ final darkTheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (Set<MaterialState> states) {
-             if (states.contains(MaterialState.disabled))
-              return dmBackgroundColor;
-            return dmGreenColor;
+          if (states.contains(MaterialState.disabled)) return dmBackgroundColor;
+          return dmGreenColor;
         },
       ),
       textStyle: MaterialStateProperty.all<TextStyle>(textButton),
