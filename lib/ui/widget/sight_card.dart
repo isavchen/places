@@ -12,13 +12,11 @@ class SightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 192,
-      child: Column(
-        children: [
-          Expanded(
-            child: Stack(
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -28,6 +26,7 @@ class SightCard extends StatelessWidget {
                   child: Image.network(
                     sight.url,
                     width: double.infinity,
+                    height: 96,
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
@@ -55,9 +54,8 @@ class SightCard extends StatelessWidget {
                     },
                   ),
                 ),
-                Positioned(
-                  top: 16.0,
-                  left: 16.0,
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, left: 16.0),
                   child: Text(
                     sight.type,
                     style:
@@ -66,24 +64,11 @@ class SightCard extends StatelessWidget {
                             ),
                   ),
                 ),
-                Positioned(
-                  top: 19,
-                  right: 18,
-                  child: InkWell(
-                    onTap: (){
-                      print("Add to favorite");
-                    },
-                    child: SvgPicture.asset(
-                      "assets/img/heart_icon.svg",
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ],
             ),
-          ),
-          Expanded(
-            child: Container(
+            Container(
+              height: 92,
+              width: double.infinity,
               padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
@@ -120,9 +105,43 @@ class SightCard extends StatelessWidget {
                 ],
               ),
             ),
+          ],
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16.0),
+              splashColor: Colors.teal.withOpacity(0.1),
+              highlightColor: Colors.transparent,
+              onTap: () {},
+            ),
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          top: 9,
+          right: 8,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                print("Add to favorite");
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    // color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20)),
+                child: SvgPicture.asset(
+                  "assets/img/heart_icon.svg",
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

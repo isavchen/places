@@ -9,7 +9,7 @@ final List mocks = [
     url:
         "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
     details:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        "Lorem Ipsum is simply .",
     type: "Музей",
   ),
   Sight(

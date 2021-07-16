@@ -25,7 +25,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              // color: Colors.blue,
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +55,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               height: 0.8,
             ),
             Container(
-              // color: Colors.red,
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

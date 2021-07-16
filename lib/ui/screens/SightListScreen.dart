@@ -17,7 +17,7 @@ class _SightListScreenState extends State<SightListScreen> {
           "Список интересных мест",
         ),
         height: 152,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: Column(

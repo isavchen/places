@@ -12,14 +12,11 @@ class VisitedSightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 218,
-      child: Column(
-        children: [
-          Container(
-            height: 96,
-            child: Stack(
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -28,6 +25,7 @@ class VisitedSightCard extends StatelessWidget {
                   ),
                   child: Image.network(
                     sight.url,
+                    height: 96,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
@@ -67,38 +65,10 @@ class VisitedSightCard extends StatelessWidget {
                             ),
                   ),
                 ),
-                Positioned(
-                  top: 22,
-                  right: 22,
-                  child: InkWell(
-                    onTap: () {
-                      print("Button Close");
-                    },
-                    child: SvgPicture.asset(
-                      "assets/img/close.svg",
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 16,
-                  right: 56,
-                  child: InkWell(
-                    onTap: () {
-                      print("Button Share");
-                    },
-                    child: SvgPicture.asset(
-                      "assets/img/share.svg",
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ],
             ),
-          ),
-          Container(
-            height: 122,
-            child: Container(
+            Container(
+              height: 122,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
@@ -109,7 +79,6 @@ class VisitedSightCard extends StatelessWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
@@ -153,9 +122,65 @@ class VisitedSightCard extends StatelessWidget {
                 ],
               ),
             ),
+          ],
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16.0),
+              splashColor: Colors.teal.withOpacity(0.1),
+              highlightColor: Colors.transparent,
+              onTap: () {},
+            ),
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          top: 9,
+          right: 49,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                print("Button Share");
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: EdgeInsets.all(7.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: SvgPicture.asset(
+                  "assets/img/share.svg",
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 9,
+          right: 9,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                print("Button Close");
+              },
+              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                child: SvgPicture.asset(
+                  "assets/img/close.svg",
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
