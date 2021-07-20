@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/category.dart';
 import 'package:places/ui/res/assets.dart';
 
+
+//коллбек onChanged, возвращает текущее значение итема
 typedef MyBoolCallback(bool);
 
 class FilterItem extends StatefulWidget {

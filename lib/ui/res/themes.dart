@@ -72,12 +72,6 @@ final lightTheme = ThemeData(
     trackShape: CustomTrackShape(),
     trackHeight: 0.2,
   ),
-  // switchTheme: SwitchThemeData(
-  //   thumbColor: MaterialStateProperty.all<Color>(Colors.white),
-  //   trackColor: MaterialStateProperty.resolveWith((states) {
-  //     if (stat)
-  //   }),
-  // )
 );
 
 final darkTheme = ThemeData(

@@ -1,8 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
+import 'package:places/ui/utils/location_utils.dart';
 import 'package:places/ui/widget/filter_item.dart';
 import 'package:places/ui/widget/slider_radius_search.dart';
 
@@ -29,14 +29,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
   void initState() {
     super.initState();
     filterPlaces();
-  }
-
-  bool isPointsNear(Location checkGeo, Location myGeo, double km) {
-    var ky = 40000 / 360;
-    var kx = cos(pi * myGeo.lat / 180.0) * ky;
-    var dx = ((myGeo.lng - checkGeo.lng) * kx).abs();
-    var dy = ((myGeo.lat - checkGeo.lat) * ky).abs();
-    return sqrt(dx * dx + dy * dy) <= km;
   }
 
   void filterPlaces() {

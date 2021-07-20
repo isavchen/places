@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 
+//коллбек onChanged, возвращает текущее значение слайдера
 typedef MyDoubleCallback(double);
 
 class SliderRadiusSearch extends StatefulWidget {
@@ -49,7 +50,6 @@ class _SliderRadiusSearchState extends State<SliderRadiusSearch> {
           Container(
             height: 16,
             child: Slider(
-                // divisions: 15,
                 min: 0,
                 max: 10000,
                 value: _value,

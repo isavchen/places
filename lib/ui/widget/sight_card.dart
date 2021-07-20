@@ -132,7 +132,6 @@ class SightCard extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
-                    // color: Colors.blue,
                     borderRadius: BorderRadius.circular(20)),
                 child: SvgPicture.asset(
                   icHeart,

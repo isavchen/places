@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
-// import 'package:places/ui/screens/FiltersScreen.dart';
 import 'package:places/ui/screens/HomePage.dart';
 
-// import 'package:places/ui/screens/SightDetailsScreen.dart';
 void main() {
   runApp(App());
 }
