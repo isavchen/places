@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 
 class SightDetailsScreen extends StatefulWidget {
@@ -147,7 +148,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset("assets/img/route.svg"),
+                      SvgPicture.asset(icRoute),
                       SizedBox(
                         width: 10,
                       ),
@@ -179,7 +180,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              "assets/img/calendar.svg",
+                              icCalendar,
                               width: 22,
                               color: dmInactiveColor,
                             ),
@@ -208,7 +209,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              "assets/img/heart_icon.svg",
+                              icHeart,
                               width: 20,
                               color: Theme.of(context).focusColor,
                             ),

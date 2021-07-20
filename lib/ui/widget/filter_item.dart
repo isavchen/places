@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/category.dart';
+import 'package:places/ui/res/assets.dart';
 
 typedef MyBoolCallback(bool);
 
@@ -63,7 +64,7 @@ class _FilterItemState extends State<FilterItem> {
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 2),
                           child: SvgPicture.asset(
-                            "assets/img/check.svg",
+                            icCheck,
                             color: Theme.of(context).primaryColor,
                           ),
                         ),

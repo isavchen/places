@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 
 class SightCard extends StatelessWidget {
@@ -134,7 +135,7 @@ class SightCard extends StatelessWidget {
                     // color: Colors.blue,
                     borderRadius: BorderRadius.circular(20)),
                 child: SvgPicture.asset(
-                  "assets/img/heart_icon.svg",
+                  icHeart,
                   color: Colors.white,
                 ),
               ),

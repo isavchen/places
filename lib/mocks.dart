@@ -1,5 +1,6 @@
 import 'package:places/domain/category.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/assets.dart';
 
 final List mocks = [
   Sight(
@@ -105,26 +106,26 @@ final List mocks = [
 final List mocksCategory = [
   Category(
     name: "Отель",
-    img: "assets/img/hotel.svg",
+    img: icHotel,
   ),
   Category(
     name: "Ресторан",
-    img: "assets/img/restaurant.svg",
+    img: icRestaurant,
   ),
   Category(
     name: "Особое место",
-    img: "assets/img/star.svg",
+    img: icStar,
   ),
   Category(
     name: "Парк",
-    img: "assets/img/park.svg",
+    img: icPark,
   ),
   Category(
     name: "Музей",
-    img: "assets/img/museum.svg",
+    img: icMuseum,
   ),
   Category(
     name: "Кафе",
-    img: "assets/img/cafe.svg",
+    img: icCafe,
   ),
 ];

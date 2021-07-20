@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/visited_sight_card.dart';
@@ -47,8 +48,8 @@ class VisitingContent extends StatelessWidget {
             children: [
               SvgPicture.asset(
                 content == 1
-                    ? "assets/img/empty_1.svg"
-                    : "assets/img/empty_2.svg",
+                    ? icEmpty1
+                    : icEmpty2,
                 color: dmSecondaryColor2,
               ),
               SizedBox(

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 
 class WantVisitingCard extends StatelessWidget {
@@ -154,7 +155,7 @@ class WantVisitingCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: SvgPicture.asset(
-                  "assets/img/calendar.svg",
+                  icCalendar,
                   color: Colors.white,
                 ),
               ),
@@ -176,7 +177,7 @@ class WantVisitingCard extends StatelessWidget {
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(30)),
                 child: SvgPicture.asset(
-                  "assets/img/close.svg",
+                  icClose,
                   color: Colors.white,
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/screens/SettingsScreen.dart';
 import 'package:places/ui/screens/SightListScreen.dart';
 import 'package:places/ui/screens/VisitingScreen.dart';
@@ -43,13 +44,13 @@ class _HomePageState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                'assets/img/list.svg',
+                icList,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
-                'assets/img/list_full.svg',
+                icListFull,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .selectedItemColor,
@@ -58,13 +59,13 @@ class _HomePageState extends State<HomePage> {
             ),
             // BottomNavigationBarItem(
             //   icon: SvgPicture.asset(
-            //     'assets/img/map.svg',
+            //     icMap,
             //     color: Theme.of(context)
             //         .bottomNavigationBarTheme
             //         .unselectedItemColor,
             //   ),
             //   activeIcon: SvgPicture.asset(
-            //     'assets/img/map_full.svg',
+            //     icMapFull,
             //     color: Theme.of(context)
             //         .bottomNavigationBarTheme
             //         .selectedItemColor,
@@ -73,13 +74,13 @@ class _HomePageState extends State<HomePage> {
             // ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                'assets/img/heart_icon.svg',
+                icHeart,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
-                "assets/img/heart_full.svg",
+                icHeartFull,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .selectedItemColor,
@@ -88,13 +89,13 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                'assets/img/settings.svg',
+                icSettings,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .unselectedItemColor,
               ),
               activeIcon: SvgPicture.asset(
-                'assets/img/settings_full.svg',
+                icSettingsFull,
                 color: Theme.of(context)
                     .bottomNavigationBarTheme
                     .selectedItemColor,
