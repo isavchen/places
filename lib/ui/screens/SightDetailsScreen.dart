@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 
 class SightDetailsScreen extends StatefulWidget {
@@ -60,17 +61,22 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 Positioned(
                   top: 36,
                   left: 16,
-                  child: Container(
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Theme.of(context).accentColor,
-                      size: 20,
+                  child: InkWell(
+                    onTap: () {
+                      print("Go navigation pop");
+                    },
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Theme.of(context).accentColor,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),
@@ -134,13 +140,15 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 vertical: 24.0,
               ),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print("Кнопка Построить  маршрут нажата");
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset("assets/img/route.svg"),
+                      SvgPicture.asset(icRoute),
                       SizedBox(
                         width: 10,
                       ),
@@ -162,50 +170,61 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/img/calendar.svg",
-                            width: 22,
-                            color: dmInactiveColor,
-                          ),
-                          SizedBox(
-                            width: 9,
-                          ),
-                          Text(
-                            "Запланировать",
-                            style: Theme.of(context).primaryTextTheme.bodyText2,
-                          )
-                        ],
+                    child: InkWell(
+                      onTap: () {
+                        print("Кнопка Запланировать");
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              icCalendar,
+                              width: 22,
+                              color: dmInactiveColor,
+                            ),
+                            SizedBox(
+                              width: 9,
+                            ),
+                            Text(
+                              "Запланировать",
+                              style:
+                                  Theme.of(context).primaryTextTheme.bodyText2,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/img/heart_icon.svg",
-                            width: 20,
-                            color: Theme.of(context).focusColor,
-                          ),
-                          SizedBox(
-                            width: 9,
-                          ),
-                          Text(
-                            "В Избранное",
-                            style: Theme.of(context)
-                                .primaryTextTheme
-                                .bodyText2
-                                ?.copyWith(color: Theme.of(context).focusColor),
-                          )
-                        ],
+                    child: InkWell(
+                      onTap: () {
+                      print("Кнопка В Избранное");
+                    },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              icHeart,
+                              width: 20,
+                              color: Theme.of(context).focusColor,
+                            ),
+                            SizedBox(
+                              width: 9,
+                            ),
+                            Text(
+                              "В Избранное",
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .bodyText2
+                                  ?.copyWith(color: Theme.of(context).focusColor),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),

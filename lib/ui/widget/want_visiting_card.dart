@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
+import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 
 class WantVisitingCard extends StatelessWidget {
@@ -12,14 +13,11 @@ class WantVisitingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 198,
-      child: Column(
-        children: [
-          Container(
-            height: 96,
-            child: Stack(
+    return Stack(
+      children: [
+        Column(
+          children: [
+            Stack(
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -28,6 +26,7 @@ class WantVisitingCard extends StatelessWidget {
                   ),
                   child: Image.network(
                     sight.url,
+                    height: 96,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
@@ -67,39 +66,20 @@ class WantVisitingCard extends StatelessWidget {
                             ),
                   ),
                 ),
-                Positioned(
-                  top: 22,
-                  right: 22,
-                  child: SvgPicture.asset(
-                    "assets/img/close.svg",
-                    color: Colors.white,
-                  ),
-                ),
-                Positioned(
-                  top: 16,
-                  right: 56,
-                  child: SvgPicture.asset(
-                    "assets/img/calendar.svg",
-                    color: Colors.white,
-                  ),
-                ),
               ],
             ),
-          ),
-          Container(
-            height: 102,
-            child: Container(
+            Container(
+              height: 102,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12.0),
-                  bottomRight: Radius.circular(12.0),
+                  bottomLeft: Radius.circular(16.0),
+                  bottomRight: Radius.circular(16.0),
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
@@ -145,9 +125,65 @@ class WantVisitingCard extends StatelessWidget {
                 ],
               ),
             ),
+          ],
+        ),
+        Positioned.fill(
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(16.0),
+              splashColor: Colors.teal.withOpacity(0.1),
+              highlightColor: Colors.transparent,
+              onTap: () {},
+            ),
           ),
-        ],
-      ),
+        ),
+        Positioned(
+          top: 9,
+          right: 49,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                print("Button Calendar");
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: EdgeInsets.all(7.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: SvgPicture.asset(
+                  icCalendar,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: 9,
+          right: 9,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                print("Button Close");
+              },
+              borderRadius: BorderRadius.circular(30),
+              child: Container(
+                padding: EdgeInsets.all(12.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                child: SvgPicture.asset(
+                  icClose,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
