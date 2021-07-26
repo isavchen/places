@@ -64,9 +64,11 @@ class ChooseCategoryState extends State<ChooseCategory> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: ElevatedButton(
-                onPressed: selectedCategory.isEmpty ? null : () {
-                  Navigator.pop(context, selectedCategory);
-                },
+                onPressed: selectedCategory.isEmpty
+                    ? null
+                    : () {
+                        Navigator.pop(context, selectedCategory);
+                      },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: Text("СОХРАНИТЬ"),
@@ -90,12 +92,19 @@ class CategoryItem extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 14.0, bottom: 14.0, right: 14.5),
+            padding:
+                const EdgeInsets.only(top: 14.0, bottom: 14.0, right: 14.5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Text(_item.text),
+                Text(
+                  _item.text,
+                  style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+                        fontWeight: FontWeight.w400,
+                        color: Theme.of(context).accentColor,
+                      ),
+                ),
                 _item.isSelected
                     ? SvgPicture.asset(
                         icSelect,
@@ -105,7 +114,7 @@ class CategoryItem extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 0, child: Divider()),
+          SizedBox(height: 0, child: Divider(height: 0.8)),
         ],
       ),
     );
