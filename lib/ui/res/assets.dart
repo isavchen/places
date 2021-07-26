@@ -18,4 +18,6 @@ icRoute = 'assets/img/route.svg',
 icSettingsFull = 'assets/img/settings_full.svg',
 icSettings = 'assets/img/settings.svg',
 icShare = 'assets/img/share.svg',
-icStar = 'assets/img/star.svg';
+icStar = 'assets/img/star.svg',
+icSelect = 'assets/img/select.svg',
+icSearch = 'assets/img/search.svg';

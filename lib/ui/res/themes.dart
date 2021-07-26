@@ -11,6 +11,7 @@ final lightTheme = ThemeData(
   backgroundColor: lmBackgroundColor,
   dividerColor: lmInactiveColor,
   buttonColor: lmGreenColor,
+  canvasColor: lmYellowColor,
   primaryTextTheme: TextTheme(
     headline6: lmMatHeadline6,
     headline5: lmMatHeadline5,
@@ -82,6 +83,7 @@ final darkTheme = ThemeData(
   scaffoldBackgroundColor: dmPrimaryColor,
   dividerColor: dmInactiveColor,
   buttonColor: dmGreenColor,
+  canvasColor: dmYellowColor,
   disabledColor: dmBackgroundColor,
   primaryTextTheme: TextTheme(
     headline6: dmMatHeadline6,

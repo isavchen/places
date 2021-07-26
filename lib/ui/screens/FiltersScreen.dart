@@ -176,14 +176,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
           Expanded(
             child: Container(),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: count == 0 ? null : () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: Text("ПОКАЗАТЬ ($count)"),
+          SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: ElevatedButton(
+                onPressed: count == 0 ? null : () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Text("ПОКАЗАТЬ ($count)"),
+                ),
               ),
             ),
           ),

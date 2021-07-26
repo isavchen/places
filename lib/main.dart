@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
+// import 'package:places/ui/screens/FiltersScreen.dart';
+// import 'package:places/ui/screens/AddSightScreen.dart';
 import 'package:places/ui/screens/HomePage.dart';
 
 void main() {
