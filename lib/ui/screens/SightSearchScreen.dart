@@ -125,6 +125,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         title: Text(
           "Список интересных мест",
         ),

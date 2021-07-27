@@ -29,6 +29,7 @@ class _SightListScreenState extends State<SightListScreen> {
       // ),
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
         title: Text(
           "Список интересных мест",
         ),
