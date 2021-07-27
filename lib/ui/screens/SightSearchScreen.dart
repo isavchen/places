@@ -37,7 +37,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     });
     imitationLoading();
     for (final mock in mocks) {
-      if (mock.name.toLowerCase().contains(searchTextController.text.trim()) &&
+      if (mock.name.toLowerCase().contains(searchTextController.text.trim().toLowerCase()) &&
           isPointsNear(
             Location(lat: mock.lat, lng: mock.lon),
             myLocation,
