@@ -53,9 +53,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: Platform.isIOS
-        //     ? Icon(Icons.arrow_back_ios)
-        //     : Icon(Icons.arrow_back),
         elevation: 0,
         actions: [
           TextButton(

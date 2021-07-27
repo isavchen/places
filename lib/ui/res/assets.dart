@@ -20,4 +20,5 @@ icSettings = 'assets/img/settings.svg',
 icShare = 'assets/img/share.svg',
 icStar = 'assets/img/star.svg',
 icSelect = 'assets/img/select.svg',
-icSearch = 'assets/img/search.svg';
+icSearch = 'assets/img/search.svg',
+icFilter = 'assets/img/filter.svg';

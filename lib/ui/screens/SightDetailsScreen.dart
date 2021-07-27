@@ -63,7 +63,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                   left: 16,
                   child: InkWell(
                     onTap: () {
-                      print("Go navigation pop");
+                      Navigator.of(context).pop();
                     },
                     child: Container(
                       width: 32,
