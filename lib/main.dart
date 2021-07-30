@@ -32,8 +32,6 @@ class _AppState extends State<App> {
       theme: isDarkTheme ? darkTheme : lightTheme,
       title: 'Places',
       home: HomePage(),
-      // home: SightDetailsScreen(),
-      // home: FiltersScreen(),
     );
   }
 }

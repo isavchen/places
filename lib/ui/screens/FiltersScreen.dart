@@ -53,9 +53,6 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: Platform.isIOS
-        //     ? Icon(Icons.arrow_back_ios)
-        //     : Icon(Icons.arrow_back),
         elevation: 0,
         actions: [
           TextButton(
@@ -176,14 +173,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
           Expanded(
             child: Container(),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: ElevatedButton(
-              onPressed: count == 0 ? null : () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15.0),
-                child: Text("ПОКАЗАТЬ ($count)"),
+          SafeArea(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: ElevatedButton(
+                onPressed: count == 0 ? null : () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Text("ПОКАЗАТЬ ($count)"),
+                ),
               ),
             ),
           ),
