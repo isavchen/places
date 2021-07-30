@@ -37,7 +37,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     });
     imitationLoading();
     for (final mock in mocks) {
-      if (mock.name.toLowerCase().contains(searchTextController.text.trim().toLowerCase()) &&
+      if (mock.name
+              .toLowerCase()
+              .contains(searchTextController.text.trim().toLowerCase()) &&
           isPointsNear(
             Location(lat: mock.lat, lng: mock.lon),
             myLocation,
@@ -160,17 +162,14 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           // лоадер пока идет загрузка запроса
 
           if (_isLoading)
-            Platform.isIOS
-                ? Center(
-                    child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: CupertinoActivityIndicator(),
-                  ))
-                : Center(
-                    child: Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: CircularProgressIndicator(),
-                  )),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Platform.isIOS
+                    ? CupertinoActivityIndicator()
+                    : CircularProgressIndicator(),
+              ),
+            ),
 
           // история поиска
 
@@ -327,8 +326,8 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               ),
                               title: RichText(
                                 text: TextSpan(
-                                  children: highlightOccurrences(
-                                      res.name, searchTextController.text.trim()),
+                                  children: highlightOccurrences(res.name,
+                                      searchTextController.text.trim()),
                                   style: Theme.of(context)
                                       .primaryTextTheme
                                       .subtitle1
