@@ -4,7 +4,7 @@ import 'package:places/ui/res/assets.dart';
 
 final List mocks = [
   Sight(
-    name: "Золотые ворота",
+    name: "1",
     lat: 50.414363,
     lon: 30.529344,
     url:
@@ -14,7 +14,7 @@ final List mocks = [
     type: "Музей",
   ),
   Sight(
-    name: "Золотые ворота",
+    name: "2",
     lat: 50.456206,
     lon: 30.548504,
     url:
@@ -24,7 +24,7 @@ final List mocks = [
     type: "Музей",
   ),
   Sight(
-    name: "Андреевский спуск в Киеве",
+    name: "3",
     lat: 30.548504,
     lon: 1.2222,
     url:
@@ -34,7 +34,7 @@ final List mocks = [
     type: "Парк",
   ),
   Sight(
-    name: "Крещатик",
+    name: "4",
     lat: 50.456206,
     lon: 30.548504,
     url: "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg",
@@ -43,7 +43,7 @@ final List mocks = [
     type: "Особое место",
   ),
   Sight(
-    name: "Пирогово",
+    name: "5",
     lat: 50.456206,
     lon: 30.548504,
     url:
@@ -53,7 +53,7 @@ final List mocks = [
     type: "Музей",
   ),
   Sight(
-    name: "Кафе",
+    name: "6",
     lat: 50.414363,
     lon: 30.529344,
     url:
@@ -63,7 +63,7 @@ final List mocks = [
     type: "Кафе",
   ),
   Sight(
-    name: "Отель",
+    name: "7",
     lat: 50.456206,
     lon: 30.548504,
     url:
@@ -73,7 +73,7 @@ final List mocks = [
     type: "Отель",
   ),
   Sight(
-    name: "Ресторан",
+    name: "8",
     lat: 50.456206,
     lon: 30.548504,
     url:
@@ -83,7 +83,7 @@ final List mocks = [
     type: "Ресторан",
   ),
   Sight(
-    name: "Отель",
+    name: "9",
     lat: 50.456206,
     lon: 30.548504,
     url:
@@ -93,7 +93,7 @@ final List mocks = [
     type: "Отель",
   ),
   Sight(
-    name: "Особое место",
+    name: "10",
     lat: 50.456206,
     lon: 30.548504,
     url: "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg",
