@@ -8,8 +8,9 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 
 class WantVisitingCard extends StatelessWidget {
+  final Function() onTapClose;
   final Sight sight;
-  const WantVisitingCard({Key? key, required this.sight}) : super(key: key);
+  const WantVisitingCard({Key? key, required this.sight, required this.onTapClose}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -167,9 +168,7 @@ class WantVisitingCard extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {
-                print("Button Close");
-              },
+              onTap: onTapClose,
               borderRadius: BorderRadius.circular(30),
               child: Container(
                 padding: EdgeInsets.all(12.0),

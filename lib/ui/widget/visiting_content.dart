@@ -7,28 +7,30 @@ import 'package:places/ui/widget/visited_sight_card.dart';
 import 'package:places/ui/widget/want_visiting_card.dart';
 import '../../mocks.dart';
 
-class VisitingContent extends StatelessWidget {
+class VisitingContent extends StatefulWidget {
   final int content;
-  List<WantVisitingCard> wontVisitingCards = [
-    WantVisitingCard(
-      sight: mocks[1],
-    ),
-  ];
-
-  List<VisitedSightCard> visitCards = [
-    VisitedSightCard(
-      sight: mocks[1],
-    ),
-    VisitedSightCard(
-      sight: mocks[0],
-    ),
-  ];
 
   VisitingContent({Key? key, required this.content}) : super(key: key);
 
   @override
+  _VisitingContentState createState() => _VisitingContentState();
+}
+
+class _VisitingContentState extends State<VisitingContent> {
+  List wantVisitingCards = [
+    mocks[3],
+    mocks[9],
+  ];
+
+  List visitCards = [
+    mocks[1],
+    mocks[0],
+    mocks[6],
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    List cards = content == 1 ? wontVisitingCards : visitCards;
+    List cards = widget.content == 1 ? wantVisitingCards : visitCards;
     return (cards.isNotEmpty)
         ? SingleChildScrollView(
             child: Padding(
@@ -38,7 +40,26 @@ class VisitingContent extends StatelessWidget {
                     for (int i = 0; i < cards.length; i++)
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        child: cards[i],
+                        child: widget.content == 1
+                            ? WantVisitingCard(
+                                sight: wantVisitingCards[i],
+                                key: ValueKey(wantVisitingCards[i].name + wantVisitingCards[i].details),
+                                onTapClose: () {
+                                  setState(() {
+                                    wantVisitingCards.removeAt(i);
+                                  });
+                                },
+                              )
+                            : VisitedSightCard(
+                                sight: visitCards[i],
+                                onTapClose: () {
+                                  setState(() {
+                                    visitCards.removeAt(i);
+                                  });
+                                },
+                                key: ValueKey(
+                                    visitCards[i].name + visitCards[i].details),
+                              ),
                       )
                   ],
                 )),
@@ -47,9 +68,7 @@ class VisitingContent extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                content == 1
-                    ? icEmpty1
-                    : icEmpty2,
+                widget.content == 1 ? icEmpty1 : icEmpty2,
                 color: dmSecondaryColor2,
               ),
               SizedBox(
@@ -65,7 +84,7 @@ class VisitingContent extends StatelessWidget {
               ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 253.5),
                 child: Text(
-                  content == 1
+                  widget.content == 1
                       ? "Отмечайте понравившиеся места и они появятся здесь"
                       : "Завершите маршрут, чтобы место попало сюда",
                   textAlign: TextAlign.center,
