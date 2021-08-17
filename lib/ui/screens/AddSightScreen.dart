@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
-import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/choose_category.dart';
+import 'package:places/ui/widget/new_photo_card.dart';
 
 class AddSightScreen extends StatefulWidget {
   const AddSightScreen({Key? key}) : super(key: key);
@@ -26,6 +25,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
   FocusNode latFocusNode = FocusNode();
   FocusNode lonFocusNode = FocusNode();
   FocusNode descFocusNode = FocusNode();
+
+  List<String> photoList = [
+    "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
+    "https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg",
+    "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg",
+    "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
+  ];
 
   bool isValid() {
     if (titleTextEditingController.text.isNotEmpty &&
@@ -86,8 +92,29 @@ class _AddSightScreenState extends State<AddSightScreen> {
         physics:
             Platform.isIOS ? BouncingScrollPhysics() : ClampingScrollPhysics(),
         children: [
-          SizedBox(height: 24.0),
-
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  NewPhotoCard(state: 0, imageUrl: "", onPressed: () {
+                    setState(() {
+                      photoList.add("https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg");
+                    });
+                  },),
+                  // NewPhotoCard(state: 1),
+                  for(final photo in photoList)
+                    NewPhotoCard(state: 1, imageUrl: photo, onPressed: (){
+                      setState(() {
+                        photoList.remove(photo);
+                      });
+                    },)
+                ],
+              ),
+            ),
+          ),
           // Поле выбора категории
           Container(
             height: 64.0,
