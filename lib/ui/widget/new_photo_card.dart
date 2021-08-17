@@ -28,6 +28,7 @@ class NewPhotoCard extends StatelessWidget {
               ? Center(
                   child: Icon(
                     Icons.add_rounded,
+                    size: 40,
                     color: Theme.of(context).buttonColor,
                   ),
                 )
