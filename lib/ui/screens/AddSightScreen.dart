@@ -99,18 +99,34 @@ class _AddSightScreenState extends State<AddSightScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  NewPhotoCard(state: 0, imageUrl: "", onPressed: () {
-                    setState(() {
-                      photoList.add("https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg");
-                    });
-                  },),
-                  // NewPhotoCard(state: 1),
-                  for(final photo in photoList)
-                    NewPhotoCard(state: 1, imageUrl: photo, onPressed: (){
+                  NewPhotoCard(
+                    state: 0,
+                    imageUrl: "",
+                    key: ValueKey("addbutton"),
+                    onPressed: () {
                       setState(() {
-                        photoList.remove(photo);
+                        photoList.add(
+                            "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg");
                       });
-                    },)
+                    },
+                  ),
+                  // for (final photo in photoList)
+                  for (int i = 0; i < photoList.length; i++)
+                    NewPhotoCard(
+                      state: 1,
+                      imageUrl: photoList[i],
+                      key: ValueKey(i.toString() + photoList[i]),
+                      onPressed: () {
+                        setState(() {
+                          photoList.remove(photoList[i]);
+                        });
+                      },
+                      onDismissed: (direction) {
+                        setState(() {
+                          photoList.remove(photoList[i]);
+                        });
+                      },
+                    )
                 ],
               ),
             ),

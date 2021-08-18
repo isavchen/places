@@ -4,7 +4,13 @@ class NewPhotoCard extends StatelessWidget {
   final int state;
   final String imageUrl;
   final Function() onPressed;
-  const NewPhotoCard({Key? key, required this.state, required this.imageUrl, required this.onPressed})
+  final Function(DismissDirection)? onDismissed;
+  const NewPhotoCard(
+      {Key? key,
+      required this.state,
+      required this.imageUrl,
+      required this.onPressed,
+      this.onDismissed})
       : super(key: key);
 
   @override
@@ -32,31 +38,37 @@ class NewPhotoCard extends StatelessWidget {
                     color: Theme.of(context).buttonColor,
                   ),
                 )
-              : Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12.0),
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                        width: 72,
-                        height: 72,
-                        colorBlendMode: BlendMode.srcATop,
-                        color: Theme.of(context).accentColor.withOpacity(0.24),
-                      ),
-                    ),
-                    Positioned(
-                      top: 6,
-                      right: 6,
-                      child: GestureDetector(
-                        onTap: state == 1 ? onPressed : null,
-                        child: Icon(
-                          Icons.cancel_rounded,
-                          color: Colors.white,
+              : Dismissible(
+                direction: DismissDirection.up,
+                onDismissed: onDismissed,
+                  key: ValueKey(key),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12.0),
+                        child: Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                          width: 72,
+                          height: 72,
+                          colorBlendMode: BlendMode.srcATop,
+                          color:
+                              Theme.of(context).accentColor.withOpacity(0.24),
                         ),
                       ),
-                    )
-                  ],
+                      Positioned(
+                        top: 6,
+                        right: 6,
+                        child: GestureDetector(
+                          onTap: state == 1 ? onPressed : null,
+                          child: Icon(
+                            Icons.cancel_rounded,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
         ),
       ),
