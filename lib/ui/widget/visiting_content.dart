@@ -3,8 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/widget/visited_sight_card.dart';
-import 'package:places/ui/widget/want_visiting_card.dart';
+import 'package:places/ui/widget/draggable_widget.dart';
 import '../../mocks.dart';
 
 class VisitingContent extends StatefulWidget {
@@ -18,8 +17,10 @@ class VisitingContent extends StatefulWidget {
 
 class _VisitingContentState extends State<VisitingContent> {
   List wantVisitingCards = [
+    mocks[0],
+    mocks[1],
+    mocks[2],
     mocks[3],
-    mocks[9],
   ];
 
   List visitCards = [
@@ -34,35 +35,41 @@ class _VisitingContentState extends State<VisitingContent> {
     return (cards.isNotEmpty)
         ? SingleChildScrollView(
             child: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Column(
-                  children: [
-                    for (int i = 0; i < cards.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        child: widget.content == 1
-                            ? WantVisitingCard(
-                                sight: wantVisitingCards[i],
-                                key: ValueKey(wantVisitingCards[i].name + wantVisitingCards[i].details),
-                                onTapClose: () {
-                                  setState(() {
-                                    wantVisitingCards.removeAt(i);
-                                  });
-                                },
-                              )
-                            : VisitedSightCard(
-                                sight: visitCards[i],
-                                onTapClose: () {
-                                  setState(() {
-                                    visitCards.removeAt(i);
-                                  });
-                                },
-                                key: ValueKey(
-                                    visitCards[i].name + visitCards[i].details),
-                              ),
-                      )
-                  ],
-                )),
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Column(
+                children: [
+                  for (int i = 0; i < cards.length; i++)
+                    Padding(
+                      padding:
+                          const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                      child: DragTarget<int>(
+                        builder: (context, candidateData, rejectedData) {
+                          return DraggableWidget(
+                            index: i,
+                            content: widget.content,
+                            sight: cards[i],
+                            onTabClose: () {
+                              setState(() {
+                                cards.removeAt(i);
+                              });
+                            },
+                          );
+                        },
+                        onWillAccept: (data) {
+                          return true;
+                        },
+                        onAccept: (data) {
+                          final item = cards[data];
+                          setState(() {
+                            cards.removeAt(data);
+                            cards.insert(i, item);
+                          });
+                        },
+                      ),
+                    ),
+                ],
+              ),
+            ),
           )
         : Column(
             mainAxisAlignment: MainAxisAlignment.center,

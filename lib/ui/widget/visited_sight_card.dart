@@ -10,7 +10,9 @@ import 'package:places/ui/res/colors.dart';
 class VisitedSightCard extends StatelessWidget {
   final Function() onTapClose;
   final Sight sight;
-  const VisitedSightCard({Key? key, required this.sight, required this.onTapClose}) : super(key: key);
+  const VisitedSightCard(
+      {Key? key, required this.sight, required this.onTapClose})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,10 @@ class VisitedSightCard extends StatelessWidget {
                   child: Image.network(
                     sight.url,
                     height: 96,
-                    width: double.infinity,
+                    width: 328,
                     fit: BoxFit.cover,
+                    colorBlendMode: BlendMode.srcATop,
+                    color: Theme.of(context).accentColor.withOpacity(0.24),
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
@@ -71,6 +75,7 @@ class VisitedSightCard extends StatelessWidget {
             ),
             Container(
               height: 122,
+              width: 328,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
@@ -85,7 +90,7 @@ class VisitedSightCard extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: 40,
+                    height: 20,
                     child: Text(
                       sight.name,
                       maxLines: 2,
@@ -108,9 +113,7 @@ class VisitedSightCard extends StatelessWidget {
                           ?.copyWith(color: dmSecondaryColor2),
                     ),
                   ),
-                  SizedBox(
-                    height: 2.0,
-                  ),
+                  Expanded(child: Container()),
                   Container(
                     width: double.infinity,
                     child: Text(
