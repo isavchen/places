@@ -49,9 +49,9 @@ class _DraggableWidgetState extends State<DraggableWidget> {
           : Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
+                  borderRadius: BorderRadius.circular(17.0),
                   child: Container(
-                    height: widget.content == 1 ? 198 : 218,
+                    height: widget.content == 1 ? 197 : 217,
                     alignment: AlignmentDirectional.centerEnd,
                     color: Colors.red,
                     child: Padding(
