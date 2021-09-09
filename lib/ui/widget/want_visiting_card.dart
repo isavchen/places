@@ -30,7 +30,7 @@ class WantVisitingCard extends StatelessWidget {
                   child: Image.network(
                     sight.url,
                     height: 96,
-                    width: 328,
+                    width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
                     color: Theme.of(context).accentColor.withOpacity(0.24),
                     fit: BoxFit.cover,
@@ -75,7 +75,7 @@ class WantVisitingCard extends StatelessWidget {
             ),
             Container(
               height: 102,
-              width: 328,
+              width: MediaQuery.of(context).size.width - 32.0,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,

@@ -30,7 +30,7 @@ class VisitedSightCard extends StatelessWidget {
                   child: Image.network(
                     sight.url,
                     height: 96,
-                    width: 328,
+                    width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
                     colorBlendMode: BlendMode.srcATop,
                     color: Theme.of(context).accentColor.withOpacity(0.24),
@@ -75,7 +75,7 @@ class VisitedSightCard extends StatelessWidget {
             ),
             Container(
               height: 122,
-              width: 328,
+              width: MediaQuery.of(context).size.width - 32.0,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,

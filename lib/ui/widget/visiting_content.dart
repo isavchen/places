@@ -40,15 +40,22 @@ class _VisitingContentState extends State<VisitingContent> {
                 children: [
                   for (int i = 0; i < cards.length; i++)
                     Padding(
-                      padding:
-                          const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                       child: DragTarget<int>(
                         builder: (context, candidateData, rejectedData) {
                           return DraggableWidget(
+                            // key: ValueKey(
+                            //   cards[i].name + cards[i].details,
+                            // ),
                             index: i,
                             content: widget.content,
                             sight: cards[i],
                             onTabClose: () {
+                              setState(() {
+                                cards.removeAt(i);
+                              });
+                            },
+                            onDismissed: (_) {
                               setState(() {
                                 cards.removeAt(i);
                               });
