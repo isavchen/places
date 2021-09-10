@@ -10,7 +10,9 @@ import 'package:places/ui/res/colors.dart';
 class WantVisitingCard extends StatelessWidget {
   final Function() onTapClose;
   final Sight sight;
-  const WantVisitingCard({Key? key, required this.sight, required this.onTapClose}) : super(key: key);
+  const WantVisitingCard(
+      {Key? key, required this.sight, required this.onTapClose})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,9 @@ class WantVisitingCard extends StatelessWidget {
                   child: Image.network(
                     sight.url,
                     height: 96,
-                    width: double.infinity,
+                    width: MediaQuery.of(context).size.width - 32.0,
+                    colorBlendMode: BlendMode.srcATop,
+                    color: Theme.of(context).accentColor.withOpacity(0.24),
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
@@ -71,6 +75,7 @@ class WantVisitingCard extends StatelessWidget {
             ),
             Container(
               height: 102,
+              width: MediaQuery.of(context).size.width - 32.0,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,

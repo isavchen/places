@@ -21,4 +21,5 @@ icShare = 'assets/img/share.svg',
 icStar = 'assets/img/star.svg',
 icSelect = 'assets/img/select.svg',
 icSearch = 'assets/img/search.svg',
-icFilter = 'assets/img/filter.svg';
+icFilter = 'assets/img/filter.svg',
+bin = 'assets/img/bin.svg';
