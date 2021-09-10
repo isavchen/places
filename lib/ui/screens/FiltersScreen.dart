@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/utils/location_utils.dart';
 import 'package:places/ui/widget/filter_item.dart';
+import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/slider_radius_search.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -72,121 +75,121 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-            child: Text(
-              "КАТЕГОРИИ",
-              style: smallText.copyWith(fontSize: 12.0),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Container(
-              width: double.infinity,
-              height: 214,
-              child: GridView.count(
-                physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: 3,
-                children: [
-                  FilterItem(
-                    category: mocksCategory[0],
-                    value: _valueHotel,
-                    onChanged: (currentValue) {
-                      setState(() {
-                        _valueHotel = currentValue;
-                      });
-                      filterPlaces();
-                    },
-                  ),
-                  FilterItem(
-                    category: mocksCategory[1],
-                    value: _valueRestourant,
-                    onChanged: (currentValue) {
-                      setState(() {
-                        _valueRestourant = currentValue;
-                      });
-                      filterPlaces();
-                    },
-                  ),
-                  FilterItem(
-                    category: mocksCategory[2],
-                    value: _valueSpacialPlace,
-                    onChanged: (currentValue) {
-                      setState(() {
-                        _valueSpacialPlace = currentValue;
-                      });
-                      filterPlaces();
-                    },
-                  ),
-                  FilterItem(
-                    category: mocksCategory[3],
-                    value: _valuePark,
-                    onChanged: (currentValue) {
-                      setState(() {
-                        _valuePark = currentValue;
-                      });
-                      filterPlaces();
-                    },
-                  ),
-                  FilterItem(
-                    category: mocksCategory[4],
-                    value: _valueMuseum,
-                    onChanged: (currentValue) {
-                      setState(() {
-                        _valueMuseum = currentValue;
-                      });
-                      filterPlaces();
-                    },
-                  ),
-                  FilterItem(
-                    category: mocksCategory[5],
-                    value: _valueCafe,
-                    onChanged: (currentValue) {
-                      setState(() {
-                        _valueCafe = currentValue;
-                      });
-                      filterPlaces();
-                    },
-                  ),
-                ],
+      body: OverscrollGlowAbsorber(
+        child: ListView(
+          physics: Platform.isIOS
+              ? BouncingScrollPhysics()
+              : ClampingScrollPhysics(),
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: Text(
+                "КАТЕГОРИИ",
+                style: smallText.copyWith(fontSize: 12.0),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 56,
-            ),
-            child: SliderRadiusSearch(
-              value: _valueDistance,
-              onChanged: (currentValue) {
-                setState(() {
-                  _valueDistance = currentValue;
-                });
-                filterPlaces();
-              },
-            ),
-          ),
-          Expanded(
-            child: Container(),
-          ),
-          SafeArea(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: ElevatedButton(
-                onPressed: count == 0 ? null : () {},
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Text("ПОКАЗАТЬ ($count)"),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Container(
+                width: double.infinity,
+                height: 214,
+                child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  children: [
+                    FilterItem(
+                      category: mocksCategory[0],
+                      value: _valueHotel,
+                      onChanged: (currentValue) {
+                        setState(() {
+                          _valueHotel = currentValue;
+                        });
+                        filterPlaces();
+                      },
+                    ),
+                    FilterItem(
+                      category: mocksCategory[1],
+                      value: _valueRestourant,
+                      onChanged: (currentValue) {
+                        setState(() {
+                          _valueRestourant = currentValue;
+                        });
+                        filterPlaces();
+                      },
+                    ),
+                    FilterItem(
+                      category: mocksCategory[2],
+                      value: _valueSpacialPlace,
+                      onChanged: (currentValue) {
+                        setState(() {
+                          _valueSpacialPlace = currentValue;
+                        });
+                        filterPlaces();
+                      },
+                    ),
+                    FilterItem(
+                      category: mocksCategory[3],
+                      value: _valuePark,
+                      onChanged: (currentValue) {
+                        setState(() {
+                          _valuePark = currentValue;
+                        });
+                        filterPlaces();
+                      },
+                    ),
+                    FilterItem(
+                      category: mocksCategory[4],
+                      value: _valueMuseum,
+                      onChanged: (currentValue) {
+                        setState(() {
+                          _valueMuseum = currentValue;
+                        });
+                        filterPlaces();
+                      },
+                    ),
+                    FilterItem(
+                      category: mocksCategory[5],
+                      value: _valueCafe,
+                      onChanged: (currentValue) {
+                        setState(() {
+                          _valueCafe = currentValue;
+                        });
+                        filterPlaces();
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 56,
+              ),
+              child: SliderRadiusSearch(
+                value: _valueDistance,
+                onChanged: (currentValue) {
+                  setState(() {
+                    _valueDistance = currentValue;
+                  });
+                  filterPlaces();
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: ElevatedButton(
+            onPressed: count == 0 ? null : () {},
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: Text("ПОКАЗАТЬ ($count)"),
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

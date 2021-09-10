@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/draggable_widget.dart';
+import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import '../../mocks.dart';
 
 class VisitingContent extends StatefulWidget {
@@ -33,45 +36,48 @@ class _VisitingContentState extends State<VisitingContent> {
   Widget build(BuildContext context) {
     List cards = widget.content == 1 ? wantVisitingCards : visitCards;
     return (cards.isNotEmpty)
-        ? SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Column(
-                children: [
-                  for (int i = 0; i < cards.length; i++)
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                      child: DragTarget<int>(
-                        builder: (context, candidateData, rejectedData) {
-                          return DraggableWidget(
-                            index: i,
-                            content: widget.content,
-                            sight: cards[i],
-                            onTabClose: () {
-                              setState(() {
-                                cards.removeAt(i);
-                              });
-                            },
-                            onDismissed: (_) {
-                              setState(() {
-                                cards.removeAt(i);
-                              });
-                            },
-                          );
-                        },
-                        onWillAccept: (data) {
-                          return true;
-                        },
-                        onAccept: (data) {
-                          final item = cards[data];
-                          setState(() {
-                            cards.removeAt(data);
-                            cards.insert(i, item);
-                          });
-                        },
-                      ),
+        ? Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: OverscrollGlowAbsorber(
+              child: ListView.builder(
+                physics: Platform.isIOS
+                    ? BouncingScrollPhysics()
+                    : ClampingScrollPhysics(),
+                itemCount: cards.length,
+                itemBuilder: (context, i) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                    child: DragTarget<int>(
+                      builder: (context, candidateData, rejectedData) {
+                        return DraggableWidget(
+                          index: i,
+                          content: widget.content,
+                          sight: cards[i],
+                          onTabClose: () {
+                            setState(() {
+                              cards.removeAt(i);
+                            });
+                          },
+                          onDismissed: (_) {
+                            setState(() {
+                              cards.removeAt(i);
+                            });
+                          },
+                        );
+                      },
+                      onWillAccept: (data) {
+                        return true;
+                      },
+                      onAccept: (data) {
+                        final item = cards[data];
+                        setState(() {
+                          cards.removeAt(data);
+                          cards.insert(i, item);
+                        });
+                      },
                     ),
-                ],
+                  );
+                },
               ),
             ),
           )

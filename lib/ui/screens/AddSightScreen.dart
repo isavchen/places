@@ -7,6 +7,7 @@ import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/choose_category.dart';
 import 'package:places/ui/widget/new_photo_card.dart';
+import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 
 class AddSightScreen extends StatefulWidget {
   const AddSightScreen({Key? key}) : super(key: key);
@@ -88,270 +89,278 @@ class _AddSightScreenState extends State<AddSightScreen> {
         leadingWidth: 100,
         elevation: 0,
       ),
-      body: ListView(
-        physics:
-            Platform.isIOS ? BouncingScrollPhysics() : ClampingScrollPhysics(),
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  NewPhotoCard(
-                    isAddButton: true,
-                    imageUrl: "",
-                    key: ValueKey("addbutton"),
-                    onPressed: () {
-                      setState(() {
-                        photoList.add(
-                            "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg");
-                      });
-                    },
-                  ),
-                  // for (final photo in photoList)
-                  for (int i = 0; i < photoList.length; i++)
+      body: OverscrollGlowAbsorber(
+        child: ListView(
+          physics: Platform.isIOS
+              ? BouncingScrollPhysics()
+              : ClampingScrollPhysics(),
+          children: [
+            // Блок добавления фотографии
+            Container(
+              height: 120,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
                     NewPhotoCard(
-                      imageUrl: photoList[i],
-                      key: UniqueKey(),    //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
-                      onDelete: () {
+                      isAddButton: true,
+                      imageUrl: "",
+                      key: ValueKey("addbutton"),
+                      onPressed: () {
                         setState(() {
-                          photoList.removeAt(i);
+                          photoList.add(
+                              "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg");
                         });
                       },
                     ),
+                    // for (final photo in photoList)
+                    for (int i = 0; i < photoList.length; i++)
+                      NewPhotoCard(
+                        imageUrl: photoList[i],
+                        key:
+                            UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
+                        onDelete: () {
+                          setState(() {
+                            photoList.removeAt(i);
+                          });
+                        },
+                      ),
+                  ],
+                ),
+              ),
+            ),
+            // Поле выбора категории
+            Container(
+              height: 64.0,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "КАТЕГОРИЯ",
+                    style: smallText.copyWith(fontSize: 12.0),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final category1 = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChooseCategory()),
+                      );
+                      titleFocusNode.requestFocus();
+                      if (category1 != null) {
+                        setState(() {
+                          category = category1;
+                        });
+                      }
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 24,
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            category.isEmpty ? "Не выбрано" : category,
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .subtitle1
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  color: dmSecondaryColor2,
+                                ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Theme.of(context).accentColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 0, child: Divider()),
                 ],
               ),
             ),
-          ),
-          // Поле выбора категории
-          Container(
-            height: 64.0,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "КАТЕГОРИЯ",
-                  style: smallText.copyWith(fontSize: 12.0),
-                ),
-                InkWell(
-                  onTap: () async {
-                    final category1 = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChooseCategory()),
-                    );
-                    titleFocusNode.requestFocus();
-                    if (category1 != null) {
-                      setState(() {
-                        category = category1;
-                      });
-                    }
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 24,
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          category.isEmpty ? "Не выбрано" : category,
-                          style: Theme.of(context)
-                              .primaryTextTheme
-                              .subtitle1
-                              ?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: dmSecondaryColor2,
-                              ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Theme.of(context).accentColor,
-                        ),
-                      ],
-                    ),
+            SizedBox(height: 24.0),
+
+            // Текстовое поле ввода названия
+            Container(
+              height: 68.0,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "НАЗВАНИЕ",
+                    style: smallText.copyWith(fontSize: 12.0),
                   ),
-                ),
-                SizedBox(height: 0, child: Divider()),
-              ],
-            ),
-          ),
-          SizedBox(height: 24.0),
-
-          // Текстовое поле ввода названия
-          Container(
-            height: 68.0,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "НАЗВАНИЕ",
-                  style: smallText.copyWith(fontSize: 12.0),
-                ),
-                MyTextField(
-                  hintText: "введите название",
-                  controller: titleTextEditingController,
-                  focus: titleFocusNode,
-                  textInputAction: TextInputAction.next,
-                  onSubmitted: (_) {
-                    latFocusNode.requestFocus();
-                  },
-                  onChanged: (String val) {
-                    setState(() {});
-                  },
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 24.0),
-
-          // Текстовые поля ввода долготы и широты
-
-          Container(
-            height: 68.0,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "ШИРОТА",
-                          style: smallText.copyWith(fontSize: 12.0),
-                        ),
-                        MyTextField(
-                          hintText: "введите широту",
-                          controller: latTextEditingController,
-                          focus: latFocusNode,
-                          textInputAction: TextInputAction.next,
-                          onSubmitted: (_) {
-                            lonFocusNode.requestFocus();
-                          },
-                          onChanged: (String val) {
-                            setState(() {});
-                          },
-                        ),
-                      ],
-                    ),
+                  MyTextField(
+                    hintText: "введите название",
+                    controller: titleTextEditingController,
+                    focus: titleFocusNode,
+                    textInputAction: TextInputAction.next,
+                    onSubmitted: (_) {
+                      latFocusNode.requestFocus();
+                    },
+                    onChanged: (String val) {
+                      setState(() {});
+                    },
                   ),
-                ),
-                SizedBox(
-                  width: 16.0,
-                ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "ДОЛГОТА",
-                          style: smallText.copyWith(fontSize: 12.0),
-                        ),
-                        MyTextField(
-                          hintText: "введите долготу",
-                          controller: lonTextEditingController,
-                          focus: lonFocusNode,
-                          textInputAction: TextInputAction.next,
-                          onSubmitted: (_) {
-                            descFocusNode.requestFocus();
-                          },
-                          onChanged: (String val) {
-                            setState(() {});
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+            SizedBox(height: 24.0),
 
-          //кнопка выбора местоположения на карте
-          SizedBox(height: 5.0),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: TextButton(
-              onPressed: () {
-                print("Указать на карте");
-              },
-              child: Text("Указать на карте"),
-            ),
-          ),
-          SizedBox(height: 37.0),
+            // Текстовые поля ввода долготы и широты
 
-          //текстовое поле ввода описания
-          Container(
-            height: 108.0,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "ОПИСАНИЕ",
-                  style: smallText.copyWith(fontSize: 12.0),
-                ),
-                TextField(
-                  maxLines: 3,
-                  controller: descTextEditingController,
-                  focusNode: descFocusNode,
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: (_) {
-                    descFocusNode.unfocus();
-                  },
-                  onChanged: (String val) {
-                    setState(() {});
-                  },
-                  style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).accentColor,
-                      ),
-                  decoration: InputDecoration(
-                    hintText: 'введите текст',
-                    hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
-                    suffixIcon: descFocusNode.hasFocus &&
-                            descTextEditingController.text.isNotEmpty
-                        ? InkWell(
-                            onTap: () {
-                              descTextEditingController.clear();
+            Container(
+              height: 68.0,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "ШИРОТА",
+                            style: smallText.copyWith(fontSize: 12.0),
+                          ),
+                          MyTextField(
+                            hintText: "введите широту",
+                            controller: latTextEditingController,
+                            focus: latFocusNode,
+                            textInputAction: TextInputAction.next,
+                            onSubmitted: (_) {
+                              lonFocusNode.requestFocus();
                             },
-                            child: Icon(
-                              Icons.cancel_rounded,
+                            onChanged: (String val) {
+                              setState(() {});
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16.0,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "ДОЛГОТА",
+                            style: smallText.copyWith(fontSize: 12.0),
+                          ),
+                          MyTextField(
+                            hintText: "введите долготу",
+                            controller: lonTextEditingController,
+                            focus: lonFocusNode,
+                            textInputAction: TextInputAction.next,
+                            onSubmitted: (_) {
+                              descFocusNode.requestFocus();
+                            },
+                            onChanged: (String val) {
+                              setState(() {});
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            //кнопка выбора местоположения на карте
+            SizedBox(height: 5.0),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () {
+                  print("Указать на карте");
+                },
+                child: Text("Указать на карте"),
+              ),
+            ),
+            SizedBox(height: 37.0),
+
+            //текстовое поле ввода описания
+            Container(
+              height: 108.0,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "ОПИСАНИЕ",
+                    style: smallText.copyWith(fontSize: 12.0),
+                  ),
+                  TextField(
+                    maxLines: 3,
+                    controller: descTextEditingController,
+                    focusNode: descFocusNode,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) {
+                      descFocusNode.unfocus();
+                    },
+                    onChanged: (String val) {
+                      setState(() {});
+                    },
+                    style:
+                        Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+                              fontWeight: FontWeight.w400,
                               color: Theme.of(context).accentColor,
                             ),
-                          )
-                        : null,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(
-                        width: 2.0,
-                        color: Theme.of(context).buttonColor.withOpacity(0.4),
+                    decoration: InputDecoration(
+                      hintText: 'введите текст',
+                      hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
+                      suffixIcon: descFocusNode.hasFocus &&
+                              descTextEditingController.text.isNotEmpty
+                          ? InkWell(
+                              onTap: () {
+                                descTextEditingController.clear();
+                              },
+                              child: Icon(
+                                Icons.cancel_rounded,
+                                color: Theme.of(context).accentColor,
+                              ),
+                            )
+                          : null,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: Theme.of(context).buttonColor.withOpacity(0.4),
+                        ),
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide(
-                        color: Theme.of(context).buttonColor.withOpacity(0.4),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).buttonColor.withOpacity(0.4),
+                        ),
                       ),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
 
       // кнопка создать
