@@ -28,31 +28,25 @@ class _VisitingScreenState extends State<VisitingScreen> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Center(
-                  child: Theme(
-                    data: ThemeData(
-                      highlightColor: Colors.transparent,
-                      tabBarTheme: Theme.of(context).tabBarTheme
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    height: 40,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: BorderRadius.circular(40.0),
                     ),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 16),
-                      height: 40,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(40.0),
-                      ),
-                      child: TabBar(
-                        overlayColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        tabs: [
-                          Tab(
-                            text: "Хочу посетить",
-                          ),
-                          Tab(
-                            text: "Посетил",
-                          ),
-                        ],
-                      ),
+                    child: TabBar(
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      tabs: [
+                        Tab(
+                          text: "Хочу посетить",
+                        ),
+                        Tab(
+                          text: "Посетил",
+                        ),
+                      ],
                     ),
                   ),
                 ),

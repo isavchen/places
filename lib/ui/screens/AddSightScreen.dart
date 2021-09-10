@@ -100,7 +100,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
               child: Row(
                 children: [
                   NewPhotoCard(
-                    state: 0,
+                    isAddButton: true,
                     imageUrl: "",
                     key: ValueKey("addbutton"),
                     onPressed: () {
@@ -113,20 +113,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   // for (final photo in photoList)
                   for (int i = 0; i < photoList.length; i++)
                     NewPhotoCard(
-                      state: 1,
                       imageUrl: photoList[i],
-                      key: ValueKey(i.toString() + photoList[i]),
-                      onPressed: () {
+                      key: UniqueKey(),    //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
+                      onDelete: () {
                         setState(() {
-                          photoList.remove(photoList[i]);
+                          photoList.removeAt(i);
                         });
                       },
-                      onDismissed: (direction) {
-                        setState(() {
-                          photoList.remove(photoList[i]);
-                        });
-                      },
-                    )
+                    ),
                 ],
               ),
             ),

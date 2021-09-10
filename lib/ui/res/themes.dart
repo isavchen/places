@@ -13,6 +13,7 @@ final lightTheme = ThemeData(
   buttonColor: lmGreenColor,
   canvasColor: lmYellowColor,
   errorColor: lmRedColor,
+  highlightColor: Colors.transparent,
   primaryTextTheme: TextTheme(
     headline6: lmMatHeadline6,
     headline5: lmMatHeadline5,
@@ -87,6 +88,7 @@ final darkTheme = ThemeData(
   canvasColor: dmYellowColor,
   disabledColor: dmBackgroundColor,
   errorColor: dmRedColor,
+  highlightColor: Colors.transparent,
   primaryTextTheme: TextTheme(
     headline6: dmMatHeadline6,
     headline5: dmMatHeadline5,

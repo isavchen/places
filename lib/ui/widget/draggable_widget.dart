@@ -92,7 +92,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
               ],
             ),
       feedback: Dismissible(
-        key: UniqueKey(),
+        key: UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
         child: widget.content == 1
             ? WantVisitingCard(
                 sight: widget.sight,

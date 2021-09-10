@@ -44,9 +44,6 @@ class _VisitingContentState extends State<VisitingContent> {
                       child: DragTarget<int>(
                         builder: (context, candidateData, rejectedData) {
                           return DraggableWidget(
-                            // key: ValueKey(
-                            //   cards[i].name + cards[i].details,
-                            // ),
                             index: i,
                             content: widget.content,
                             sight: cards[i],
