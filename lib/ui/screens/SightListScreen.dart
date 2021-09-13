@@ -1,13 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
-import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/AddSightScreen.dart';
 import 'package:places/ui/screens/FiltersScreen.dart';
 import 'package:places/ui/screens/SightSearchScreen.dart';
-import 'package:places/ui/widget/my_custom_appbar.dart';
+import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 
@@ -89,18 +90,20 @@ class _SightListScreenState extends State<SightListScreen> {
       ),
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 12,
-                ),
-                for (final mock in mocks)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                    child: SightCard(sight: mock),
-                  ),
-              ],
+          OverscrollGlowAbsorber(
+            child: ListView.builder(
+              physics: Platform.isIOS
+                  ? BouncingScrollPhysics()
+                  : ClampingScrollPhysics(),
+              itemCount: mocks.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: index == 0
+                      ? const EdgeInsets.all(16.0)
+                      : const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                  child: SightCard(sight: mocks[index]),
+                );
+              },
             ),
           ),
           Align(
