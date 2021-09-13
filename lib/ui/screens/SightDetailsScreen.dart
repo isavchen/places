@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/widget/page_indicator.dart';
 
 class SightDetailsScreen extends StatefulWidget {
   const SightDetailsScreen({Key? key}) : super(key: key);
@@ -15,6 +16,18 @@ class SightDetailsScreen extends StatefulWidget {
 }
 
 class _SightDetailsScreenState extends State<SightDetailsScreen> {
+  PageController _pageController = PageController();
+
+  List<String> gallery = [
+    'https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg',
+    'http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg',
+    'https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg',
+  ];
+
+  void _pageChanged(int index) {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -29,31 +42,41 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.5,
                   width: double.infinity,
-                  child: Image.network(
-                    'https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg',
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return Center(
-                        child: Platform.isAndroid
-                            ? CircularProgressIndicator(
-                                color: Color(0xFF252849),
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              )
-                            : CupertinoActivityIndicator.partiallyRevealed(
-                                progress: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : 0,
-                              ),
+                  child: PageView.builder(
+                    controller: _pageController,
+                    onPageChanged: _pageChanged,
+                    itemCount: gallery.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Image.network(
+                        gallery[index],
+                        fit: BoxFit.cover,
+                        loadingBuilder: (BuildContext context, Widget child,
+                            ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                            child: Platform.isAndroid
+                                ? CircularProgressIndicator(
+                                    color: Color(0xFF252849),
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  )
+                                : CupertinoActivityIndicator.partiallyRevealed(
+                                    progress: loadingProgress
+                                                .expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : 0,
+                                  ),
+                          );
+                        },
                       );
                     },
                   ),
@@ -82,14 +105,12 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 ),
                 Positioned(
                   bottom: 0.0,
-                  left: 0.0,
-                  child: Container(
-                    width: 152.0,
-                    height: 7.57,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).focusColor,
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
+                  child: PageIndicator(
+                    width: MediaQuery.of(context).size.width / gallery.length,
+                    controller: _pageController,
+                    itemCount: gallery.length,
+                    selectedColor: Theme.of(context).focusColor,
+                    normalColor: Colors.transparent,
                   ),
                 )
               ],
@@ -201,8 +222,8 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                     flex: 1,
                     child: InkWell(
                       onTap: () {
-                      print("Кнопка В Избранное");
-                    },
+                        print("Кнопка В Избранное");
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
@@ -221,7 +242,8 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                               style: Theme.of(context)
                                   .primaryTextTheme
                                   .bodyText2
-                                  ?.copyWith(color: Theme.of(context).focusColor),
+                                  ?.copyWith(
+                                      color: Theme.of(context).focusColor),
                             )
                           ],
                         ),
