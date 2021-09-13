@@ -56,27 +56,24 @@ class ChooseCategoryState extends State<ChooseCategory> {
             ),
           ),
 
-          Expanded(child: Container()),
-
           // кнопка сохранить
-          SafeArea(
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: ElevatedButton(
+            onPressed: selectedCategory.isEmpty
+                ? null
+                : () {
+                    Navigator.pop(context, selectedCategory);
+                  },
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: ElevatedButton(
-                onPressed: selectedCategory.isEmpty
-                    ? null
-                    : () {
-                        Navigator.pop(context, selectedCategory);
-                      },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Text("СОХРАНИТЬ"),
-                ),
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: Text("СОХРАНИТЬ"),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
