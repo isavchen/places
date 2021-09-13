@@ -22,4 +22,7 @@ icStar = 'assets/img/star.svg',
 icSelect = 'assets/img/select.svg',
 icSearch = 'assets/img/search.svg',
 icFilter = 'assets/img/filter.svg',
+onboarding_1 = 'assets/img/onboarding_1.svg',
+onboarding_2 = 'assets/img/onboarding_2.svg',
+onboarding_3 = 'assets/img/onboarding_3.svg',
 bin = 'assets/img/bin.svg';

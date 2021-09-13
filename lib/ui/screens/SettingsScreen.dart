@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/main.dart';
+import 'package:places/ui/screens/OnboardingScreen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _isDarkTheme = false;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +71,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                       onPressed: () {
-                        print("Go to Tutorial");
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OnboardingScreen(),
+                          ),
+                        );
                       },
                       icon: Icon(
                         Icons.info_outline,
