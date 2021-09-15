@@ -34,88 +34,97 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark));
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  width: double.infinity,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    onPageChanged: _pageChanged,
-                    itemCount: gallery.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Image.network(
-                        gallery[index],
-                        fit: BoxFit.cover,
-                        loadingBuilder: (BuildContext context, Widget child,
-                            ImageChunkEvent? loadingProgress) {
-                          if (loadingProgress == null) {
-                            return child;
-                          }
-                          return Center(
-                            child: Platform.isAndroid
-                                ? CircularProgressIndicator(
-                                    color: Color(0xFF252849),
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  )
-                                : CupertinoActivityIndicator.partiallyRevealed(
-                                    progress: loadingProgress
-                                                .expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : 0,
-                                  ),
-                          );
-                        },
-                      );
-                    },
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            expandedHeight: MediaQuery.of(context).size.height * 0.5,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      onPageChanged: _pageChanged,
+                      itemCount: gallery.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Image.network(
+                          gallery[index],
+                          fit: BoxFit.cover,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: Platform.isAndroid
+                                  ? CircularProgressIndicator(
+                                      color: Color(0xFF252849),
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
+                                    )
+                                  : CupertinoActivityIndicator
+                                      .partiallyRevealed(
+                                      progress:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : 0,
+                                    ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: 36,
-                  left: 16,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: Theme.of(context).accentColor,
-                        size: 20,
+                  Positioned(
+                    top: 36,
+                    left: 16,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Theme.of(context).accentColor,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: 0.0,
-                  child: PageIndicator(
-                    width: MediaQuery.of(context).size.width / gallery.length,
-                    controller: _pageController,
-                    itemCount: gallery.length,
-                    selectedColor: Theme.of(context).focusColor,
-                    normalColor: Colors.transparent,
-                  ),
-                )
-              ],
+                  Positioned(
+                    bottom: 0.0,
+                    child: PageIndicator(
+                      width: MediaQuery.of(context).size.width / gallery.length,
+                      controller: _pageController,
+                      itemCount: gallery.length,
+                      selectedColor: Theme.of(context).focusColor,
+                      normalColor: Colors.transparent,
+                    ),
+                  )
+                ],
+              ),
             ),
-            Container(
+          ),
+          SliverToBoxAdapter(
+            child: Container(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 24,
@@ -142,119 +151,115 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                "Пряный вкус радостной жизни вместе с шеф-поваром Изо Дзандзава, благодаря которой у гостей ресторана есть возможность выбирать из двух направлений: европейского и восточного",
-                style: Theme.of(context)
-                    .primaryTextTheme
-                    .bodyText2
-                    ?.copyWith(color: Theme.of(context).focusColor),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 24.0,
-              ),
-              child: ElevatedButton(
-                onPressed: () {
-                  print("Кнопка Построить  маршрут нажата");
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(icRoute),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("ПОСТРОИТЬ МАРШРУТ"),
-                    ],
+                  SizedBox(height: 24,),
+                  Text(
+                    "Пряный вкус радостной жизни вместе с шеф-поваром Изо Дзандзава, благодаря которой у гостей ресторана есть возможность выбирать из двух направлений: европейского и восточного.",
+                    style: Theme.of(context)
+                        .primaryTextTheme
+                        .bodyText2
+                        ?.copyWith(color: Theme.of(context).focusColor),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Divider(
-                height: 0.8,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: () {
-                        print("Кнопка Запланировать");
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 24.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        print("Кнопка Построить  маршрут нажата");
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SvgPicture.asset(
-                              icCalendar,
-                              width: 22,
-                              color: dmInactiveColor,
-                            ),
+                            SvgPicture.asset(icRoute),
                             SizedBox(
-                              width: 9,
+                              width: 10,
                             ),
-                            Text(
-                              "Запланировать",
-                              style:
-                                  Theme.of(context).primaryTextTheme.bodyText2,
-                            )
+                            Text("ПОСТРОИТЬ МАРШРУТ"),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: () {
-                        print("Кнопка В Избранное");
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              icHeart,
-                              width: 20,
-                              color: Theme.of(context).focusColor,
+                  Divider(
+                    height: 0.8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                            onTap: () {
+                              print("Кнопка Запланировать");
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    icCalendar,
+                                    width: 22,
+                                    color: dmInactiveColor,
+                                  ),
+                                  SizedBox(
+                                    width: 9,
+                                  ),
+                                  Text(
+                                    "Запланировать",
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .bodyText2,
+                                  )
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              width: 9,
-                            ),
-                            Text(
-                              "В Избранное",
-                              style: Theme.of(context)
-                                  .primaryTextTheme
-                                  .bodyText2
-                                  ?.copyWith(
-                                      color: Theme.of(context).focusColor),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(
+                            onTap: () {
+                              print("Кнопка В Избранное");
+                            },
+                            child: Container(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    icHeart,
+                                    width: 20,
+                                    color: Theme.of(context).focusColor,
+                                  ),
+                                  SizedBox(
+                                    width: 9,
+                                  ),
+                                  Text(
+                                    "В Избранное",
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .bodyText2
+                                        ?.copyWith(
+                                            color:
+                                                Theme.of(context).focusColor),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
