@@ -18,143 +18,179 @@ class SightListScreen extends StatefulWidget {
 }
 
 class _SightListScreenState extends State<SightListScreen> {
+  ScrollController _scrollController = ScrollController();
+  late Text _title = Text(
+    "Список\nинтересных мест",
+    style: Theme.of(context)
+        .primaryTextTheme
+        .headline6!
+        .copyWith(fontWeight: FontWeight.w700, fontSize: 32),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        setState(() {
+          _title = !_isSliverAppBarExpanded
+              ? Text(
+                  "Список\nинтересных мест",
+                  style: Theme.of(context).primaryTextTheme.headline6!.copyWith(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 32,
+                      ),
+                )
+              : Text("Список интересных мест");
+        });
+      });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  bool get _isSliverAppBarExpanded {
+    return _scrollController.hasClients && (_scrollController.offset > 150);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: MyCustomAppBar(
-      //   title: Text(
-      //     "Список интересных мест",
-      //   ),
-      //   height: 152,
-      //   backgroundColor: Theme.of(context).primaryColor,
-      // ),
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          "Список интересных мест",
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //       builder: (context) => SightSearchScreen()),
-                      // );
-                      PageRouteBuilder(
-                        pageBuilder: (context, animation1, animation2) =>
-                            SightSearchScreen(),
-                        transitionDuration: Duration(seconds: 0),
-                      ),
-                    );
-                  },
-                  child: SearchBar(
-                    enabled: false,
-                  ),
-                ),
-                Positioned(
-                  top: 12,
-                  right: 15,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => FiltersScreen()),
-                        );
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                            // color: Colors.red,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: SvgPicture.asset(
-                          icFilter,
-                          color: Theme.of(context).buttonColor,
+      body: OverscrollGlowAbsorber(
+        child: CustomScrollView(
+          controller: _scrollController,
+          physics: Platform.isIOS
+              ? BouncingScrollPhysics()
+              : ClampingScrollPhysics(),
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 186,
+              elevation: 0,
+              pinned: true,
+              centerTitle: true,
+              title: _isSliverAppBarExpanded ? _title : Container(),
+              flexibleSpace: FlexibleSpaceBar(
+                background: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: _isSliverAppBarExpanded ? 0.0 : 16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 46.0),
+                      !_isSliverAppBarExpanded ? _title : Container(),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  PageRouteBuilder(
+                                    pageBuilder:
+                                        (context, animation1, animation2) =>
+                                            SightSearchScreen(),
+                                    transitionDuration: Duration(seconds: 0),
+                                  ),
+                                );
+                              },
+                              child: SearchBar(
+                                enabled: false,
+                              ),
+                            ),
+                            Positioned(
+                              top: 12,
+                              right: 15,
+                              child: Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              FiltersScreen()),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                        // color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: SvgPicture.asset(
+                                      icFilter,
+                                      color: Theme.of(context).buttonColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          OverscrollGlowAbsorber(
-            child: ListView.builder(
-              physics: Platform.isIOS
-                  ? BouncingScrollPhysics()
-                  : ClampingScrollPhysics(),
-              itemCount: mocks.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: index == 0
-                      ? const EdgeInsets.all(16.0)
-                      : const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                  child: SightCard(sight: mocks[index]),
-                );
-              },
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AddSightScreen()),
-                  );
-                },
-                child: Container(
-                  width: 177.0,
-                  height: 48.0,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [
-                        Theme.of(context).canvasColor,
-                        Theme.of(context).buttonColor,
-                      ],
-                    ),
-                    // color: Colors.green,
-                    borderRadius: BorderRadius.circular(24.0),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12.0,
-                    horizontal: 22.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.add_rounded,
-                        color: Colors.white,
-                      ),
-                      // SizedBox(width: 13),
-                      Text(
-                        "НОВОЕ МЕСТО",
-                        style: textButton,
-                      ),
+                      SizedBox(
+                        height: 8.0,
+                      )
                     ],
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return Padding(
+                    padding: index == 0
+                        ? const EdgeInsets.all(16.0)
+                        : const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                    child: SightCard(sight: mocks[index]),
+                  );
+                },
+                childCount: mocks.length,
+              ),
+            ),
+          ],
+        ),
       ),
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24.0),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Theme.of(context).canvasColor,
+              Theme.of(context).buttonColor,
+            ],
+          ),
+        ),
+        child: FloatingActionButton.extended(
+          elevation: 0,
+          highlightElevation: 0,
+          backgroundColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AddSightScreen()),
+            );
+          },
+          label: Container(
+            child: Text(
+              'НОВОЕ МЕСТО',
+              style: textButton,
+            ),
+          ),
+          icon: Icon(
+            Icons.add_rounded,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
