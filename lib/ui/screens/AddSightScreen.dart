@@ -30,7 +30,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
   List<String> photoList = [
     "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
     "https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg",
-    "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg",
+    "https://www.dreamsbook.com.ua/uploads/15747xJILGQdTEiVPzpKH.jpg",
     "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
   ];
 
@@ -111,7 +111,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       onPressed: () {
                         setState(() {
                           photoList.add(
-                              "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg");
+                              "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171__340.jpg");
                         });
                       },
                     ),

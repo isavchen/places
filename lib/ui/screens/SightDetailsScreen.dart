@@ -22,7 +22,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
   List<String> gallery = [
     'https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg',
     'http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg',
-    'https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg',
+    'https://images.unsplash.com/photo-1612151855475-877969f4a6cc?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80',
   ];
 
   void _pageChanged(int index) {

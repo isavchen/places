@@ -37,7 +37,7 @@ final List mocks = [
     name: "4",
     lat: 50.456206,
     lon: 30.548504,
-    url: "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg",
+    url: "https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg",
     details:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     type: "Особое место",
@@ -96,7 +96,7 @@ final List mocks = [
     name: "10",
     lat: 50.456206,
     lon: 30.548504,
-    url: "https://cdn2.civitatis.com/ucrania/kiev/free-tour-kiev.jpg",
+    url: "https://i.redd.it/c8djahc8c7871.jpg",
     details:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     type: "Особое место",
