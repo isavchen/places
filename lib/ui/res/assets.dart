@@ -25,4 +25,5 @@ icFilter = 'assets/img/filter.svg',
 onboarding_1 = 'assets/img/onboarding_1.svg',
 onboarding_2 = 'assets/img/onboarding_2.svg',
 onboarding_3 = 'assets/img/onboarding_3.svg',
+splashLogo = 'assets/img/splash_logo.svg',
 bin = 'assets/img/bin.svg';
