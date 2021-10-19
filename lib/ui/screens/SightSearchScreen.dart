@@ -276,7 +276,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => SightDetailsScreen(),
+                                  builder: (context) => SightDetailsScreen(sightId: res.id,),
                                 ),
                               );
                             },

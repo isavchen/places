@@ -94,7 +94,6 @@ class _SightListScreenState extends State<SightListScreen> {
                                     pageBuilder:
                                         (context, animation1, animation2) =>
                                             SightSearchScreen(),
-                                    transitionDuration: Duration(seconds: 0),
                                   ),
                                 );
                               },
@@ -111,8 +110,8 @@ class _SightListScreenState extends State<SightListScreen> {
                                   onTap: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              FiltersScreen()),
+                                        builder: (context) => FiltersScreen(),
+                                      ),
                                     );
                                   },
                                   child: Container(
