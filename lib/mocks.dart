@@ -4,6 +4,7 @@ import 'package:places/ui/res/assets.dart';
 
 final List mocks = [
   Sight(
+    id: 1,
     name: "1",
     lat: 50.414363,
     lon: 30.529344,
@@ -14,6 +15,7 @@ final List mocks = [
     type: "Музей",
   ),
   Sight(
+    id: 2,
     name: "2",
     lat: 50.456206,
     lon: 30.548504,
@@ -24,6 +26,7 @@ final List mocks = [
     type: "Музей",
   ),
   Sight(
+    id: 3,
     name: "3",
     lat: 30.548504,
     lon: 1.2222,
@@ -34,6 +37,7 @@ final List mocks = [
     type: "Парк",
   ),
   Sight(
+    id: 4,
     name: "4",
     lat: 50.456206,
     lon: 30.548504,
@@ -43,6 +47,7 @@ final List mocks = [
     type: "Особое место",
   ),
   Sight(
+    id: 5,
     name: "5",
     lat: 50.456206,
     lon: 30.548504,
@@ -53,6 +58,7 @@ final List mocks = [
     type: "Музей",
   ),
   Sight(
+    id: 6,
     name: "6",
     lat: 50.414363,
     lon: 30.529344,
@@ -63,6 +69,7 @@ final List mocks = [
     type: "Кафе",
   ),
   Sight(
+    id: 7,
     name: "7",
     lat: 50.456206,
     lon: 30.548504,
@@ -73,6 +80,7 @@ final List mocks = [
     type: "Отель",
   ),
   Sight(
+    id: 8,
     name: "8",
     lat: 50.456206,
     lon: 30.548504,
@@ -83,6 +91,7 @@ final List mocks = [
     type: "Ресторан",
   ),
   Sight(
+    id: 9,
     name: "9",
     lat: 50.456206,
     lon: 30.548504,
@@ -93,6 +102,7 @@ final List mocks = [
     type: "Отель",
   ),
   Sight(
+    id: 10,
     name: "10",
     lat: 50.456206,
     lon: 30.548504,

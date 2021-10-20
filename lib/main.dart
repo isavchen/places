@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/themes.dart';
-// import 'package:places/ui/screens/HomePage.dart';
 import 'package:places/ui/screens/SplashScreen.dart';
 
 void main() {
@@ -32,7 +31,6 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       theme: isDarkTheme ? darkTheme : lightTheme,
       title: 'Places',
-      // home: HomePage(),
       home: SplashScreen(),
     );
   }

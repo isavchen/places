@@ -372,6 +372,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
             onPressed: isValid()
                 ? () {
                     mocks.add(Sight(
+                        id: 42,
                         name: titleTextEditingController.text,
                         lat: double.parse(latTextEditingController.text),
                         lon: double.parse(lonTextEditingController.text),

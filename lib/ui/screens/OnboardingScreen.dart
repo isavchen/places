@@ -30,23 +30,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         actions: [
-           !isLastPageView ? TextButton(
-            onPressed: () {
-              _pageController.animateToPage(2,
-                  duration: Duration(microseconds: 500), curve: Curves.linear);
-            },
-            child: Text("Пропустить"),
-          ) : SizedBox(),
+          !isLastPageView
+              ? TextButton(
+                  onPressed: () {
+                    _pageController.animateToPage(2,
+                        duration: Duration(microseconds: 500),
+                        curve: Curves.linear);
+                  },
+                  child: Text("Пропустить"),
+                )
+              : SizedBox(),
         ],
       ),
       body: Container(
@@ -99,12 +97,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
-                        ),
-                        (route) => false);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    );
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),

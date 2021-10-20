@@ -10,7 +10,8 @@ import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/page_indicator.dart';
 
 class SightDetailsScreen extends StatefulWidget {
-  const SightDetailsScreen({Key? key}) : super(key: key);
+  final int sightId;
+  const SightDetailsScreen({Key? key, required this.sightId}) : super(key: key);
 
   @override
   _SightDetailsScreenState createState() => _SightDetailsScreenState();
@@ -31,6 +32,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.sightId);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark));
