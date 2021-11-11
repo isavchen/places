@@ -33,7 +33,7 @@ class WantVisitingCard extends StatelessWidget {
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context).accentColor.withOpacity(0.24),
+                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
@@ -110,7 +110,7 @@ class WantVisitingCard extends StatelessWidget {
                           .primaryTextTheme
                           .bodyText2
                           ?.copyWith(
-                            color: Theme.of(context).buttonColor,
+                            color: Theme.of(context).colorScheme.surface,
                           ),
                     ),
                   ),

@@ -34,7 +34,7 @@ class _SliderRadiusSearchState extends State<SliderRadiusSearch> {
                 "Расстояние",
                 style: smallText.copyWith(
                   fontSize: 16,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
               Text(

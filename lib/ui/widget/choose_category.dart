@@ -99,13 +99,13 @@ class CategoryItem extends StatelessWidget {
                   _item.text,
                   style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
                         fontWeight: FontWeight.w400,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).colorScheme.secondary,
                       ),
                 ),
                 _item.isSelected
                     ? SvgPicture.asset(
                         icSelect,
-                        color: Theme.of(context).buttonColor,
+                        color: Theme.of(context).colorScheme.surface,
                       )
                     : Container(),
               ],

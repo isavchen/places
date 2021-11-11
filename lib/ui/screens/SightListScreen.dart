@@ -122,7 +122,7 @@ class _SightListScreenState extends State<SightListScreen> {
                                             BorderRadius.circular(10)),
                                     child: SvgPicture.asset(
                                       icFilter,
-                                      color: Theme.of(context).buttonColor,
+                                      color: Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
                                 ),
@@ -163,7 +163,7 @@ class _SightListScreenState extends State<SightListScreen> {
             end: Alignment.centerRight,
             colors: [
               Theme.of(context).canvasColor,
-              Theme.of(context).buttonColor,
+              Theme.of(context).colorScheme.surface,
             ],
           ),
         ),

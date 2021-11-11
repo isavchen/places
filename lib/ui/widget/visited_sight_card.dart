@@ -34,7 +34,7 @@ class VisitedSightCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
                     colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context).accentColor.withOpacity(0.24),
+                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {

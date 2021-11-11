@@ -35,13 +35,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     "Тёмная тема",
                     style:
                         Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                               fontWeight: FontWeight.w400,
                             ),
                   ),
                   CupertinoSwitch(
                     trackColor: Theme.of(context).dividerColor,
-                    activeColor: Theme.of(context).buttonColor,
+                    activeColor: Theme.of(context).colorScheme.surface,
                     value: isDarkTheme,
                     onChanged: (currentValue) {
                       setState(() {
@@ -65,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     "Смотреть туториал",
                     style:
                         Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                               fontWeight: FontWeight.w400,
                             ),
                   ),
@@ -80,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                       icon: Icon(
                         Icons.info_outline,
-                        color: Theme.of(context).buttonColor,
+                        color: Theme.of(context).colorScheme.surface,
                       ))
                 ],
               ),

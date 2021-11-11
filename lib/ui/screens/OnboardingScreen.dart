@@ -80,7 +80,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: PageIndicator(
                   controller: _pageController,
                   itemCount: 3,
-                  selectedColor: Theme.of(context).buttonColor,
+                  selectedColor: Theme.of(context).colorScheme.surface,
                   normalColor: lmInactiveColor,
                   width: 24.0,
                   dotWidth: 8,
@@ -135,7 +135,7 @@ class OnboardingPage extends StatelessWidget {
       children: [
         SvgPicture.asset(
           image,
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).colorScheme.secondary,
         ),
         SizedBox(
           height: 42.6,
@@ -148,7 +148,7 @@ class OnboardingPage extends StatelessWidget {
             style: Theme.of(context)
                 .primaryTextTheme
                 .headline5!
-                .copyWith(color: Theme.of(context).accentColor),
+                .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
         ),
         SizedBox(

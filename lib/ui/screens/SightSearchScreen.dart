@@ -71,7 +71,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
       children.add(TextSpan(
         text: source.substring(match.start, match.end),
         style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-              color: Theme.of(context).accentColor,
+              color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w600,
             ),
       ));
@@ -330,7 +330,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                       .primaryTextTheme
                                       .subtitle1
                                       ?.copyWith(
-                                        color: Theme.of(context).accentColor,
+                                        color: Theme.of(context).colorScheme.secondary,
                                         fontWeight: FontWeight.w400,
                                       ),
                                 ),

@@ -42,13 +42,13 @@ class _FilterItemState extends State<FilterItem> {
                 width: 64.0,
                 height: 64.0,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).buttonColor.withOpacity(0.16),
+                  color: Theme.of(context).colorScheme.surface.withOpacity(0.16),
                   borderRadius: BorderRadius.circular(32.0),
                 ),
                 child: Center(
                   child: SvgPicture.asset(
                     widget.category.img,
-                    color: Theme.of(context).buttonColor,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
               ),
@@ -60,7 +60,7 @@ class _FilterItemState extends State<FilterItem> {
                         height: 16,
                         width: 16,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                         child: Padding(

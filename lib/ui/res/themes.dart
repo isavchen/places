@@ -5,15 +5,23 @@ import 'package:places/ui/widget/slider_radius_search.dart';
 
 final lightTheme = ThemeData(
   primaryColor: lmPrimaryColor,
-  accentColor: lmAccentColor,
+  colorScheme: ColorScheme.fromSwatch().copyWith(
+    secondary: lmAccentColor,
+    surface: lmGreenColor,
+  ),
   focusColor: lmFocusColor,
   scaffoldBackgroundColor: lmPrimaryColor,
   backgroundColor: lmBackgroundColor,
   dividerColor: lmInactiveColor,
-  buttonColor: lmGreenColor,
   canvasColor: lmYellowColor,
   errorColor: lmRedColor,
   highlightColor: Colors.transparent,
+  appBarTheme: AppBarTheme(
+    backgroundColor: lmPrimaryColor,
+    elevation: 0,
+    centerTitle: true,
+    titleTextStyle: lmMatHeadline6,
+  ),
   primaryTextTheme: TextTheme(
     headline6: lmMatHeadline6,
     headline5: lmMatHeadline5,
@@ -79,12 +87,20 @@ final lightTheme = ThemeData(
 
 final darkTheme = ThemeData(
   primaryColor: dmPrimaryColor,
-  accentColor: dmAccentColor,
+  colorScheme: ColorScheme.fromSwatch().copyWith(
+    secondary: dmAccentColor,
+    surface: dmGreenColor,
+  ),
   focusColor: dmFocusColor,
   backgroundColor: dmBackgroundColor,
   scaffoldBackgroundColor: dmPrimaryColor,
   dividerColor: dmInactiveColor,
-  buttonColor: dmGreenColor,
+  appBarTheme: AppBarTheme(
+    backgroundColor: dmPrimaryColor,
+    elevation: 0,
+    centerTitle: true,
+    titleTextStyle: dmMatHeadline6,
+  ),
   canvasColor: dmYellowColor,
   disabledColor: dmBackgroundColor,
   errorColor: dmRedColor,

@@ -32,14 +32,14 @@ class NewPhotoCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.0),
                   border: Border.all(
                     width: 2,
-                    color: Theme.of(context).buttonColor.withOpacity(0.48),
+                    color: Theme.of(context).colorScheme.surface.withOpacity(0.48),
                   ),
                 ),
                 child: Center(
                   child: Icon(
                     Icons.add_rounded,
                     size: 40,
-                    color: Theme.of(context).buttonColor,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
               ),
@@ -62,7 +62,7 @@ class NewPhotoCard extends StatelessWidget {
                       width: 72,
                       height: 72,
                       colorBlendMode: BlendMode.srcATop,
-                      color: Theme.of(context).accentColor.withOpacity(0.24),
+                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
                     ),
                   ),
                   Positioned(

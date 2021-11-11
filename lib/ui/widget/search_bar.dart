@@ -57,7 +57,7 @@ class SearchBar extends StatelessWidget {
                 },
                 child: Icon(
                   Icons.cancel_rounded,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               )
             : null,

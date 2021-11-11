@@ -176,7 +176,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                           ),
                           Icon(
                             Icons.arrow_forward_ios_rounded,
-                            color: Theme.of(context).accentColor,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                         ],
                       ),
@@ -322,7 +322,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     style:
                         Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
                               fontWeight: FontWeight.w400,
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                     decoration: InputDecoration(
                       hintText: 'введите текст',
@@ -335,7 +335,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               },
                               child: Icon(
                                 Icons.cancel_rounded,
-                                color: Theme.of(context).accentColor,
+                                color: Theme.of(context).colorScheme.secondary,
                               ),
                             )
                           : null,
@@ -343,13 +343,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
                           width: 2.0,
-                          color: Theme.of(context).buttonColor.withOpacity(0.4),
+                          color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
-                          color: Theme.of(context).buttonColor.withOpacity(0.4),
+                          color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
                         ),
                       ),
                       contentPadding:
@@ -418,11 +418,11 @@ class MyTextField extends StatelessWidget {
       focusNode: focus,
       textInputAction: textInputAction,
       onSubmitted: onSubmitted,
-      cursorColor: Theme.of(context).accentColor,
+      cursorColor: Theme.of(context).colorScheme.secondary,
       onChanged: onChanged,
       style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
             fontWeight: FontWeight.w400,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
           ),
       decoration: InputDecoration(
         hintText: hintText,
@@ -434,7 +434,7 @@ class MyTextField extends StatelessWidget {
                 },
                 child: Icon(
                   Icons.cancel_rounded,
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               )
             : null,
@@ -442,13 +442,13 @@ class MyTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
             width: 2.0,
-            color: Theme.of(context).buttonColor.withOpacity(0.4),
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: Theme.of(context).buttonColor.withOpacity(0.4),
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
           ),
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
