@@ -19,11 +19,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
           title: Text(
             "Избранное",
           ),
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          toolbarHeight: 140,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(52.0),
+            preferredSize: Size.fromHeight(40.0),
             child: Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
