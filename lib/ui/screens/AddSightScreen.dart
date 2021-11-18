@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/widget/choose_category.dart';
+import 'package:places/ui/screens/ChooseCategoryScreen.dart';
 import 'package:places/ui/widget/new_photo_card.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 
@@ -74,13 +75,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Новое место"),
+        title: Text('add_sight.app_bar.title'.tr()),
         automaticallyImplyLeading: false,
         leading: TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text("Отмена"),
+          child: Text('add_sight.app_bar.leading'.tr()),
           style: TextButton.styleFrom(
             primary: dmSecondaryColor2,
             textStyle: Theme.of(context).primaryTextTheme.subtitle1,
@@ -140,7 +141,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "КАТЕГОРИЯ",
+                    'add_sight.category'.tr().toUpperCase(),
                     style: smallText.copyWith(fontSize: 12.0),
                   ),
                   InkWell(
@@ -165,7 +166,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            category.isEmpty ? "Не выбрано" : category,
+                            category.isEmpty ? 'add_sight.not_selected'.tr() : category,
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .subtitle1
@@ -197,11 +198,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "НАЗВАНИЕ",
+                    'add_sight.sight_name'.tr().toUpperCase(),
                     style: smallText.copyWith(fontSize: 12.0),
                   ),
                   MyTextField(
-                    hintText: "введите название",
+                    hintText: 'add_sight.enter_name'.tr().toLowerCase(),
                     controller: titleTextEditingController,
                     focus: titleFocusNode,
                     textInputAction: TextInputAction.next,
@@ -231,11 +232,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "ШИРОТА",
+                            'add_sight.latitude'.tr().toUpperCase(),
                             style: smallText.copyWith(fontSize: 12.0),
                           ),
                           MyTextField(
-                            hintText: "введите широту",
+                            hintText: 'add_sight.enter_latitude'.tr(),
                             controller: latTextEditingController,
                             focus: latFocusNode,
                             textInputAction: TextInputAction.next,
@@ -260,11 +261,11 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "ДОЛГОТА",
+                            'add_sight.longitude'.toUpperCase(),
                             style: smallText.copyWith(fontSize: 12.0),
                           ),
                           MyTextField(
-                            hintText: "введите долготу",
+                            hintText: 'add_sight.enter_longitude'.tr(),
                             controller: lonTextEditingController,
                             focus: lonFocusNode,
                             textInputAction: TextInputAction.next,
@@ -289,9 +290,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
               alignment: Alignment.centerLeft,
               child: TextButton(
                 onPressed: () {
+                  //TODO: функионал кнопки
                   print("Указать на карте");
                 },
-                child: Text("Указать на карте"),
+                child: Text('add_sight.point_on_map'.tr()),
               ),
             ),
             SizedBox(height: 37.0),
@@ -305,7 +307,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "ОПИСАНИЕ",
+                    'add_sight.description'.tr().toUpperCase(),
                     style: smallText.copyWith(fontSize: 12.0),
                   ),
                   TextField(
@@ -325,7 +327,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               color: Theme.of(context).colorScheme.secondary,
                             ),
                     decoration: InputDecoration(
-                      hintText: 'введите текст',
+                      hintText: 'add_sight.enter_description'.tr(),
                       hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
                       suffixIcon: descFocusNode.hasFocus &&
                               descTextEditingController.text.isNotEmpty
@@ -385,7 +387,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 : null,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: Text("СОЗДАТЬ"),
+              child: Text('add_sight.create_button'.tr().toUpperCase()),
             ),
           ),
         ),

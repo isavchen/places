@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -49,9 +50,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   }
 
   List<TextSpan> highlightOccurrences(String source, String query) {
-    if (query == null ||
-        query.isEmpty ||
-        !source.toLowerCase().contains(query.toLowerCase())) {
+    if (query.isEmpty || !source.toLowerCase().contains(query.toLowerCase())) {
       return [TextSpan(text: source)];
     }
     final matches = query.toLowerCase().allMatches(source.toLowerCase());
@@ -127,7 +126,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          "Список интересных мест",
+          'sight_search.title'.tr(),
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
@@ -185,7 +184,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "ВЫ ИСКАЛИ",
+                          'sight_search.history'.tr(),
                           style: Theme.of(context)
                               .primaryTextTheme
                               .caption
@@ -250,7 +249,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                         },
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text("Очистить историю"),
+                          child: Text('sight_search.clear_history'.tr()),
                         ),
                       ),
                   ],
@@ -276,7 +275,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             onTap: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => SightDetailsScreen(sightId: res.id,),
+                                  builder: (context) => SightDetailsScreen(
+                                    sightId: res.id,
+                                  ),
                                 ),
                               );
                             },
@@ -330,7 +331,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                       .primaryTextTheme
                                       .subtitle1
                                       ?.copyWith(
-                                        color: Theme.of(context).colorScheme.secondary,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                         fontWeight: FontWeight.w400,
                                       ),
                                 ),
@@ -367,7 +370,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     ),
                     Center(
                       child: Text(
-                        "Ничего не найдено",
+                        'sight_search.empty'.tr(),
                         style: Theme.of(context)
                             .primaryTextTheme
                             .headline6
@@ -379,7 +382,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                       child: ConstrainedBox(
                         constraints: BoxConstraints(maxWidth: 253.5),
                         child: Text(
-                          "Попробуйте изменить параметры поиска",
+                          'sight_search.change_query'.tr(),
                           textAlign: TextAlign.center,
                           style: dmMatBodyText2,
                         ),

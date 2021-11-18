@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
@@ -32,10 +32,6 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.sightId);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.dark));
     return Scaffold(
       body: OverscrollGlowAbsorber(
         child: CustomScrollView(
@@ -141,18 +137,21 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
+                      //TODO: выводить название места
                       "Пряности и радости",
                       style: Theme.of(context).primaryTextTheme.headline5,
                     ),
                     Row(
                       children: [
                         Text(
+                          //TODO: выводить тип места
                           "ресторан",
                           style: Theme.of(context).primaryTextTheme.subtitle2,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
+                            //TODO: выводить время работы места
                             "закрыто до 09:00",
                             style: Theme.of(context).primaryTextTheme.bodyText2,
                           ),
@@ -163,6 +162,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                       height: 24,
                     ),
                     Text(
+                      //TODO: выводить описание места
                       "Пряный вкус радостной жизни вместе с шеф-поваром Изо Дзандзава, благодаря которой у гостей ресторана есть возможность выбирать из двух направлений: европейского и восточного.",
                       style: Theme.of(context)
                           .primaryTextTheme
@@ -173,6 +173,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 24.0),
                       child: ElevatedButton(
                         onPressed: () {
+                          //TODO: функционал кнопки
                           print("Кнопка Построить  маршрут нажата");
                         },
                         child: Padding(
@@ -184,7 +185,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                               SizedBox(
                                 width: 10,
                               ),
-                              Text("ПОСТРОИТЬ МАРШРУТ"),
+                              Text('sight_details.route'.tr()),
                             ],
                           ),
                         ),
@@ -201,6 +202,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
+                                //TODO: функционал кнопки
                                 print("Кнопка Запланировать");
                               },
                               child: Container(
@@ -218,7 +220,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                                       width: 9,
                                     ),
                                     Text(
-                                      "Запланировать",
+                                      'sight_details.schedule'.tr(),
                                       style: Theme.of(context)
                                           .primaryTextTheme
                                           .bodyText2,
@@ -232,6 +234,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
+                                //TODO: функционал кнопки
                                 print("Кнопка В Избранное");
                               },
                               child: Container(
@@ -249,7 +252,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                                       width: 9,
                                     ),
                                     Text(
-                                      "В Избранное",
+                                      'sight_details.to_favorite'.tr(),
                                       style: Theme.of(context)
                                           .primaryTextTheme
                                           .bodyText2

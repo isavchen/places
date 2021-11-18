@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/mocks.dart';
@@ -20,7 +21,7 @@ class SightListScreen extends StatefulWidget {
 class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
   late Text _title = Text(
-    "Список\nинтересных мест",
+    'sight_list.title.expanded'.tr(),
     style: Theme.of(context)
         .primaryTextTheme
         .headline6!
@@ -35,13 +36,13 @@ class _SightListScreenState extends State<SightListScreen> {
         setState(() {
           _title = !_isSliverAppBarExpanded
               ? Text(
-                  "Список\nинтересных мест",
+                  'sight_list.title.expanded'.tr(),
                   style: Theme.of(context).primaryTextTheme.headline6!.copyWith(
                         fontWeight: FontWeight.w700,
                         fontSize: 32,
                       ),
                 )
-              : Text("Список интересных мест");
+              : Text('sight_list.title.normal'.tr());
         });
       });
   }
@@ -179,7 +180,7 @@ class _SightListScreenState extends State<SightListScreen> {
           },
           label: Container(
             child: Text(
-              'НОВОЕ МЕСТО',
+              'sight_list.new_sight'.tr(),
               style: textButton,
             ),
           ),

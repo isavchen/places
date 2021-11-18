@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/mocks.dart';
@@ -27,7 +28,7 @@ class ChooseCategoryState extends State<ChooseCategory> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text('Категория'),
+        title: Text('add_sight.category'.tr()),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -70,7 +71,7 @@ class ChooseCategoryState extends State<ChooseCategory> {
                   },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: Text("СОХРАНИТЬ"),
+              child: Text('choose_category.save'.tr().toUpperCase()),
             ),
           ),
         ),

@@ -156,6 +156,7 @@ class VisitedSightCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                //TODO: функционал кнопки
                 print("Button Share");
               },
               borderRadius: BorderRadius.circular(20),

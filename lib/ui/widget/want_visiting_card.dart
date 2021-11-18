@@ -160,6 +160,7 @@ class WantVisitingCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                //TODO: функционал кнопки
                 print("Button Calendar");
               },
               borderRadius: BorderRadius.circular(20),

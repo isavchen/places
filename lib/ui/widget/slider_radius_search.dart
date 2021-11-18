@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
@@ -19,10 +20,9 @@ class SliderRadiusSearch extends StatefulWidget {
 }
 
 class _SliderRadiusSearchState extends State<SliderRadiusSearch> {
-
   @override
   Widget build(BuildContext context) {
-  double _value = widget.value;
+    double _value = widget.value;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
       child: Column(
@@ -31,14 +31,18 @@ class _SliderRadiusSearchState extends State<SliderRadiusSearch> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Расстояние",
+                'filters.distance'.tr(),
                 style: smallText.copyWith(
                   fontSize: 16,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
               Text(
-                "до ${(_value / 1000).toStringAsFixed(1)} км",
+                'filters.distance_value'.tr(
+                  namedArgs: {
+                    'value': (_value / 1000).toStringAsFixed(1),
+                  },
+                ),
                 style: smallText.copyWith(
                   fontSize: 16,
                   color: dmSecondaryColor2,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/ui/widget/visiting_content.dart';
 
@@ -17,7 +18,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Избранное",
+            'visiting_screen.app_bar_title'.tr(),
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(40.0),
@@ -38,10 +39,10 @@ class _VisitingScreenState extends State<VisitingScreen> {
                           MaterialStateProperty.all(Colors.transparent),
                       tabs: [
                         Tab(
-                          text: "Хочу посетить",
+                          text: 'visiting_screen.tab.want_to_visit'.tr(),
                         ),
                         Tab(
-                          text: "Посетил",
+                          text: 'visiting_screen.tab.visited'.tr(),
                         ),
                       ],
                     ),

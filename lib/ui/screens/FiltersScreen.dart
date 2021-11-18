@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/mocks.dart';
@@ -71,7 +72,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               });
               filterPlaces();
             },
-            child: Text("Очистить"),
+            child: Text('filters.clear_button'.tr()),
           ),
         ],
       ),
@@ -85,7 +86,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
               child: Text(
-                "КАТЕГОРИИ",
+                'filters.categories'.tr(),
                 style: smallText.copyWith(fontSize: 12.0),
               ),
             ),
@@ -186,7 +187,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
             onPressed: count == 0 ? null : () {},
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: Text("ПОКАЗАТЬ ($count)"),
+              child: Text(
+                'filters.show_button'.tr(
+                  namedArgs: {
+                    'count': count.toString(),
+                  },
+                ),
+              ),
             ),
           ),
         ),

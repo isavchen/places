@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
@@ -42,7 +43,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         duration: Duration(microseconds: 500),
                         curve: Curves.linear);
                   },
-                  child: Text("Пропустить"),
+                  child: Text(
+                    'onboarding.skip'.tr(),
+                  ),
                 )
               : SizedBox(),
         ],
@@ -57,19 +60,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 OnboardingPage(
                   image: onboarding_1,
-                  title: "Добро пожаловать в Путеводитель",
-                  subtitle: "Ищи новые локации и сохраняй самые любимые.",
+                  title: 'onboarding.first_page.title'.tr(),
+                  subtitle: 'onboarding.first_page.subtitle'.tr(),
                 ),
                 OnboardingPage(
                   image: onboarding_2,
-                  title: "Построй маршрут и отправляйся в путь",
-                  subtitle: "Достигай цели максимально быстро и комфортно.",
+                  title: 'onboarding.second_page.title'.tr(),
+                  subtitle: 'onboarding.second_page.subtitle'.tr(),
                 ),
                 OnboardingPage(
                   image: onboarding_3,
-                  title: "Добавляй места, которые нашёл сам",
-                  subtitle:
-                      "Делись самыми интересными и помоги нам стать лучше!",
+                  title: 'onboarding.third_page.title'.tr(),
+                  subtitle: 'onboarding.third_page.subtitle'.tr(),
                 ),
               ],
             ),
@@ -105,7 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child: Text("НА СТАРТ"),
+                    child: Text('onboarding.start'.tr().toUpperCase()),
                   ),
                 ),
               ),

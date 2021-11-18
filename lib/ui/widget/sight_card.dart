@@ -126,6 +126,7 @@ class SightCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
+                //TODO: функционал кнопки
                 print("Add to favorite");
               },
               borderRadius: BorderRadius.circular(20),

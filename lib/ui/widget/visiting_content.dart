@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
@@ -92,7 +93,7 @@ class _VisitingContentState extends State<VisitingContent> {
                 height: 32,
               ),
               Text(
-                "Пусто",
+                'visiting_content.empty.title'.tr(),
                 style: subtitleText,
               ),
               SizedBox(
@@ -102,8 +103,8 @@ class _VisitingContentState extends State<VisitingContent> {
                 constraints: BoxConstraints(maxWidth: 253.5),
                 child: Text(
                   widget.content == 1
-                      ? "Отмечайте понравившиеся места и они появятся здесь"
-                      : "Завершите маршрут, чтобы место попало сюда",
+                      ? 'visiting_content.want_visit.empty.desc'.tr()
+                      : 'visiting_content.visited.empty.desc'.tr(),
                   textAlign: TextAlign.center,
                   style: smallText,
                 ),

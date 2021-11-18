@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/assets.dart';
@@ -25,7 +26,7 @@ class SearchBar extends StatelessWidget {
             color: Theme.of(context).focusColor,
           ),
       decoration: InputDecoration(
-        hintText: "Поиск",
+        hintText: 'search_bar.hint_text'.tr(),
         hintStyle: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
               fontWeight: FontWeight.w400,
               color: lmInactiveColor,

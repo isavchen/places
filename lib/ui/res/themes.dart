@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/slider_radius_search.dart';
@@ -21,6 +22,8 @@ final lightTheme = ThemeData(
     elevation: 0,
     centerTitle: true,
     titleTextStyle: lmMatHeadline6,
+    foregroundColor: lmAccentColor,
+    systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
   primaryTextTheme: TextTheme(
     headline6: lmMatHeadline6,
@@ -100,6 +103,8 @@ final darkTheme = ThemeData(
     elevation: 0,
     centerTitle: true,
     titleTextStyle: dmMatHeadline6,
+    foregroundColor: dmAccentColor,
+    systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   canvasColor: dmYellowColor,
   disabledColor: dmBackgroundColor,

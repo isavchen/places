@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/domain/sight.dart';
@@ -62,7 +63,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
                           SvgPicture.asset(bin),
                           SizedBox(height: 8.0),
                           Text(
-                            'Удалить',
+                            'draggable_widget.delete'.tr(),
                             style: lmCaptionText.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,

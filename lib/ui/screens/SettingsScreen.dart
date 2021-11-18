@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/main.dart';
@@ -18,7 +19,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Настройки"),
+        title: Text('settings.app_bar.title'.tr()),
         elevation: 0,
       ),
       body: Padding(
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Тёмная тема",
+                    'settings.dark_theme'.tr(),
                     style:
                         Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
@@ -62,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Смотреть туториал",
+                    'settings.tutorial'.tr(),
                     style:
                         Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
@@ -71,6 +72,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                       onPressed: () {
+                        //TODO: Настроить навигацию
                         Navigator.push(
                           context,
                           MaterialPageRoute(
