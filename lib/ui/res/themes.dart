@@ -86,6 +86,9 @@ final lightTheme = ThemeData(
     trackShape: CustomTrackShape(),
     trackHeight: 0.2,
   ),
+  bottomSheetTheme: BottomSheetThemeData(
+    backgroundColor: Colors.transparent,
+  ),
 );
 
 final darkTheme = ThemeData(
@@ -169,5 +172,8 @@ final darkTheme = ThemeData(
     thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8, elevation: 3),
     trackShape: CustomTrackShape(),
     trackHeight: 0.2,
+  ),
+  bottomSheetTheme: BottomSheetThemeData(
+    backgroundColor: Colors.transparent,
   ),
 );

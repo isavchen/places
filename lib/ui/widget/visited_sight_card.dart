@@ -6,15 +6,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsScreen.dart';
+import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
 
-class VisitedSightCard extends StatelessWidget {
+class VisitedSightCard extends StatefulWidget {
   final Function() onTapClose;
   final Sight sight;
   const VisitedSightCard(
       {Key? key, required this.sight, required this.onTapClose})
       : super(key: key);
 
+  @override
+  State<VisitedSightCard> createState() => _VisitedSightCardState();
+}
+
+class _VisitedSightCardState extends State<VisitedSightCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -29,12 +34,15 @@ class VisitedSightCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    widget.sight.url,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
                     colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.24),
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
@@ -65,7 +73,7 @@ class VisitedSightCard extends StatelessWidget {
                   top: 16.0,
                   left: 16.0,
                   child: Text(
-                    sight.type,
+                    widget.sight.type,
                     style:
                         Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
                               color: Colors.white,
@@ -93,7 +101,7 @@ class VisitedSightCard extends StatelessWidget {
                     width: double.infinity,
                     height: 20,
                     child: Text(
-                      sight.name,
+                      widget.sight.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).primaryTextTheme.subtitle1,
@@ -138,13 +146,7 @@ class VisitedSightCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SightDetailsScreen(
-                      sightId: sight.id,
-                    ),
-                  ),
-                );
+                _openDetailsScreen(widget.sight.id);
               },
             ),
           ),
@@ -179,7 +181,7 @@ class VisitedSightCard extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: onTapClose,
+              onTap: widget.onTapClose,
               borderRadius: BorderRadius.circular(30),
               child: Container(
                 padding: EdgeInsets.all(12.0),
@@ -194,6 +196,16 @@ class VisitedSightCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _openDetailsScreen(int sightId) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SightDetailsBottomsheet();
+      },
+      isScrollControlled: true,
     );
   }
 }

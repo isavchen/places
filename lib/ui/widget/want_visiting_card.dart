@@ -6,15 +6,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsScreen.dart';
+import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
 
-class WantVisitingCard extends StatelessWidget {
+class WantVisitingCard extends StatefulWidget {
   final Function() onTapClose;
   final Sight sight;
   const WantVisitingCard(
       {Key? key, required this.sight, required this.onTapClose})
       : super(key: key);
 
+  @override
+  State<WantVisitingCard> createState() => _WantVisitingCardState();
+}
+
+class _WantVisitingCardState extends State<WantVisitingCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -29,7 +34,7 @@ class WantVisitingCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    widget.sight.url,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
@@ -65,7 +70,7 @@ class WantVisitingCard extends StatelessWidget {
                   top: 16.0,
                   left: 16.0,
                   child: Text(
-                    sight.type,
+                    widget.sight.type,
                     style:
                         Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
                               color: Colors.white,
@@ -92,7 +97,7 @@ class WantVisitingCard extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     child: Text(
-                      sight.name,
+                      widget.sight.name,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).primaryTextTheme.subtitle1,
                     ),
@@ -142,13 +147,7 @@ class WantVisitingCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SightDetailsScreen(
-                      sightId: sight.id,
-                    ),
-                  ),
-                );
+                _openDetailsScreen(widget.sight.id);
               },
             ),
           ),
@@ -183,7 +182,7 @@ class WantVisitingCard extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: onTapClose,
+              onTap: widget.onTapClose,
               borderRadius: BorderRadius.circular(30),
               child: Container(
                 padding: EdgeInsets.all(12.0),
@@ -198,6 +197,16 @@ class WantVisitingCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _openDetailsScreen(int sightId) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SightDetailsBottomsheet();
+      },
+      isScrollControlled: true,
     );
   }
 }
