@@ -49,7 +49,10 @@
     "visiting_content.empty.title": "Пусто",
     "visiting_content.want_visit.empty.desc": "Отмечайте понравившиеся места и они появятся здесь",
     "visiting_content.visited.empty.desc": "Завершите маршрут, чтобы место попало сюда",
-
+    "dialog.button.cancel": "Отмена",
+    "dialog.title.camera": "Камера",
+    "dialog.title.photo": "Фотография",
+    "dialog.title.file": "Файл",
 
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ImageDialog extends StatelessWidget {
   const ImageDialog({Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class ImageDialog extends StatelessWidget {
                     ),
                     minLeadingWidth: 0,
                     title: Text(
-                      'Камера',
+                      'dialog.title.camera'.tr(),
                       style: lmMatBodyText2.copyWith(
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.secondary,
@@ -56,7 +57,7 @@ class ImageDialog extends StatelessWidget {
                     ),
                     minLeadingWidth: 0,
                     title: Text(
-                      'Фотография',
+                      'dialog.title.photo'.tr(),
                       style: lmMatBodyText2.copyWith(
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.secondary,
@@ -75,7 +76,7 @@ class ImageDialog extends StatelessWidget {
                     ),
                     minLeadingWidth: 0,
                     title: Text(
-                      'Файл',
+                      'dialog.title.file'.tr(),
                       style: lmMatBodyText2.copyWith(
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.secondary,
@@ -93,11 +94,27 @@ class ImageDialog extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             height: 48.0,
-            child: ElevatedButton(
-              child: Text('ОТМЕНА'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            child: Theme(
+              data: ThemeData(
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: Theme.of(context).elevatedButtonTheme.style!.copyWith(
+                        backgroundColor: MaterialStateProperty.all(
+                          Theme.of(context).primaryColor,
+                        ),
+                      ),
+                ),
+              ),
+              child: ElevatedButton(
+                child: Text(
+                  'dialog.button.cancel'.tr().toUpperCase(),
+                  style: textButton.copyWith(
+                    color: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
           ),
         ],
