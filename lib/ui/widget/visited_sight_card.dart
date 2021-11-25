@@ -8,18 +8,13 @@ import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
 
-class VisitedSightCard extends StatefulWidget {
+class VisitedSightCard extends StatelessWidget {
   final Function() onTapClose;
   final Sight sight;
   const VisitedSightCard(
       {Key? key, required this.sight, required this.onTapClose})
       : super(key: key);
 
-  @override
-  State<VisitedSightCard> createState() => _VisitedSightCardState();
-}
-
-class _VisitedSightCardState extends State<VisitedSightCard> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -34,7 +29,7 @@ class _VisitedSightCardState extends State<VisitedSightCard> {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    widget.sight.url,
+                    sight.url,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
@@ -73,7 +68,7 @@ class _VisitedSightCardState extends State<VisitedSightCard> {
                   top: 16.0,
                   left: 16.0,
                   child: Text(
-                    widget.sight.type,
+                    sight.type,
                     style:
                         Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
                               color: Colors.white,
@@ -101,7 +96,7 @@ class _VisitedSightCardState extends State<VisitedSightCard> {
                     width: double.infinity,
                     height: 20,
                     child: Text(
-                      widget.sight.name,
+                      sight.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).primaryTextTheme.subtitle1,
@@ -146,7 +141,7 @@ class _VisitedSightCardState extends State<VisitedSightCard> {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                _openDetailsScreen(widget.sight.id);
+                _openDetailsScreen(sight.id, context);
               },
             ),
           ),
@@ -181,7 +176,7 @@ class _VisitedSightCardState extends State<VisitedSightCard> {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: widget.onTapClose,
+              onTap: onTapClose,
               borderRadius: BorderRadius.circular(30),
               child: Container(
                 padding: EdgeInsets.all(12.0),
@@ -199,7 +194,7 @@ class _VisitedSightCardState extends State<VisitedSightCard> {
     );
   }
 
-  void _openDetailsScreen(int sightId) async {
+  void _openDetailsScreen(int sightId, BuildContext context) async {
     showModalBottomSheet(
       context: context,
       builder: (_) {

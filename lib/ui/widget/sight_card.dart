@@ -115,7 +115,9 @@ class SightCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.0),
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
-              onTap: () {},
+              onTap: () {
+                //TODO: фунцкионал кнопки
+              },
             ),
           ),
         ),

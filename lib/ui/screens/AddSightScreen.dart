@@ -111,7 +111,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       imageUrl: "",
                       key: ValueKey("addbutton"),
                       onPressed: () {
-                        _openImagePicker();
+                        _openImagePicker(context);
                       },
                     ),
                     // for (final photo in photoList)
@@ -401,14 +401,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
     );
   }
 
-  void _openImagePicker() {
+  void _openImagePicker(BuildContext context) {
     //TODO: принять нужное значение
     showDialog(
       context: context,
       builder: (_) {
         return ImageDialog();
       },
-      barrierDismissible: false,
     );
   }
 }

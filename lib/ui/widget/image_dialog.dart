@@ -18,75 +18,80 @@ class ImageDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 6.0,
-            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.0),
               color: Theme.of(context).primaryColor,
             ),
             child: Material(
               color: Colors.transparent,
-              child: Column(
-                children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-                    leading: SvgPicture.asset(
-                      icCamera,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    minLeadingWidth: 0,
-                    title: Text(
-                      'dialog.title.camera'.tr(),
-                      style: lmMatBodyText2.copyWith(
-                        fontSize: 16,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4.0,
+                  vertical: 6.0,
+                ),
+                child: Column(
+                  children: [
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 12.0),
+                      leading: SvgPicture.asset(
+                        icCamera,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
+                      minLeadingWidth: 0,
+                      title: Text(
+                        'dialog.title.camera'.tr(),
+                        style: lmMatBodyText2.copyWith(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop(true);
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  Divider(),
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-                    leading: SvgPicture.asset(
-                      icPhoto,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    minLeadingWidth: 0,
-                    title: Text(
-                      'dialog.title.photo'.tr(),
-                      style: lmMatBodyText2.copyWith(
-                        fontSize: 16,
+                    Divider(),
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 12.0),
+                      leading: SvgPicture.asset(
+                        icPhoto,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
+                      minLeadingWidth: 0,
+                      title: Text(
+                        'dialog.title.photo'.tr(),
+                        style: lmMatBodyText2.copyWith(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop(true);
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  Divider(),
-                  ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-                    leading: SvgPicture.asset(
-                      icFile,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    minLeadingWidth: 0,
-                    title: Text(
-                      'dialog.title.file'.tr(),
-                      style: lmMatBodyText2.copyWith(
-                        fontSize: 16,
+                    Divider(),
+                    ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 12.0),
+                      leading: SvgPicture.asset(
+                        icFile,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
+                      minLeadingWidth: 0,
+                      title: Text(
+                        'dialog.title.file'.tr(),
+                        style: lmMatBodyText2.copyWith(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pop(true);
+                      },
                     ),
-                    onTap: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
