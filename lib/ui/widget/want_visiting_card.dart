@@ -33,7 +33,10 @@ class WantVisitingCard extends StatelessWidget {
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.24),
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
@@ -154,8 +157,14 @@ class WantVisitingCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: функционал кнопки
-                print("Button Calendar");
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(
+                    Duration(days: 365),
+                  ),
+                );
               },
               borderRadius: BorderRadius.circular(20),
               child: Container(
