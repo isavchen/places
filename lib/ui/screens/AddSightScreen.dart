@@ -7,6 +7,7 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/ChooseCategoryScreen.dart';
+import 'package:places/ui/widget/image_dialog.dart';
 import 'package:places/ui/widget/new_photo_card.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 
@@ -110,10 +111,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       imageUrl: "",
                       key: ValueKey("addbutton"),
                       onPressed: () {
-                        setState(() {
-                          photoList.add(
-                              "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171__340.jpg");
-                        });
+                        _openImagePicker(context);
                       },
                     ),
                     // for (final photo in photoList)
@@ -166,7 +164,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            category.isEmpty ? 'add_sight.not_selected'.tr() : category,
+                            category.isEmpty
+                                ? 'add_sight.not_selected'.tr()
+                                : category,
                             style: Theme.of(context)
                                 .primaryTextTheme
                                 .subtitle1
@@ -345,13 +345,19 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
                           width: 2.0,
-                          color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(0.4),
                         ),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(0.4),
                         ),
                       ),
                       contentPadding:
@@ -392,6 +398,16 @@ class _AddSightScreenState extends State<AddSightScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _openImagePicker(BuildContext context) {
+    //TODO: принять нужное значение
+    showDialog(
+      context: context,
+      builder: (_) {
+        return ImageDialog();
+      },
     );
   }
 }

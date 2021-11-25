@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsScreen.dart';
+import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
 
 class VisitedSightCard extends StatelessWidget {
   final Function() onTapClose;
@@ -34,7 +34,10 @@ class VisitedSightCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
                     colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.24),
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
@@ -138,13 +141,7 @@ class VisitedSightCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SightDetailsScreen(
-                      sightId: sight.id,
-                    ),
-                  ),
-                );
+                _openDetailsScreen(sight.id, context);
               },
             ),
           ),
@@ -194,6 +191,16 @@ class VisitedSightCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _openDetailsScreen(int sightId, BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SightDetailsBottomsheet();
+      },
+      isScrollControlled: true,
     );
   }
 }

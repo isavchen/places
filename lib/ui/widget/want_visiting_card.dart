@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsScreen.dart';
+import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
 
 class WantVisitingCard extends StatelessWidget {
   final Function() onTapClose;
@@ -142,13 +142,7 @@ class WantVisitingCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => SightDetailsScreen(
-                      sightId: sight.id,
-                    ),
-                  ),
-                );
+                _openDetailsScreen(sight.id, context);
               },
             ),
           ),
@@ -198,6 +192,16 @@ class WantVisitingCard extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _openDetailsScreen(int sightId, BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return SightDetailsBottomsheet();
+      },
+      isScrollControlled: true,
     );
   }
 }
