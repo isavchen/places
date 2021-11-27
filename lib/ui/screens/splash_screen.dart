@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/HomePage.dart';
-import 'package:places/ui/screens/OnboardingScreen.dart';
+import 'package:places/ui/screens/home_page.dart';
+import 'package:places/ui/screens/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

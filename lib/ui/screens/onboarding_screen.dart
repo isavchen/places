@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/HomePage.dart';
+import 'package:places/ui/screens/home_page.dart';
 import 'package:places/ui/widget/page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {

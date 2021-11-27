@@ -6,7 +6,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/ChooseCategoryScreen.dart';
+import 'package:places/ui/screens/choose_category_screen.dart';
 import 'package:places/ui/widget/image_dialog.dart';
 import 'package:places/ui/widget/new_photo_card.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';

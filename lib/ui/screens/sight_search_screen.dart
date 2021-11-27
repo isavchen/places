@@ -9,7 +9,7 @@ import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/SightDetailsScreen.dart';
+import 'package:places/ui/screens/sight_details_screen.dart';
 import 'package:places/ui/utils/location_utils.dart';
 import 'package:places/ui/widget/search_bar.dart';
 

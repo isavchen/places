@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
-import 'package:places/ui/screens/SettingsScreen.dart';
-import 'package:places/ui/screens/SightListScreen.dart';
-import 'package:places/ui/screens/VisitingScreen.dart';
+import 'package:places/ui/screens/settings_screen.dart';
+import 'package:places/ui/screens/sight_list_screen.dart';
+import 'package:places/ui/screens/visiting_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

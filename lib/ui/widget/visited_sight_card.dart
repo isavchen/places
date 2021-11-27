@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
+import 'package:places/ui/screens/sight_details_bottomsheet_screen.dart';
 
 class VisitedSightCard extends StatelessWidget {
   final Function() onTapClose;
