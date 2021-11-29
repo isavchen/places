@@ -110,7 +110,6 @@ final darkTheme = ThemeData(
     systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   canvasColor: dmYellowColor,
-  disabledColor: dmBackgroundColor,
   errorColor: dmRedColor,
   highlightColor: Colors.transparent,
   primaryTextTheme: TextTheme(
@@ -145,8 +144,18 @@ final darkTheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) return dmBackgroundColor;
-          return dmGreenColor;
+          if (states.contains(MaterialState.disabled))
+            return dmBackgroundColor;
+          else
+            return dmGreenColor;
+        },
+      ),
+      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled))
+            return dmInactiveColor;
+          else
+            return Colors.white;
         },
       ),
       textStyle: MaterialStateProperty.all<TextStyle>(textButton),

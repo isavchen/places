@@ -117,9 +117,10 @@ class _SightListScreenState extends State<SightListScreen> {
                                         builder: (context) => FiltersScreen(),
                                       ),
                                     );
-                                    setState(() {
-                                      listSights = list;
-                                    });
+                                    if (list != null)
+                                      setState(() {
+                                        listSights = list;
+                                      });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(5.0),
