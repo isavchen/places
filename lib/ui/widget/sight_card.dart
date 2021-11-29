@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
+import 'package:places/ui/screens/sight_details_screen.dart';
 
 class SightCard extends StatelessWidget {
   final Sight sight;
@@ -25,7 +26,7 @@ class SightCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    sight.galery.first,
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
@@ -116,7 +117,13 @@ class SightCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                //TODO: фунцкионал кнопки
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SightDetailsScreen(
+                      sightId: sight.id,
+                    ),
+                  ),
+                );
               },
             ),
           ),
@@ -128,14 +135,14 @@ class SightCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: функционал кнопки
+                //TODO: функционал кнопки "Добавить в избранное"
                 print("Add to favorite");
               },
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 padding: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20)),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
                 child: SvgPicture.asset(
                   icHeart,
                   color: Colors.white,

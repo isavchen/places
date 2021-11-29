@@ -29,7 +29,7 @@ class VisitedSightCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    sight.galery.first,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
@@ -153,7 +153,7 @@ class VisitedSightCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: функционал кнопки
+                //TODO: функционал кнопки "Поделится"
                 print("Button Share");
               },
               borderRadius: BorderRadius.circular(20),
@@ -198,7 +198,9 @@ class VisitedSightCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return SightDetailsBottomsheet();
+        return SightDetailsBottomsheet(
+          sightId: sightId,
+        );
       },
       isScrollControlled: true,
     );

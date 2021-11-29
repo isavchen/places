@@ -285,7 +285,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(12.0),
                                 child: Image.network(
-                                  res.url,
+                                  res.galery.first,
                                   width: 56,
                                   height: 56,
                                   fit: BoxFit.cover,
@@ -420,7 +420,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('List Places'),
+              label: 'List Places',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -435,7 +435,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('Favorites'),
+              label: 'Favorites',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -450,7 +450,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('Settings'),
+              label: 'Settings',
             ),
           ],
         ),

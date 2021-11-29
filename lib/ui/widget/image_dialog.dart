@@ -47,7 +47,7 @@ class ImageDialog extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop('camera');
                       },
                     ),
                     Divider(),
@@ -67,7 +67,7 @@ class ImageDialog extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop('photo');
                       },
                     ),
                     Divider(),
@@ -87,7 +87,7 @@ class ImageDialog extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        Navigator.of(context).pop(true);
+                        Navigator.of(context).pop('file');
                       },
                     ),
                   ],

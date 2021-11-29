@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = currentIndex;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +40,8 @@ class _HomePageState extends State<HomePage> {
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           onTap: _onTap,
           items: [
             BottomNavigationBarItem(
@@ -55,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('List Places'),
+              label: 'List Places',
             ),
             // BottomNavigationBarItem(
             //   icon: SvgPicture.asset(
@@ -70,7 +72,7 @@ class _HomePageState extends State<HomePage> {
             //         .bottomNavigationBarTheme
             //         .selectedItemColor,
             //   ),
-            //   title: Text('Map'),
+            //   label: 'Map',
             // ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('Favorites'),
+              label: 'Favorites',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -100,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('Settings'),
+              label: 'Settings',
             ),
           ],
         ),

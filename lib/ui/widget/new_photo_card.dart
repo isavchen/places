@@ -32,7 +32,8 @@ class NewPhotoCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.0),
                   border: Border.all(
                     width: 2,
-                    color: Theme.of(context).colorScheme.surface.withOpacity(0.48),
+                    color:
+                        Theme.of(context).colorScheme.surface.withOpacity(0.48),
                   ),
                 ),
                 child: Center(
@@ -52,6 +53,14 @@ class NewPhotoCard extends StatelessWidget {
                 }
               },
               key: key ?? ValueKey('default'),
+              background: Align(
+                alignment: Alignment.bottomCenter,
+                child: Icon(
+                  Icons.keyboard_arrow_up_rounded,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 28,
+                ),
+              ),
               child: Stack(
                 children: [
                   ClipRRect(
@@ -62,7 +71,10 @@ class NewPhotoCard extends StatelessWidget {
                       width: 72,
                       height: 72,
                       colorBlendMode: BlendMode.srcATop,
-                      color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.24),
                     ),
                   ),
                   Positioned(
@@ -72,7 +84,7 @@ class NewPhotoCard extends StatelessWidget {
                       // onTap: state == 1 ? onPressed : null,
                       onTap: () {
                         if (onDelete != null) {
-                          onDelete!();  
+                          onDelete!();
                         }
                       },
                       child: Icon(

@@ -29,7 +29,7 @@ class WantVisitingCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    sight.galery.first,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
@@ -208,7 +208,9 @@ class WantVisitingCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return SightDetailsBottomsheet();
+        return SightDetailsBottomsheet(
+          sightId: sightId,
+        );
       },
       isScrollControlled: true,
     );

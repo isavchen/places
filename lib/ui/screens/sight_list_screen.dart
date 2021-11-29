@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
@@ -20,6 +21,7 @@ class SightListScreen extends StatefulWidget {
 
 class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
+  List<Sight> listSights = mocks;
   late Text _title = Text(
     'sight_list.title.expanded'.tr(),
     style: Theme.of(context)
@@ -108,12 +110,16 @@ class _SightListScreenState extends State<SightListScreen> {
                               child: Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
+                                  onTap: () async {
+                                    final list =
+                                        await Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => FiltersScreen(),
                                       ),
                                     );
+                                    setState(() {
+                                      listSights = list;
+                                    });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.all(5.0),
@@ -123,7 +129,8 @@ class _SightListScreenState extends State<SightListScreen> {
                                             BorderRadius.circular(10)),
                                     child: SvgPicture.asset(
                                       icFilter,
-                                      color: Theme.of(context).colorScheme.surface,
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
                                 ),
@@ -147,10 +154,10 @@ class _SightListScreenState extends State<SightListScreen> {
                     padding: index == 0
                         ? const EdgeInsets.all(16.0)
                         : const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                    child: SightCard(sight: mocks[index]),
+                    child: SightCard(sight: listSights[index]),
                   );
                 },
-                childCount: mocks.length,
+                childCount: listSights.length,
               ),
             ),
           ],

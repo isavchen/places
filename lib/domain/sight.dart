@@ -5,6 +5,7 @@ class Sight {
   String url;
   String details;
   String type;
+  List<String> galery;
 
   Sight({
     required this.id,
@@ -14,5 +15,6 @@ class Sight {
     required this.url,
     required this.details,
     required this.type,
+    required this.galery,
   });
 }

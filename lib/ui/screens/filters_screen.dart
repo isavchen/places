@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/location.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/utils/location_utils.dart';
@@ -18,7 +19,7 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  List filterList = [];
+  List<Sight> filterList = [];
   Location myLocation = Location(lat: 50.413475, lng: 30.525177);
   double _valueDistance = 8500;
   bool _valueHotel = true;
@@ -36,14 +37,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   void filterPlaces() {
-    List tempList = [];
+    List<Sight> tempList = [];
     for (final place in mocks) {
-      if (((place.type == 'Отель' && _valueHotel) ||
-              (place.type == 'Ресторан' && _valueRestourant) ||
-              (place.type == 'Особое место' && _valueSpacialPlace) ||
-              (place.type == 'Парк' && _valuePark) ||
-              (place.type == 'Музей' && _valueMuseum) ||
-              (place.type == 'Кафе' && _valueCafe)) &&
+      if (((place.type == 'отель' && _valueHotel) ||
+              (place.type == 'ресторан' && _valueRestourant) ||
+              (place.type == 'особое место' && _valueSpacialPlace) ||
+              (place.type == 'парк' && _valuePark) ||
+              (place.type == 'музей' && _valueMuseum) ||
+              (place.type == 'кафе' && _valueCafe)) &&
           (isPointsNear(Location(lat: place.lat, lng: place.lon), myLocation,
               _valueDistance / 1000))) tempList.add(place);
     }
@@ -184,7 +185,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: ElevatedButton(
-            onPressed: count == 0 ? null : () {},
+            onPressed: count == 0
+                ? null
+                : () {
+                    Navigator.of(context).pop(filterList);
+                  },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: Text(
