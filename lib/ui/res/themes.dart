@@ -89,6 +89,14 @@ final lightTheme = ThemeData(
   bottomSheetTheme: BottomSheetThemeData(
     backgroundColor: Colors.transparent,
   ),
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: lmPrimaryColor,
+    hourMinuteColor: Colors.lightGreen.withOpacity(0.15),
+    hourMinuteTextColor: Colors.lightGreen,
+    dialBackgroundColor: Colors.grey[300],
+    dialHandColor: Colors.lightGreen,
+    dialTextColor: Colors.black,
+  ),
 );
 
 final darkTheme = ThemeData(
@@ -184,5 +192,15 @@ final darkTheme = ThemeData(
   ),
   bottomSheetTheme: BottomSheetThemeData(
     backgroundColor: Colors.transparent,
+  ),
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: dmPrimaryColor,
+    hourMinuteColor: dmRedColor.withOpacity(0.15),
+    hourMinuteTextColor: dmRedColor,
+    dialBackgroundColor: dmInactiveColor,
+    dialHandColor: dmRedColor,
+    dialTextColor: Colors.white,
+    entryModeIconColor: Colors.white,
+    helpTextStyle: TextStyle(color: Colors.white),
   ),
 );

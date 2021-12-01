@@ -160,9 +160,14 @@ class WantVisitingCard extends StatelessWidget {
                 showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
+                  firstDate: DateTime.now().subtract(Duration(days: 100)),
                   lastDate: DateTime.now().add(
-                    Duration(days: 365),
+                    Duration(days: 100),
+                  ),
+                ).then(
+                  (value) => showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
                   ),
                 );
               },
