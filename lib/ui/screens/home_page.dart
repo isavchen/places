@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
-import 'package:places/ui/screens/SettingsScreen.dart';
-import 'package:places/ui/screens/SightListScreen.dart';
-import 'package:places/ui/screens/VisitingScreen.dart';
+import 'package:places/ui/screens/settings_screen.dart';
+import 'package:places/ui/screens/sight_list_screen.dart';
+import 'package:places/ui/screens/visiting_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = currentIndex;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +40,8 @@ class _HomePageState extends State<HomePage> {
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           onTap: _onTap,
           items: [
             BottomNavigationBarItem(
@@ -55,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('List Places'),
+              label: 'List Places',
             ),
             // BottomNavigationBarItem(
             //   icon: SvgPicture.asset(
@@ -70,7 +72,7 @@ class _HomePageState extends State<HomePage> {
             //         .bottomNavigationBarTheme
             //         .selectedItemColor,
             //   ),
-            //   title: Text('Map'),
+            //   label: 'Map',
             // ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('Favorites'),
+              label: 'Favorites',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -100,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                     .bottomNavigationBarTheme
                     .selectedItemColor,
               ),
-              title: Text('Settings'),
+              label: 'Settings',
             ),
           ],
         ),

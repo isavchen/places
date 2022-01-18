@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
+import 'package:places/ui/screens/sight_details_bottomsheet_screen.dart';
 
 class WantVisitingCard extends StatelessWidget {
   final Function() onTapClose;
@@ -29,11 +29,14 @@ class WantVisitingCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    sight.galery.first,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.24),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.24),
                     fit: BoxFit.cover,
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
@@ -43,7 +46,7 @@ class WantVisitingCard extends StatelessWidget {
                       return Center(
                         child: Platform.isAndroid
                             ? CircularProgressIndicator(
-                                color: Color(0xFF252849),
+                                color: Theme.of(context).colorScheme.secondary,
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -154,8 +157,19 @@ class WantVisitingCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: функционал кнопки
-                print("Button Calendar");
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now().subtract(Duration(days: 100)),
+                  lastDate: DateTime.now().add(
+                    Duration(days: 100),
+                  ),
+                ).then(
+                  (value) => showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  ),
+                );
               },
               borderRadius: BorderRadius.circular(20),
               child: Container(
@@ -199,7 +213,9 @@ class WantVisitingCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return SightDetailsBottomsheet();
+        return SightDetailsBottomsheet(
+          sightId: sightId,
+        );
       },
       isScrollControlled: true,
     );

@@ -1,8 +1,10 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:places/main.dart';
-import 'package:places/ui/screens/OnboardingScreen.dart';
+import 'package:places/ui/screens/onboarding_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  // ignore: unused_field
   bool _isDarkTheme = false;
 
   @override
@@ -48,6 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() {
                         _isDarkTheme = currentValue;
                       });
+                      // ignore: invalid_use_of_visible_for_testing_member
                       changeNotifier.notifyListeners();
                     },
                   ),
@@ -72,9 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   IconButton(
                       onPressed: () {
-                        //TODO: Настроить навигацию
-                        Navigator.push(
-                          context,
+                        Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (context) => OnboardingScreen(),
                           ),

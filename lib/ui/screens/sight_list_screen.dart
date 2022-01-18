@@ -1,25 +1,47 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/domain/filter.dart';
+import 'package:places/domain/location.dart';
+import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/AddSightScreen.dart';
-import 'package:places/ui/screens/FiltersScreen.dart';
-import 'package:places/ui/screens/SightSearchScreen.dart';
+import 'package:places/ui/screens/add_sight_screen.dart';
+import 'package:places/ui/screens/filters_screen.dart';
+import 'package:places/ui/screens/sight_search_screen.dart';
+import 'package:places/ui/utils/filtration_utils.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
+  final Filter? filter;
+
+  const SightListScreen({Key? key, this.filter}) : super(key: key);
+
   @override
   _SightListScreenState createState() => _SightListScreenState();
 }
 
 class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
+  Location myLocation = Location(lat: 50.413475, lng: 30.525177);
+  List<Sight> listSights = mocks;
+  Filter filter = Filter(
+    radius: 10000,
+    categoryType: {
+      CategoryType.cafe: true,
+      CategoryType.hotel: true,
+      CategoryType.myseum: true,
+      CategoryType.park: true,
+      CategoryType.restaurant: true,
+      CategoryType.star: true,
+    },
+  );
   late Text _title = Text(
     'sight_list.title.expanded'.tr(),
     style: Theme.of(context)
@@ -30,7 +52,16 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   void initState() {
-    super.initState();
+    if (widget.filter != null) {
+      setState(() {
+        filter = widget.filter!;
+        listSights = filtrationPlace(
+          filter: filter,
+          incomingList: mocks,
+          location: myLocation,
+        );
+      });
+    }
     _scrollController = ScrollController()
       ..addListener(() {
         setState(() {
@@ -45,6 +76,7 @@ class _SightListScreenState extends State<SightListScreen> {
               : Text('sight_list.title.normal'.tr());
         });
       });
+    super.initState();
   }
 
   @override
@@ -94,7 +126,9 @@ class _SightListScreenState extends State<SightListScreen> {
                                   PageRouteBuilder(
                                     pageBuilder:
                                         (context, animation1, animation2) =>
-                                            SightSearchScreen(),
+                                            SightSearchScreen(
+                                      filter: filter,
+                                    ),
                                   ),
                                 );
                               },
@@ -103,27 +137,38 @@ class _SightListScreenState extends State<SightListScreen> {
                               ),
                             ),
                             Positioned(
-                              top: 12,
-                              right: 15,
+                              top: 5,
+                              right: 8,
                               child: Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
+                                  borderRadius: BorderRadius.circular(10),
+                                  onTap: () async {
+                                    final searchFilter =
+                                        await Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => FiltersScreen(),
+                                        builder: (context) => FiltersScreen(
+                                          filter: filter,
+                                        ),
                                       ),
                                     );
+                                    if (searchFilter != null) {
+                                      setState(() {
+                                        filter = searchFilter;
+                                        listSights = filtrationPlace(
+                                          filter: filter,
+                                          incomingList: mocks,
+                                          location: myLocation,
+                                        );
+                                      });
+                                    }
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                        // color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                    padding: EdgeInsets.all(12.0),
                                     child: SvgPicture.asset(
                                       icFilter,
-                                      color: Theme.of(context).colorScheme.surface,
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
                                     ),
                                   ),
                                 ),
@@ -147,10 +192,10 @@ class _SightListScreenState extends State<SightListScreen> {
                     padding: index == 0
                         ? const EdgeInsets.all(16.0)
                         : const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                    child: SightCard(sight: mocks[index]),
+                    child: SightCard(sight: listSights[index]),
                   );
                 },
-                childCount: mocks.length,
+                childCount: listSights.length,
               ),
             ),
           ],
@@ -173,10 +218,51 @@ class _SightListScreenState extends State<SightListScreen> {
           highlightElevation: 0,
           backgroundColor: Colors.transparent,
           splashColor: Colors.transparent,
-          onPressed: () {
-            Navigator.of(context).push(
+          onPressed: () async {
+            final newSight = await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => AddSightScreen()),
             );
+            if (newSight != null) {
+              await showDialog(
+                context: context,
+                builder: (_) => Platform.isIOS
+                    ? CupertinoAlertDialog(
+                        title: Text(
+                          'add_sight.sight_created_dialog.title'.tr(),
+                        ),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: Text(
+                              'add_sight.sight_created_dialog.button.title'
+                                  .tr(),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      )
+                    : AlertDialog(
+                        title: Text(
+                          'add_sight.sight_created_dialog.title'.tr(),
+                        ),
+                        actions: [
+                          TextButton(
+                            child: Text(
+                              'add_sight.sight_created_dialog.button.title'
+                                  .tr(),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ),
+              );
+              setState(() {
+                listSights = filtrationPlace(
+                  filter: filter,
+                  incomingList: mocks,
+                  location: myLocation,
+                );
+              });
+            }
           },
           label: Container(
             child: Text(

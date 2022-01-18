@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/ChooseCategoryScreen.dart';
+import 'package:places/ui/screens/choose_category_screen.dart';
 import 'package:places/ui/widget/image_dialog.dart';
 import 'package:places/ui/widget/new_photo_card.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
@@ -29,19 +30,15 @@ class _AddSightScreenState extends State<AddSightScreen> {
   FocusNode lonFocusNode = FocusNode();
   FocusNode descFocusNode = FocusNode();
 
-  List<String> photoList = [
-    "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
-    "https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg",
-    "https://www.dreamsbook.com.ua/uploads/15747xJILGQdTEiVPzpKH.jpg",
-    "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg",
-  ];
+  List<String> photoList = [];
 
   bool isValid() {
     if (titleTextEditingController.text.isNotEmpty &&
         latTextEditingController.text.isNotEmpty &&
         lonTextEditingController.text.isNotEmpty &&
         descTextEditingController.text.isNotEmpty &&
-        category.isNotEmpty) return true;
+        category.isNotEmpty &&
+        photoList.isNotEmpty) return true;
     return false;
   }
 
@@ -69,6 +66,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
     lonFocusNode.dispose();
     descFocusNode.dispose();
     super.dispose();
+  }
+
+  String? requiredValidator(String? value) {
+    if (value != null && value.trim().length > 0) {
+      return null;
+    } else {
+      return 'add_sight.validate.required_field'.tr();
+    }
   }
 
   @override
@@ -191,7 +196,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
             // Текстовое поле ввода названия
             Container(
-              height: 68.0,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,6 +209,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     hintText: 'add_sight.enter_name'.tr().toLowerCase(),
                     controller: titleTextEditingController,
                     focus: titleFocusNode,
+                    validator: requiredValidator,
                     textInputAction: TextInputAction.next,
                     onSubmitted: (_) {
                       latFocusNode.requestFocus();
@@ -221,7 +226,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
             // Текстовые поля ввода долготы и широты
 
             Container(
-              height: 68.0,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
                 children: [
@@ -240,6 +244,12 @@ class _AddSightScreenState extends State<AddSightScreen> {
                             controller: latTextEditingController,
                             focus: latFocusNode,
                             textInputAction: TextInputAction.next,
+                            validator: requiredValidator,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]'),
+                              ),
+                            ],
                             onSubmitted: (_) {
                               lonFocusNode.requestFocus();
                             },
@@ -261,7 +271,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'add_sight.longitude'.toUpperCase(),
+                            'add_sight.longitude'.tr().toUpperCase(),
                             style: smallText.copyWith(fontSize: 12.0),
                           ),
                           MyTextField(
@@ -269,6 +279,12 @@ class _AddSightScreenState extends State<AddSightScreen> {
                             controller: lonTextEditingController,
                             focus: lonFocusNode,
                             textInputAction: TextInputAction.next,
+                            validator: requiredValidator,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9\.]'),
+                              ),
+                            ],
                             onSubmitted: (_) {
                               descFocusNode.requestFocus();
                             },
@@ -290,7 +306,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
               alignment: Alignment.centerLeft,
               child: TextButton(
                 onPressed: () {
-                  //TODO: функионал кнопки
+                  //TODO: функионал кнопки "Указать на карте"
                   print("Указать на карте");
                 },
                 child: Text('add_sight.point_on_map'.tr()),
@@ -300,7 +316,6 @@ class _AddSightScreenState extends State<AddSightScreen> {
 
             //текстовое поле ввода описания
             Container(
-              height: 108.0,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,12 +325,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     'add_sight.description'.tr().toUpperCase(),
                     style: smallText.copyWith(fontSize: 12.0),
                   ),
-                  TextField(
+                  TextFormField(
                     maxLines: 3,
                     controller: descTextEditingController,
                     focusNode: descFocusNode,
+                    validator: requiredValidator,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     textInputAction: TextInputAction.done,
-                    onSubmitted: (_) {
+                    onFieldSubmitted: (_) {
                       descFocusNode.unfocus();
                     },
                     onChanged: (String val) {
@@ -360,6 +377,19 @@ class _AddSightScreenState extends State<AddSightScreen> {
                               .withOpacity(0.4),
                         ),
                       ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide(
+                          color: Theme.of(context).errorColor,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: BorderSide(
+                          width: 2.0,
+                          color: Theme.of(context).errorColor,
+                        ),
+                      ),
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     ),
@@ -379,16 +409,19 @@ class _AddSightScreenState extends State<AddSightScreen> {
           child: ElevatedButton(
             onPressed: isValid()
                 ? () {
-                    mocks.add(Sight(
-                        id: 42,
-                        name: titleTextEditingController.text,
-                        lat: double.parse(latTextEditingController.text),
-                        lon: double.parse(lonTextEditingController.text),
-                        url:
-                            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1280px-Image_created_with_a_mobile_phone.png",
-                        details: descTextEditingController.text,
-                        type: category));
-                    Navigator.of(context).pop();
+                    mocks.add(
+                      Sight(
+                        id: mocks.last.id + 1,
+                        name: titleTextEditingController.text.trim(),
+                        lat: double.parse(latTextEditingController.text.trim()),
+                        lon: double.parse(lonTextEditingController.text.trim()),
+                        url: photoList.first,
+                        details: descTextEditingController.text.trim(),
+                        galery: photoList,
+                        type: category.toLowerCase(),
+                      ),
+                    );
+                    Navigator.of(context).pop(true);
                   }
                 : null,
             child: Padding(
@@ -401,14 +434,31 @@ class _AddSightScreenState extends State<AddSightScreen> {
     );
   }
 
-  void _openImagePicker(BuildContext context) {
-    //TODO: принять нужное значение
-    showDialog(
+  void _openImagePicker(BuildContext context) async {
+    final res = await showDialog(
       context: context,
       builder: (_) {
         return ImageDialog();
       },
     );
+    if (res != null) {
+      setState(() {
+        switch (res) {
+          case 'camera':
+            photoList.add(
+                "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg");
+            break;
+          case 'photo':
+            photoList.add(
+                "https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg");
+            break;
+          case 'file':
+            photoList.add(
+                "https://www.dreamsbook.com.ua/uploads/15747xJILGQdTEiVPzpKH.jpg");
+            break;
+        }
+      });
+    }
   }
 }
 
@@ -419,6 +469,9 @@ class MyTextField extends StatelessWidget {
   final TextInputAction textInputAction;
   final Function(String) onSubmitted;
   final Function(String) onChanged;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
   const MyTextField({
     Key? key,
     required this.controller,
@@ -427,15 +480,22 @@ class MyTextField extends StatelessWidget {
     required this.onSubmitted,
     required this.onChanged,
     this.hintText,
+    this.inputFormatters,
+    this.keyboardType,
+    this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       focusNode: focus,
       textInputAction: textInputAction,
-      onSubmitted: onSubmitted,
+      onFieldSubmitted: onSubmitted,
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: validator,
       cursorColor: Theme.of(context).colorScheme.secondary,
       onChanged: onChanged,
       style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
@@ -461,6 +521,19 @@ class MyTextField extends StatelessWidget {
           borderSide: BorderSide(
             width: 2.0,
             color: Theme.of(context).colorScheme.surface.withOpacity(0.4),
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(
+            color: Theme.of(context).errorColor,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(
+            width: 2.0,
+            color: Theme.of(context).errorColor,
           ),
         ),
         enabledBorder: OutlineInputBorder(

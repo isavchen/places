@@ -89,6 +89,14 @@ final lightTheme = ThemeData(
   bottomSheetTheme: BottomSheetThemeData(
     backgroundColor: Colors.transparent,
   ),
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: lmPrimaryColor,
+    hourMinuteColor: Colors.lightGreen.withOpacity(0.15),
+    hourMinuteTextColor: Colors.lightGreen,
+    dialBackgroundColor: Colors.grey[300],
+    dialHandColor: Colors.lightGreen,
+    dialTextColor: Colors.black,
+  ),
 );
 
 final darkTheme = ThemeData(
@@ -110,7 +118,6 @@ final darkTheme = ThemeData(
     systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   canvasColor: dmYellowColor,
-  disabledColor: dmBackgroundColor,
   errorColor: dmRedColor,
   highlightColor: Colors.transparent,
   primaryTextTheme: TextTheme(
@@ -145,8 +152,18 @@ final darkTheme = ThemeData(
     style: ButtonStyle(
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
         (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) return dmBackgroundColor;
-          return dmGreenColor;
+          if (states.contains(MaterialState.disabled))
+            return dmBackgroundColor;
+          else
+            return dmGreenColor;
+        },
+      ),
+      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled))
+            return dmInactiveColor;
+          else
+            return Colors.white;
         },
       ),
       textStyle: MaterialStateProperty.all<TextStyle>(textButton),
@@ -175,5 +192,15 @@ final darkTheme = ThemeData(
   ),
   bottomSheetTheme: BottomSheetThemeData(
     backgroundColor: Colors.transparent,
+  ),
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: dmPrimaryColor,
+    hourMinuteColor: dmRedColor.withOpacity(0.15),
+    hourMinuteTextColor: dmRedColor,
+    dialBackgroundColor: dmInactiveColor,
+    dialHandColor: dmRedColor,
+    dialTextColor: Colors.white,
+    entryModeIconColor: Colors.white,
+    helpTextStyle: TextStyle(color: Colors.white),
   ),
 );

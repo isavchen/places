@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/SightDetailsBottomsheet.dart';
+import 'package:places/ui/screens/sight_details_bottomsheet_screen.dart';
 
 class VisitedSightCard extends StatelessWidget {
   final Function() onTapClose;
@@ -29,7 +29,7 @@ class VisitedSightCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.url,
+                    sight.galery.first,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     fit: BoxFit.cover,
@@ -46,7 +46,7 @@ class VisitedSightCard extends StatelessWidget {
                       return Center(
                         child: Platform.isAndroid
                             ? CircularProgressIndicator(
-                                color: Color(0xFF252849),
+                                color: Theme.of(context).colorScheme.secondary,
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -153,7 +153,7 @@ class VisitedSightCard extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: функционал кнопки
+                //TODO: функционал кнопки "Поделится"
                 print("Button Share");
               },
               borderRadius: BorderRadius.circular(20),
@@ -198,7 +198,9 @@ class VisitedSightCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return SightDetailsBottomsheet();
+        return SightDetailsBottomsheet(
+          sightId: sightId,
+        );
       },
       isScrollControlled: true,
     );

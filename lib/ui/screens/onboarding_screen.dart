@@ -4,7 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/HomePage.dart';
+import 'package:places/ui/screens/home_page.dart';
+import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -17,6 +18,24 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   PageController _pageController = PageController();
   bool isLastPageView = false;
+
+  final List<OnboardingPage> _onboardingPages = [
+    OnboardingPage(
+      image: onboarding_1,
+      title: 'onboarding.first_page.title'.tr(),
+      subtitle: 'onboarding.first_page.subtitle'.tr(),
+    ),
+    OnboardingPage(
+      image: onboarding_2,
+      title: 'onboarding.second_page.title'.tr(),
+      subtitle: 'onboarding.second_page.subtitle'.tr(),
+    ),
+    OnboardingPage(
+      image: onboarding_3,
+      title: 'onboarding.third_page.title'.tr(),
+      subtitle: 'onboarding.third_page.subtitle'.tr(),
+    ),
+  ];
 
   void _pageChanged(int index) {
     if (index == 2) {
@@ -39,9 +58,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           !isLastPageView
               ? TextButton(
                   onPressed: () {
-                    _pageController.animateToPage(2,
-                        duration: Duration(microseconds: 500),
-                        curve: Curves.linear);
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => HomePage(),
+                      ),
+                    );
                   },
                   child: Text(
                     'onboarding.skip'.tr(),
@@ -50,47 +71,31 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               : SizedBox(),
         ],
       ),
-      body: Container(
-        // color: Colors.blue,
-        child: Stack(
-          children: [
-            PageView(
-              controller: _pageController,
-              onPageChanged: _pageChanged,
-              children: [
-                OnboardingPage(
-                  image: onboarding_1,
-                  title: 'onboarding.first_page.title'.tr(),
-                  subtitle: 'onboarding.first_page.subtitle'.tr(),
-                ),
-                OnboardingPage(
-                  image: onboarding_2,
-                  title: 'onboarding.second_page.title'.tr(),
-                  subtitle: 'onboarding.second_page.subtitle'.tr(),
-                ),
-                OnboardingPage(
-                  image: onboarding_3,
-                  title: 'onboarding.third_page.title'.tr(),
-                  subtitle: 'onboarding.third_page.subtitle'.tr(),
-                ),
-              ],
-            ),
-            Positioned(
-              bottom: 24.0,
-              child: Container(
-                // color: Colors.yellow,
-                child: PageIndicator(
-                  controller: _pageController,
-                  itemCount: 3,
-                  selectedColor: Theme.of(context).colorScheme.surface,
-                  normalColor: lmInactiveColor,
-                  width: 24.0,
-                  dotWidth: 8,
-                ),
+      body: Column(
+        children: [
+          Flexible(
+            child: OverscrollGlowAbsorber(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: _pageChanged,
+                children: _onboardingPages,
               ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            child: PageIndicator(
+              controller: _pageController,
+              itemCount: 3,
+              selectedColor: Theme.of(context).colorScheme.surface,
+              normalColor: lmInactiveColor,
+              width: 24.0,
+              dotWidth: 8,
+            ),
+          ),
+          SizedBox(
+            height: 24.0,
+          ),
+        ],
       ),
       bottomNavigationBar: isLastPageView
           ? SafeArea(
@@ -112,8 +117,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
             )
-          : SizedBox(
-              height: 64.0,
+          : SafeArea(
+              child: SizedBox(
+                height: 64.0,
+              ),
             ),
     );
   }
