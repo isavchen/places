@@ -2,17 +2,19 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/utils/location_utils.dart';
+import 'package:places/ui/utils/filtration_utils.dart';
 import 'package:places/ui/widget/filter_item.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/slider_radius_search.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({Key? key}) : super(key: key);
+  final Filter filter;
+  const FiltersScreen({Key? key, required this.filter}) : super(key: key);
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
@@ -21,33 +23,22 @@ class FiltersScreen extends StatefulWidget {
 class _FiltersScreenState extends State<FiltersScreen> {
   List<Sight> filterList = [];
   Location myLocation = Location(lat: 50.413475, lng: 30.525177);
-  double _valueDistance = 8500;
-  bool _valueHotel = true;
-  bool _valueRestourant = true;
-  bool _valueSpacialPlace = true;
-  bool _valuePark = true;
-  bool _valueMuseum = true;
-  bool _valueCafe = true;
+  late Filter filter;
   int count = 0;
 
   @override
   void initState() {
     super.initState();
-    filterPlaces();
+    setState(() {
+      filter = widget.filter;
+    });
+    _filtrationPlace();
   }
 
-  void filterPlaces() {
-    List<Sight> tempList = [];
-    for (final place in mocks) {
-      if (((place.type == 'отель' && _valueHotel) ||
-              (place.type == 'ресторан' && _valueRestourant) ||
-              (place.type == 'особое место' && _valueSpacialPlace) ||
-              (place.type == 'парк' && _valuePark) ||
-              (place.type == 'музей' && _valueMuseum) ||
-              (place.type == 'кафе' && _valueCafe)) &&
-          (isPointsNear(Location(lat: place.lat, lng: place.lon), myLocation,
-              _valueDistance / 1000))) tempList.add(place);
-    }
+  void _filtrationPlace() {
+    List<Sight> tempList = filtrationPlace(
+        filter: filter, incomingList: mocks, location: myLocation);
+
     setState(() {
       filterList = tempList;
       count = filterList.length;
@@ -63,15 +54,16 @@ class _FiltersScreenState extends State<FiltersScreen> {
           TextButton(
             onPressed: () {
               setState(() {
-                _valueHotel = false;
-                _valueRestourant = false;
-                _valueSpacialPlace = false;
-                _valuePark = false;
-                _valueMuseum = false;
-                _valueCafe = false;
-                _valueDistance = 10000;
+                filter = filter.copyWith(categoryType: {
+                  CategoryType.cafe: false,
+                  CategoryType.hotel: false,
+                  CategoryType.myseum: false,
+                  CategoryType.park: false,
+                  CategoryType.restaurant: false,
+                  CategoryType.star: false,
+                }, radius: 10000);
               });
-              filterPlaces();
+              _filtrationPlace();
             },
             child: Text('filters.clear_button'.tr()),
           ),
@@ -102,62 +94,121 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   children: [
                     FilterItem(
                       category: mocksCategory[0],
-                      value: _valueHotel,
+                      value: filter.categoryType[CategoryType.hotel]!,
                       onChanged: (currentValue) {
                         setState(() {
-                          _valueHotel = currentValue;
+                          filter = filter.copyWith(
+                            categoryType: {
+                              CategoryType.cafe:
+                                  filter.categoryType[CategoryType.cafe]!,
+                              CategoryType.hotel: currentValue,
+                              CategoryType.myseum:
+                                  filter.categoryType[CategoryType.myseum]!,
+                              CategoryType.park:
+                                  filter.categoryType[CategoryType.park]!,
+                              CategoryType.restaurant:
+                                  filter.categoryType[CategoryType.restaurant]!,
+                              CategoryType.star:
+                                  filter.categoryType[CategoryType.star]!,
+                            },
+                          );
                         });
-                        filterPlaces();
+                        _filtrationPlace();
                       },
                     ),
                     FilterItem(
                       category: mocksCategory[1],
-                      value: _valueRestourant,
+                      value: filter.categoryType[CategoryType.restaurant]!,
                       onChanged: (currentValue) {
                         setState(() {
-                          _valueRestourant = currentValue;
+                          filter = filter.copyWith(
+                            categoryType: {
+                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
+                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
+                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
+                              CategoryType.park: filter.categoryType[CategoryType.park]!,
+                              CategoryType.restaurant: currentValue,
+                              CategoryType.star: filter.categoryType[CategoryType.star]!,
+                            },
+                          );
                         });
-                        filterPlaces();
+                        _filtrationPlace();
                       },
                     ),
                     FilterItem(
                       category: mocksCategory[2],
-                      value: _valueSpacialPlace,
+                      value: filter.categoryType[CategoryType.star]!,
                       onChanged: (currentValue) {
                         setState(() {
-                          _valueSpacialPlace = currentValue;
+                         filter = filter.copyWith(
+                            categoryType: {
+                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
+                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
+                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
+                              CategoryType.park: filter.categoryType[CategoryType.park]!,
+                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
+                              CategoryType.star: currentValue,
+                            },
+                          );
                         });
-                        filterPlaces();
+                        _filtrationPlace();
                       },
                     ),
                     FilterItem(
                       category: mocksCategory[3],
-                      value: _valuePark,
+                      value: filter.categoryType[CategoryType.park]!,
                       onChanged: (currentValue) {
                         setState(() {
-                          _valuePark = currentValue;
+                          filter = filter.copyWith(
+                            categoryType: {
+                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
+                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
+                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
+                              CategoryType.park: currentValue,
+                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
+                              CategoryType.star: filter.categoryType[CategoryType.star]!,
+                            },
+                          );
                         });
-                        filterPlaces();
+                        _filtrationPlace();
                       },
                     ),
                     FilterItem(
                       category: mocksCategory[4],
-                      value: _valueMuseum,
+                      value: filter.categoryType[CategoryType.myseum]!,
                       onChanged: (currentValue) {
                         setState(() {
-                          _valueMuseum = currentValue;
+                          filter = filter.copyWith(
+                            categoryType: {
+                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
+                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
+                              CategoryType.myseum: currentValue,
+                              CategoryType.park: filter.categoryType[CategoryType.park]!,
+                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
+                              CategoryType.star: filter.categoryType[CategoryType.star]!,
+                            },
+                          );
                         });
-                        filterPlaces();
+                          _filtrationPlace();
                       },
                     ),
                     FilterItem(
                       category: mocksCategory[5],
-                      value: _valueCafe,
+                      value: filter.categoryType[CategoryType.cafe]!,
                       onChanged: (currentValue) {
                         setState(() {
-                          _valueCafe = currentValue;
+                          filter = filter.copyWith(
+                            categoryType: {
+                              CategoryType.cafe: currentValue,
+                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
+                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
+                              CategoryType.park: filter.categoryType[CategoryType.park]!,
+                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
+                              CategoryType.star: filter.categoryType[CategoryType.star]!,
+                            },
+                          );
                         });
-                        filterPlaces();
+                        _filtrationPlace();
                       },
                     ),
                   ],
@@ -169,12 +220,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 top: 56,
               ),
               child: SliderRadiusSearch(
-                value: _valueDistance,
+                value: filter.radius,
                 onChanged: (currentValue) {
                   setState(() {
-                    _valueDistance = currentValue;
+                    filter = filter.copyWith(radius: currentValue);
                   });
-                  filterPlaces();
+                  _filtrationPlace();
                 },
               ),
             ),
@@ -188,7 +239,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             onPressed: count == 0
                 ? null
                 : () {
-                    Navigator.of(context).pop(filterList);
+                    Navigator.of(context).pop(filter);
                   },
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),

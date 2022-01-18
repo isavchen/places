@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/domain/filter.dart';
+import 'package:places/domain/location.dart';
 import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
@@ -10,18 +12,35 @@ import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/add_sight_screen.dart';
 import 'package:places/ui/screens/filters_screen.dart';
 import 'package:places/ui/screens/sight_search_screen.dart';
+import 'package:places/ui/utils/filtration_utils.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/search_bar.dart';
 import 'package:places/ui/widget/sight_card.dart';
 
 class SightListScreen extends StatefulWidget {
+  final Filter? filter;
+
+  const SightListScreen({Key? key, this.filter}) : super(key: key);
+
   @override
   _SightListScreenState createState() => _SightListScreenState();
 }
 
 class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
+  Location myLocation = Location(lat: 50.413475, lng: 30.525177);
   List<Sight> listSights = mocks;
+  Filter filter = Filter(
+    radius: 10000,
+    categoryType: {
+      CategoryType.cafe: true,
+      CategoryType.hotel: true,
+      CategoryType.myseum: true,
+      CategoryType.park: true,
+      CategoryType.restaurant: true,
+      CategoryType.star: true,
+    },
+  );
   late Text _title = Text(
     'sight_list.title.expanded'.tr(),
     style: Theme.of(context)
@@ -32,7 +51,16 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   void initState() {
-    super.initState();
+    if (widget.filter != null) {
+    setState(() {
+      filter = widget.filter!;
+      listSights = filtrationPlace(
+        filter: filter,
+        incomingList: mocks,
+        location: myLocation,
+      );
+    });
+    }
     _scrollController = ScrollController()
       ..addListener(() {
         setState(() {
@@ -47,6 +75,7 @@ class _SightListScreenState extends State<SightListScreen> {
               : Text('sight_list.title.normal'.tr());
         });
       });
+    super.initState();
   }
 
   @override
@@ -96,7 +125,7 @@ class _SightListScreenState extends State<SightListScreen> {
                                   PageRouteBuilder(
                                     pageBuilder:
                                         (context, animation1, animation2) =>
-                                            SightSearchScreen(),
+                                            SightSearchScreen(filter: filter,),
                                   ),
                                 );
                               },
@@ -105,29 +134,34 @@ class _SightListScreenState extends State<SightListScreen> {
                               ),
                             ),
                             Positioned(
-                              top: 12,
-                              right: 15,
+                              top: 5,
+                              right: 8,
                               child: Material(
                                 color: Colors.transparent,
                                 child: InkWell(
+                                  borderRadius: BorderRadius.circular(10),
                                   onTap: () async {
-                                    final list =
+                                    final searchFilter =
                                         await Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => FiltersScreen(),
+                                        builder: (context) => FiltersScreen(
+                                          filter: filter,
+                                        ),
                                       ),
                                     );
-                                    if (list != null)
+                                    if (searchFilter != null) {
                                       setState(() {
-                                        listSights = list;
+                                        filter = searchFilter;
+                                        listSights = filtrationPlace(
+                                          filter: filter,
+                                          incomingList: mocks,
+                                          location: myLocation,
+                                        );
                                       });
+                                    }
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.all(5.0),
-                                    decoration: BoxDecoration(
-                                        // color: Colors.red,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                    padding: EdgeInsets.all(12.0),
                                     child: SvgPicture.asset(
                                       icFilter,
                                       color:

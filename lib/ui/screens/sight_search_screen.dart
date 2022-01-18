@@ -4,17 +4,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/sight_details_screen.dart';
-import 'package:places/ui/utils/location_utils.dart';
+import 'package:places/ui/utils/filtration_utils.dart';
 import 'package:places/ui/widget/search_bar.dart';
 
 class SightSearchScreen extends StatefulWidget {
-  const SightSearchScreen({Key? key}) : super(key: key);
+  final Filter filter;
+  const SightSearchScreen({Key? key, required this.filter}) : super(key: key);
 
   @override
   _SightSearchScreenState createState() => _SightSearchScreenState();
@@ -25,7 +27,6 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
   Location myLocation = Location(lat: 50.414855, lng: 30.531350);
   List<String> bufferSearchList = ["Булочки", "Пицца"];
   List searchResoult = [];
-  double radius = 8;
   bool _showResoultList = false;
   bool _errorState = false;
   bool _isLoading = false;
@@ -35,16 +36,16 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
       _isLoading = true;
     });
     imitationLoading();
-    for (final mock in mocks) {
-      if (mock.name
-              .toLowerCase()
-              .contains(searchTextController.text.trim().toLowerCase()) &&
-          isPointsNear(
-            Location(lat: mock.lat, lng: mock.lon),
-            myLocation,
-            radius,
-          )) {
-        searchResoult.add(mock);
+    var searchResoultWithFilter = filtrationPlace(
+      filter: widget.filter,
+      incomingList: mocks,
+      location: myLocation,
+    );
+    for (final res in searchResoultWithFilter) {
+      if (res.name
+          .toLowerCase()
+          .contains(searchTextController.text.trim().toLowerCase())) {
+        searchResoult.add(res);
       }
     }
   }
@@ -164,7 +165,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                 padding: const EdgeInsets.all(32.0),
                 child: Platform.isIOS
                     ? CupertinoActivityIndicator()
-                    : CircularProgressIndicator(),
+                    : CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
               ),
             ),
 
@@ -282,6 +285,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               );
                             },
                             child: ListTile(
+                              dense: false,
                               leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(12.0),
                                 child: Image.network(
@@ -298,7 +302,9 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                     return Center(
                                       child: Platform.isAndroid
                                           ? CircularProgressIndicator(
-                                              color: Color(0xFF252849),
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               value: loadingProgress
                                                           .expectedTotalBytes !=
                                                       null

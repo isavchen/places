@@ -61,7 +61,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                               return Center(
                                 child: Platform.isAndroid
                                     ? CircularProgressIndicator(
-                                        color: Color(0xFF252849),
+                                        color: Theme.of(context).colorScheme.secondary,
                                         value: loadingProgress
                                                     .expectedTotalBytes !=
                                                 null

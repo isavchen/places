@@ -46,7 +46,7 @@ class WantVisitingCard extends StatelessWidget {
                       return Center(
                         child: Platform.isAndroid
                             ? CircularProgressIndicator(
-                                color: Color(0xFF252849),
+                                color: Theme.of(context).colorScheme.secondary,
                                 value: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /

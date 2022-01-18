@@ -72,7 +72,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
     if (value != null && value.trim().length > 0) {
       return null;
     } else {
-      return 'Поле обязательно';
+      return 'add_sight.validate.required_field'.tr();
     }
   }
 
