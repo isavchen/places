@@ -421,7 +421,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         type: category.toLowerCase(),
                       ),
                     );
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(true);
                   }
                 : null,
             child: Padding(

@@ -35,23 +35,27 @@ class SightCard extends StatelessWidget {
                       if (loadingProgress == null) {
                         return child;
                       }
-                      return Center(
-                        child: Platform.isAndroid
-                            ? CircularProgressIndicator(
-                                color: Theme.of(context).colorScheme.secondary,
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              )
-                            : CupertinoActivityIndicator.partiallyRevealed(
-                                progress: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : 0,
-                              ),
+                      return Container(
+                        height: 96,
+                        color: Theme.of(context).backgroundColor,
+                        child: Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator(
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                )
+                              : CupertinoActivityIndicator.partiallyRevealed(
+                                  progress: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : 0,
+                                ),
+                        ),
                       );
                     },
                   ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/filter.dart';
@@ -52,14 +53,14 @@ class _SightListScreenState extends State<SightListScreen> {
   @override
   void initState() {
     if (widget.filter != null) {
-    setState(() {
-      filter = widget.filter!;
-      listSights = filtrationPlace(
-        filter: filter,
-        incomingList: mocks,
-        location: myLocation,
-      );
-    });
+      setState(() {
+        filter = widget.filter!;
+        listSights = filtrationPlace(
+          filter: filter,
+          incomingList: mocks,
+          location: myLocation,
+        );
+      });
     }
     _scrollController = ScrollController()
       ..addListener(() {
@@ -125,7 +126,9 @@ class _SightListScreenState extends State<SightListScreen> {
                                   PageRouteBuilder(
                                     pageBuilder:
                                         (context, animation1, animation2) =>
-                                            SightSearchScreen(filter: filter,),
+                                            SightSearchScreen(
+                                      filter: filter,
+                                    ),
                                   ),
                                 );
                               },
@@ -215,10 +218,51 @@ class _SightListScreenState extends State<SightListScreen> {
           highlightElevation: 0,
           backgroundColor: Colors.transparent,
           splashColor: Colors.transparent,
-          onPressed: () {
-            Navigator.of(context).push(
+          onPressed: () async {
+            final newSight = await Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => AddSightScreen()),
             );
+            if (newSight != null) {
+              await showDialog(
+                context: context,
+                builder: (_) => Platform.isIOS
+                    ? CupertinoAlertDialog(
+                        title: Text(
+                          'add_sight.sight_created_dialog.title'.tr(),
+                        ),
+                        actions: [
+                          CupertinoDialogAction(
+                            child: Text(
+                              'add_sight.sight_created_dialog.button.title'
+                                  .tr(),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      )
+                    : AlertDialog(
+                        title: Text(
+                          'add_sight.sight_created_dialog.title'.tr(),
+                        ),
+                        actions: [
+                          TextButton(
+                            child: Text(
+                              'add_sight.sight_created_dialog.button.title'
+                                  .tr(),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ),
+              );
+              setState(() {
+                listSights = filtrationPlace(
+                  filter: filter,
+                  incomingList: mocks,
+                  location: myLocation,
+                );
+              });
+            }
           },
           label: Container(
             child: Text(

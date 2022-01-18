@@ -22,6 +22,8 @@
     "add_sight.enter_description": "введите текст",
     "add_sight.create_button": "Создать",
     "add_sight.validate.required_field": "Поле обязательно",
+    "add_sight.sight_created_dialog.title": "Новое место успешно создано",
+    "add_sight.sight_created_dialog.button.title": "Хорошо",
     "filters.clear_button": "Очистить",
     "filters.categories": "КАТЕГОРИИ",
     "filters.show_button": "ПОКАЗАТЬ ({count})",
@@ -54,8 +56,5 @@
     "dialog.title.camera": "Камера",
     "dialog.title.photo": "Фотография",
     "dialog.title.file": "Файл",
-
-
-
     "": ""
 }
