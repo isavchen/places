@@ -126,143 +126,145 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
               ),
             ),
             SliverToBoxAdapter(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      sight.name,
-                      style: Theme.of(context).primaryTextTheme.headline5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          sight.type,
-                          style: Theme.of(context).primaryTextTheme.subtitle2,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            "закрыто до 09:00",
-                            style: Theme.of(context).primaryTextTheme.bodyText2,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      sight.details,
-                      style: Theme.of(context)
-                          .primaryTextTheme
-                          .bodyText2
-                          ?.copyWith(color: Theme.of(context).focusColor),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 24.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          //TODO: функционал кнопки "Построить маршрут"
-                          print("Кнопка Построить  маршрут нажата");
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(icRoute),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text('sight_details.route'.tr()),
-                            ],
-                          ),
-                        ),
+              child: SafeArea(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 24,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        sight.name,
+                        style: Theme.of(context).primaryTextTheme.headline5,
                       ),
-                    ),
-                    Divider(
-                      height: 0.8,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
+                      Row(
                         children: [
-                          Expanded(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: () {
-                                //TODO: функционал кнопки "Запланировать"
-                                print("Кнопка Запланировать");
-                              },
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      icCalendar,
-                                      width: 22,
-                                      color: dmInactiveColor,
-                                    ),
-                                    SizedBox(
-                                      width: 9,
-                                    ),
-                                    Text(
-                                      'sight_details.schedule'.tr(),
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyText2,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
+                          Text(
+                            sight.type,
+                            style: Theme.of(context).primaryTextTheme.subtitle2,
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: InkWell(
-                              onTap: () {
-                                //TODO: функционал кнопки "Добавить в Избранное"
-                                print("Кнопка В Избранное");
-                              },
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      icHeart,
-                                      width: 20,
-                                      color: Theme.of(context).focusColor,
-                                    ),
-                                    SizedBox(
-                                      width: 9,
-                                    ),
-                                    Text(
-                                      'sight_details.to_favorite'.tr(),
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .bodyText2
-                                          ?.copyWith(
-                                              color:
-                                                  Theme.of(context).focusColor),
-                                    )
-                                  ],
-                                ),
-                              ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0),
+                            child: Text(
+                              "закрыто до 09:00",
+                              style: Theme.of(context).primaryTextTheme.bodyText2,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        sight.details,
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .bodyText2
+                            ?.copyWith(color: Theme.of(context).focusColor),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            //TODO: функционал кнопки "Построить маршрут"
+                            print("Кнопка Построить  маршрут нажата");
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(icRoute),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('sight_details.route'.tr()),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0.8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () {
+                                  //TODO: функционал кнопки "Запланировать"
+                                  print("Кнопка Запланировать");
+                                },
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        icCalendar,
+                                        width: 22,
+                                        color: dmInactiveColor,
+                                      ),
+                                      SizedBox(
+                                        width: 9,
+                                      ),
+                                      Text(
+                                        'sight_details.schedule'.tr(),
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText2,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () {
+                                  //TODO: функционал кнопки "Добавить в Избранное"
+                                  print("Кнопка В Избранное");
+                                },
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        icHeart,
+                                        width: 20,
+                                        color: Theme.of(context).focusColor,
+                                      ),
+                                      SizedBox(
+                                        width: 9,
+                                      ),
+                                      Text(
+                                        'sight_details.to_favorite'.tr(),
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodyText2
+                                            ?.copyWith(
+                                                color:
+                                                    Theme.of(context).focusColor),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

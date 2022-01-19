@@ -30,35 +30,37 @@ class ChooseCategoryState extends State<ChooseCategory> {
         elevation: 0,
         title: Text('add_sight.category'.tr()),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            height: 24.0,
-          ),
-          Expanded(
-            child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: sampleData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    setState(() {
-                      sampleData
-                          .forEach((element) => element.isSelected = false);
-                      sampleData[index].isSelected = true;
-                      selectedCategory = sampleData[index].text;
-                    });
-                  },
-                  child: CategoryItem(sampleData[index]),
-                );
-              },
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 24.0,
             ),
-          ),
-
-          // кнопка сохранить
-        ],
+            Expanded(
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: sampleData.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        sampleData
+                            .forEach((element) => element.isSelected = false);
+                        sampleData[index].isSelected = true;
+                        selectedCategory = sampleData[index].text;
+                      });
+                    },
+                    child: CategoryItem(sampleData[index]),
+                  );
+                },
+              ),
+            ),
+      
+            // кнопка сохранить
+          ],
+        ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(

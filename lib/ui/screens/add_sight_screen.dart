@@ -96,308 +96,310 @@ class _AddSightScreenState extends State<AddSightScreen> {
         leadingWidth: 100,
         elevation: 0,
       ),
-      body: OverscrollGlowAbsorber(
-        child: ListView(
-          physics: Platform.isIOS
-              ? BouncingScrollPhysics()
-              : ClampingScrollPhysics(),
-          children: [
-            // Блок добавления фотографии
-            Container(
-              height: 120,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    NewPhotoCard(
-                      isAddButton: true,
-                      imageUrl: "",
-                      key: ValueKey("addbutton"),
-                      onPressed: () {
-                        _openImagePicker(context);
-                      },
-                    ),
-                    // for (final photo in photoList)
-                    for (int i = 0; i < photoList.length; i++)
+      body: SafeArea(
+        child: OverscrollGlowAbsorber(
+          child: ListView(
+            physics: Platform.isIOS
+                ? BouncingScrollPhysics()
+                : ClampingScrollPhysics(),
+            children: [
+              // Блок добавления фотографии
+              Container(
+                height: 120,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
                       NewPhotoCard(
-                        imageUrl: photoList[i],
-                        key:
-                            UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
-                        onDelete: () {
-                          setState(() {
-                            photoList.removeAt(i);
-                          });
+                        isAddButton: true,
+                        imageUrl: "",
+                        key: ValueKey("addbutton"),
+                        onPressed: () {
+                          _openImagePicker(context);
                         },
                       ),
+                      // for (final photo in photoList)
+                      for (int i = 0; i < photoList.length; i++)
+                        NewPhotoCard(
+                          imageUrl: photoList[i],
+                          key:
+                              UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
+                          onDelete: () {
+                            setState(() {
+                              photoList.removeAt(i);
+                            });
+                          },
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+              // Поле выбора категории
+              Container(
+                height: 64.0,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'add_sight.category'.tr().toUpperCase(),
+                      style: smallText.copyWith(fontSize: 12.0),
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        final category1 = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChooseCategory()),
+                        );
+                        titleFocusNode.requestFocus();
+                        if (category1 != null) {
+                          setState(() {
+                            category = category1;
+                          });
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 24,
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              category.isEmpty
+                                  ? 'add_sight.not_selected'.tr()
+                                  : category,
+                              style: Theme.of(context)
+                                  .primaryTextTheme
+                                  .subtitle1
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    color: dmSecondaryColor2,
+                                  ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 0, child: Divider()),
                   ],
                 ),
               ),
-            ),
-            // Поле выбора категории
-            Container(
-              height: 64.0,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'add_sight.category'.tr().toUpperCase(),
-                    style: smallText.copyWith(fontSize: 12.0),
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      final category1 = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChooseCategory()),
-                      );
-                      titleFocusNode.requestFocus();
-                      if (category1 != null) {
-                        setState(() {
-                          category = category1;
-                        });
-                      }
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 24,
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            category.isEmpty
-                                ? 'add_sight.not_selected'.tr()
-                                : category,
-                            style: Theme.of(context)
-                                .primaryTextTheme
-                                .subtitle1
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w400,
-                                  color: dmSecondaryColor2,
-                                ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        ],
-                      ),
+              SizedBox(height: 24.0),
+      
+              // Текстовое поле ввода названия
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'add_sight.sight_name'.tr().toUpperCase(),
+                      style: smallText.copyWith(fontSize: 12.0),
                     ),
-                  ),
-                  SizedBox(height: 0, child: Divider()),
-                ],
-              ),
-            ),
-            SizedBox(height: 24.0),
-
-            // Текстовое поле ввода названия
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'add_sight.sight_name'.tr().toUpperCase(),
-                    style: smallText.copyWith(fontSize: 12.0),
-                  ),
-                  MyTextField(
-                    hintText: 'add_sight.enter_name'.tr().toLowerCase(),
-                    controller: titleTextEditingController,
-                    focus: titleFocusNode,
-                    validator: requiredValidator,
-                    textInputAction: TextInputAction.next,
-                    onSubmitted: (_) {
-                      latFocusNode.requestFocus();
-                    },
-                    onChanged: (String val) {
-                      setState(() {});
-                    },
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 24.0),
-
-            // Текстовые поля ввода долготы и широты
-
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'add_sight.latitude'.tr().toUpperCase(),
-                            style: smallText.copyWith(fontSize: 12.0),
-                          ),
-                          MyTextField(
-                            hintText: 'add_sight.enter_latitude'.tr(),
-                            controller: latTextEditingController,
-                            focus: latFocusNode,
-                            textInputAction: TextInputAction.next,
-                            validator: requiredValidator,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]'),
-                              ),
-                            ],
-                            onSubmitted: (_) {
-                              lonFocusNode.requestFocus();
-                            },
-                            onChanged: (String val) {
-                              setState(() {});
-                            },
-                          ),
-                        ],
-                      ),
+                    MyTextField(
+                      hintText: 'add_sight.enter_name'.tr().toLowerCase(),
+                      controller: titleTextEditingController,
+                      focus: titleFocusNode,
+                      validator: requiredValidator,
+                      textInputAction: TextInputAction.next,
+                      onSubmitted: (_) {
+                        latFocusNode.requestFocus();
+                      },
+                      onChanged: (String val) {
+                        setState(() {});
+                      },
                     ),
-                  ),
-                  SizedBox(
-                    width: 16.0,
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'add_sight.longitude'.tr().toUpperCase(),
-                            style: smallText.copyWith(fontSize: 12.0),
-                          ),
-                          MyTextField(
-                            hintText: 'add_sight.enter_longitude'.tr(),
-                            controller: lonTextEditingController,
-                            focus: lonFocusNode,
-                            textInputAction: TextInputAction.next,
-                            validator: requiredValidator,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9\.]'),
-                              ),
-                            ],
-                            onSubmitted: (_) {
-                              descFocusNode.requestFocus();
-                            },
-                            onChanged: (String val) {
-                              setState(() {});
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-
-            //кнопка выбора местоположения на карте
-            SizedBox(height: 5.0),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextButton(
-                onPressed: () {
-                  //TODO: функионал кнопки "Указать на карте"
-                  print("Указать на карте");
-                },
-                child: Text('add_sight.point_on_map'.tr()),
-              ),
-            ),
-            SizedBox(height: 37.0),
-
-            //текстовое поле ввода описания
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'add_sight.description'.tr().toUpperCase(),
-                    style: smallText.copyWith(fontSize: 12.0),
-                  ),
-                  TextFormField(
-                    maxLines: 3,
-                    controller: descTextEditingController,
-                    focusNode: descFocusNode,
-                    validator: requiredValidator,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    textInputAction: TextInputAction.done,
-                    onFieldSubmitted: (_) {
-                      descFocusNode.unfocus();
-                    },
-                    onChanged: (String val) {
-                      setState(() {});
-                    },
-                    style:
-                        Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.secondary,
+              SizedBox(height: 24.0),
+      
+              // Текстовые поля ввода долготы и широты
+      
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'add_sight.latitude'.tr().toUpperCase(),
+                              style: smallText.copyWith(fontSize: 12.0),
                             ),
-                    decoration: InputDecoration(
-                      hintText: 'add_sight.enter_description'.tr(),
-                      hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
-                      suffixIcon: descFocusNode.hasFocus &&
-                              descTextEditingController.text.isNotEmpty
-                          ? InkWell(
-                              onTap: () {
-                                descTextEditingController.clear();
+                            MyTextField(
+                              hintText: 'add_sight.enter_latitude'.tr(),
+                              controller: latTextEditingController,
+                              focus: latFocusNode,
+                              textInputAction: TextInputAction.next,
+                              validator: requiredValidator,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]'),
+                                ),
+                              ],
+                              onSubmitted: (_) {
+                                lonFocusNode.requestFocus();
                               },
-                              child: Icon(
-                                Icons.cancel_rounded,
+                              onChanged: (String val) {
+                                setState(() {});
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 16.0,
+                    ),
+                    Expanded(
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'add_sight.longitude'.tr().toUpperCase(),
+                              style: smallText.copyWith(fontSize: 12.0),
+                            ),
+                            MyTextField(
+                              hintText: 'add_sight.enter_longitude'.tr(),
+                              controller: lonTextEditingController,
+                              focus: lonFocusNode,
+                              textInputAction: TextInputAction.next,
+                              validator: requiredValidator,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9\.]'),
+                                ),
+                              ],
+                              onSubmitted: (_) {
+                                descFocusNode.requestFocus();
+                              },
+                              onChanged: (String val) {
+                                setState(() {});
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      
+              //кнопка выбора местоположения на карте
+              SizedBox(height: 5.0),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                  onPressed: () {
+                    //TODO: функионал кнопки "Указать на карте"
+                    print("Указать на карте");
+                  },
+                  child: Text('add_sight.point_on_map'.tr()),
+                ),
+              ),
+              SizedBox(height: 37.0),
+      
+              //текстовое поле ввода описания
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'add_sight.description'.tr().toUpperCase(),
+                      style: smallText.copyWith(fontSize: 12.0),
+                    ),
+                    TextFormField(
+                      maxLines: 3,
+                      controller: descTextEditingController,
+                      focusNode: descFocusNode,
+                      validator: requiredValidator,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      textInputAction: TextInputAction.done,
+                      onFieldSubmitted: (_) {
+                        descFocusNode.unfocus();
+                      },
+                      onChanged: (String val) {
+                        setState(() {});
+                      },
+                      style:
+                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+                                fontWeight: FontWeight.w400,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
-                            )
-                          : null,
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
-                          width: 2.0,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(0.4),
+                      decoration: InputDecoration(
+                        hintText: 'add_sight.enter_description'.tr(),
+                        hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
+                        suffixIcon: descFocusNode.hasFocus &&
+                                descTextEditingController.text.isNotEmpty
+                            ? InkWell(
+                                onTap: () {
+                                  descTextEditingController.clear();
+                                },
+                                child: Icon(
+                                  Icons.cancel_rounded,
+                                  color: Theme.of(context).colorScheme.secondary,
+                                ),
+                              )
+                            : null,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.4),
+                          ),
                         ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surface
-                              .withOpacity(0.4),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.4),
+                          ),
                         ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).errorColor,
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(
+                            color: Theme.of(context).errorColor,
+                          ),
                         ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: BorderSide(
-                          width: 2.0,
-                          color: Theme.of(context).errorColor,
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(
+                            width: 2.0,
+                            color: Theme.of(context).errorColor,
+                          ),
                         ),
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       ),
-                      contentPadding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
 

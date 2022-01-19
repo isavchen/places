@@ -7,6 +7,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/screens/sight_details_bottomsheet_screen.dart';
+import 'package:places/ui/screens/sight_details_screen.dart';
 
 class WantVisitingCard extends StatelessWidget {
   final Function() onTapClose;
@@ -145,7 +146,15 @@ class WantVisitingCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                _openDetailsScreen(sight.id, context);
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? _openDetailsScreen(sight.id, context)
+                    : Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SightDetailsScreen(
+                            sightId: sight.id,
+                          ),
+                        ),
+                      );
               },
             ),
           ),

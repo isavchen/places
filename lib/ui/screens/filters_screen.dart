@@ -69,167 +69,196 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
         ],
       ),
-      body: OverscrollGlowAbsorber(
-        child: ListView(
-          physics: Platform.isIOS
-              ? BouncingScrollPhysics()
-              : ClampingScrollPhysics(),
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              child: Text(
-                'filters.categories'.tr(),
-                style: smallText.copyWith(fontSize: 12.0),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Container(
-                width: double.infinity,
-                height: 214,
-                child: GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  children: [
-                    FilterItem(
-                      category: mocksCategory[0],
-                      value: filter.categoryType[CategoryType.hotel]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe:
-                                  filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: currentValue,
-                              CategoryType.myseum:
-                                  filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park:
-                                  filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant:
-                                  filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star:
-                                  filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[1],
-                      value: filter.categoryType[CategoryType.restaurant]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: currentValue,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[2],
-                      value: filter.categoryType[CategoryType.star]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                         filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: currentValue,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[3],
-                      value: filter.categoryType[CategoryType.park]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: currentValue,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[4],
-                      value: filter.categoryType[CategoryType.myseum]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: currentValue,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                          _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[5],
-                      value: filter.categoryType[CategoryType.cafe]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: currentValue,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                  ],
+      body: SafeArea(
+        child: OverscrollGlowAbsorber(
+          child: ListView(
+            physics: Platform.isIOS
+                ? BouncingScrollPhysics()
+                : ClampingScrollPhysics(),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 24.0),
+                child: Text(
+                  'filters.categories'.tr(),
+                  style: smallText.copyWith(fontSize: 12.0),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 56,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Container(
+                  width: double.infinity,
+                  height: 214,
+                  child: GridView.count(
+                    physics: NeverScrollableScrollPhysics(),
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 40.0,
+                    children: [
+                      FilterItem(
+                        category: mocksCategory[0],
+                        value: filter.categoryType[CategoryType.hotel]!,
+                        onChanged: (currentValue) {
+                          setState(() {
+                            filter = filter.copyWith(
+                              categoryType: {
+                                CategoryType.cafe:
+                                    filter.categoryType[CategoryType.cafe]!,
+                                CategoryType.hotel: currentValue,
+                                CategoryType.myseum:
+                                    filter.categoryType[CategoryType.myseum]!,
+                                CategoryType.park:
+                                    filter.categoryType[CategoryType.park]!,
+                                CategoryType.restaurant: filter
+                                    .categoryType[CategoryType.restaurant]!,
+                                CategoryType.star:
+                                    filter.categoryType[CategoryType.star]!,
+                              },
+                            );
+                          });
+                          _filtrationPlace();
+                        },
+                      ),
+                      FilterItem(
+                        category: mocksCategory[1],
+                        value: filter.categoryType[CategoryType.restaurant]!,
+                        onChanged: (currentValue) {
+                          setState(() {
+                            filter = filter.copyWith(
+                              categoryType: {
+                                CategoryType.cafe:
+                                    filter.categoryType[CategoryType.cafe]!,
+                                CategoryType.hotel:
+                                    filter.categoryType[CategoryType.hotel]!,
+                                CategoryType.myseum:
+                                    filter.categoryType[CategoryType.myseum]!,
+                                CategoryType.park:
+                                    filter.categoryType[CategoryType.park]!,
+                                CategoryType.restaurant: currentValue,
+                                CategoryType.star:
+                                    filter.categoryType[CategoryType.star]!,
+                              },
+                            );
+                          });
+                          _filtrationPlace();
+                        },
+                      ),
+                      FilterItem(
+                        category: mocksCategory[2],
+                        value: filter.categoryType[CategoryType.star]!,
+                        onChanged: (currentValue) {
+                          setState(() {
+                            filter = filter.copyWith(
+                              categoryType: {
+                                CategoryType.cafe:
+                                    filter.categoryType[CategoryType.cafe]!,
+                                CategoryType.hotel:
+                                    filter.categoryType[CategoryType.hotel]!,
+                                CategoryType.myseum:
+                                    filter.categoryType[CategoryType.myseum]!,
+                                CategoryType.park:
+                                    filter.categoryType[CategoryType.park]!,
+                                CategoryType.restaurant: filter
+                                    .categoryType[CategoryType.restaurant]!,
+                                CategoryType.star: currentValue,
+                              },
+                            );
+                          });
+                          _filtrationPlace();
+                        },
+                      ),
+                      FilterItem(
+                        category: mocksCategory[3],
+                        value: filter.categoryType[CategoryType.park]!,
+                        onChanged: (currentValue) {
+                          setState(() {
+                            filter = filter.copyWith(
+                              categoryType: {
+                                CategoryType.cafe:
+                                    filter.categoryType[CategoryType.cafe]!,
+                                CategoryType.hotel:
+                                    filter.categoryType[CategoryType.hotel]!,
+                                CategoryType.myseum:
+                                    filter.categoryType[CategoryType.myseum]!,
+                                CategoryType.park: currentValue,
+                                CategoryType.restaurant: filter
+                                    .categoryType[CategoryType.restaurant]!,
+                                CategoryType.star:
+                                    filter.categoryType[CategoryType.star]!,
+                              },
+                            );
+                          });
+                          _filtrationPlace();
+                        },
+                      ),
+                      FilterItem(
+                        category: mocksCategory[4],
+                        value: filter.categoryType[CategoryType.myseum]!,
+                        onChanged: (currentValue) {
+                          setState(() {
+                            filter = filter.copyWith(
+                              categoryType: {
+                                CategoryType.cafe:
+                                    filter.categoryType[CategoryType.cafe]!,
+                                CategoryType.hotel:
+                                    filter.categoryType[CategoryType.hotel]!,
+                                CategoryType.myseum: currentValue,
+                                CategoryType.park:
+                                    filter.categoryType[CategoryType.park]!,
+                                CategoryType.restaurant: filter
+                                    .categoryType[CategoryType.restaurant]!,
+                                CategoryType.star:
+                                    filter.categoryType[CategoryType.star]!,
+                              },
+                            );
+                          });
+                          _filtrationPlace();
+                        },
+                      ),
+                      FilterItem(
+                        category: mocksCategory[5],
+                        value: filter.categoryType[CategoryType.cafe]!,
+                        onChanged: (currentValue) {
+                          setState(() {
+                            filter = filter.copyWith(
+                              categoryType: {
+                                CategoryType.cafe: currentValue,
+                                CategoryType.hotel:
+                                    filter.categoryType[CategoryType.hotel]!,
+                                CategoryType.myseum:
+                                    filter.categoryType[CategoryType.myseum]!,
+                                CategoryType.park:
+                                    filter.categoryType[CategoryType.park]!,
+                                CategoryType.restaurant: filter
+                                    .categoryType[CategoryType.restaurant]!,
+                                CategoryType.star:
+                                    filter.categoryType[CategoryType.star]!,
+                              },
+                            );
+                          });
+                          _filtrationPlace();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: SliderRadiusSearch(
-                value: filter.radius,
-                onChanged: (currentValue) {
-                  setState(() {
-                    filter = filter.copyWith(radius: currentValue);
-                  });
-                  _filtrationPlace();
-                },
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 56,
+                ),
+                child: SliderRadiusSearch(
+                  value: filter.radius,
+                  onChanged: (currentValue) {
+                    setState(() {
+                      filter = filter.copyWith(radius: currentValue);
+                    });
+                    _filtrationPlace();
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

@@ -40,46 +40,88 @@ class _VisitingContentState extends State<VisitingContent> {
         ? Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: OverscrollGlowAbsorber(
-              child: ListView.builder(
-                physics: Platform.isIOS
-                    ? BouncingScrollPhysics()
-                    : ClampingScrollPhysics(),
-                itemCount: cards.length,
-                itemBuilder: (context, i) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                    child: DragTarget<int>(
-                      builder: (context, candidateData, rejectedData) {
-                        return DraggableWidget(
-                          index: i,
-                          content: widget.content,
-                          sight: cards[i],
-                          onTabClose: () {
-                            setState(() {
-                              cards.removeAt(i);
-                            });
-                          },
-                          onDismissed: (_) {
-                            setState(() {
-                              cards.removeAt(i);
-                            });
-                          },
+              child: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? ListView.builder(
+                      physics: Platform.isIOS
+                          ? BouncingScrollPhysics()
+                          : ClampingScrollPhysics(),
+                      itemCount: cards.length,
+                      itemBuilder: (context, i) {
+                        return Padding(
+                          padding:
+                              const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                          child: DragTarget<int>(
+                            builder: (context, candidateData, rejectedData) {
+                              return DraggableWidget(
+                                index: i,
+                                content: widget.content,
+                                sight: cards[i],
+                                onTabClose: () {
+                                  setState(() {
+                                    cards.removeAt(i);
+                                  });
+                                },
+                                onDismissed: (_) {
+                                  setState(() {
+                                    cards.removeAt(i);
+                                  });
+                                },
+                              );
+                            },
+                            onWillAccept: (data) {
+                              return true;
+                            },
+                            onAccept: (data) {
+                              final item = cards[data];
+                              setState(() {
+                                cards.removeAt(data);
+                                cards.insert(i, item);
+                              });
+                            },
+                          ),
                         );
                       },
-                      onWillAccept: (data) {
-                        return true;
-                      },
-                      onAccept: (data) {
-                        final item = cards[data];
-                        setState(() {
-                          cards.removeAt(data);
-                          cards.insert(i, item);
-                        });
-                      },
+                    )
+                  : GridView.builder(
+                    itemCount:cards.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 36.0,
+                        childAspectRatio: widget.content == 1 ? 30 / 19 : 30 / 20.5,
+                      ),
+                      itemBuilder: (context, i) => Padding(
+                        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                        child: DragTarget<int>(
+                          builder: (context, candidateData, rejectedData) {
+                            return DraggableWidget(
+                              index: i,
+                              content: widget.content,
+                              sight: cards[i],
+                              onTabClose: () {
+                                setState(() {
+                                  cards.removeAt(i);
+                                });
+                              },
+                              onDismissed: (_) {
+                                setState(() {
+                                  cards.removeAt(i);
+                                });
+                              },
+                            );
+                          },
+                          onWillAccept: (data) {
+                            return true;
+                          },
+                          onAccept: (data) {
+                            final item = cards[data];
+                            setState(() {
+                              cards.removeAt(data);
+                              cards.insert(i, item);
+                            });
+                          },
+                        ),
+                      ),
                     ),
-                  );
-                },
-              ),
             ),
           )
         : Column(
