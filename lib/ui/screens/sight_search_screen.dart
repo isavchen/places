@@ -155,253 +155,255 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          // лоадер пока идет загрузка запроса
-
-          if (_isLoading)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(32.0),
-                child: Platform.isIOS
-                    ? CupertinoActivityIndicator()
-                    : CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // лоадер пока идет загрузка запроса
+      
+            if (_isLoading)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Platform.isIOS
+                      ? CupertinoActivityIndicator()
+                      : CircularProgressIndicator(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                ),
               ),
-            ),
-
-          // история поиска
-
-          if (!_showResoultList)
-            Expanded(
-              child: Container(
-                child: ListView(
-                  physics: Platform.isIOS
-                      ? BouncingScrollPhysics()
-                      : ClampingScrollPhysics(),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16.0, top: 32.0, bottom: 4.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
+      
+            // история поиска
+      
+            if (!_showResoultList)
+              Expanded(
+                child: Container(
+                  child: ListView(
+                    physics: Platform.isIOS
+                        ? BouncingScrollPhysics()
+                        : ClampingScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, top: 32.0, bottom: 4.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'sight_search.history'.tr(),
+                            style: Theme.of(context)
+                                .primaryTextTheme
+                                .caption
+                                ?.copyWith(color: lmInactiveColor),
+                          ),
+                        ),
+                      ),
+                      for (String item in bufferSearchList.reversed)
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  16.0, 15.0, 16.0, 13.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        searchTextController.text = item;
+                                      },
+                                      child: Text(
+                                        item,
+                                        style: Theme.of(context)
+                                            .primaryTextTheme
+                                            .subtitle1
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w400,
+                                              color: lmSecondaryColor2,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        bufferSearchList.remove(item);
+                                      });
+                                    },
+                                    child: Icon(
+                                      Icons.close_rounded,
+                                      color: lmInactiveColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (bufferSearchList.elementAt(0) != item)
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16.0),
+                                child: Divider(),
+                              ),
+                          ],
+                        ),
+                      if (bufferSearchList.isNotEmpty && !_showResoultList)
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              bufferSearchList.clear();
+                            });
+                          },
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text('sight_search.clear_history'.tr()),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+      
+            // когда состояние поиска не пустое, показать контент поиска
+      
+            if (_showResoultList && searchResoult.isNotEmpty && !_isLoading)
+              Expanded(
+                child: Container(
+                  child: ListView(
+                    physics: Platform.isIOS
+                        ? BouncingScrollPhysics()
+                        : ClampingScrollPhysics(),
+                    children: [
+                      SizedBox(height: 32.0),
+                      for (final res in searchResoult)
+                        Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => SightDetailsScreen(
+                                      sightId: res.id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                dense: false,
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  child: Image.network(
+                                    res.galery.first,
+                                    width: 56,
+                                    height: 56,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return Center(
+                                        child: Platform.isAndroid
+                                            ? CircularProgressIndicator(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary,
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              )
+                                            : CupertinoActivityIndicator
+                                                .partiallyRevealed(
+                                                progress: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : 0,
+                                              ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                title: RichText(
+                                  text: TextSpan(
+                                    children: highlightOccurrences(res.name,
+                                        searchTextController.text.trim()),
+                                    style: Theme.of(context)
+                                        .primaryTextTheme
+                                        .subtitle1
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  res.type,
+                                  style: lmMatBodyText2,
+                                ),
+                              ),
+                            ),
+                            if (searchResoult.last != res)
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 88.0, right: 16.0),
+                                child: Divider(),
+                              ),
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+      
+            // пустое состояние поиска
+            if (_showResoultList && searchResoult.isEmpty && !_isLoading)
+              Expanded(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: SvgPicture.asset(icSearch, height: 48.0)),
+                      SizedBox(
+                        height: 32.0,
+                      ),
+                      Center(
                         child: Text(
-                          'sight_search.history'.tr(),
+                          'sight_search.empty'.tr(),
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .caption
+                              .headline6
                               ?.copyWith(color: lmInactiveColor),
                         ),
                       ),
-                    ),
-                    for (String item in bufferSearchList.reversed)
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                16.0, 15.0, 16.0, 13.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      searchTextController.text = item;
-                                    },
-                                    child: Text(
-                                      item,
-                                      style: Theme.of(context)
-                                          .primaryTextTheme
-                                          .subtitle1
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w400,
-                                            color: lmSecondaryColor2,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      bufferSearchList.remove(item);
-                                    });
-                                  },
-                                  child: Icon(
-                                    Icons.close_rounded,
-                                    color: lmInactiveColor,
-                                  ),
-                                ),
-                              ],
-                            ),
+                      SizedBox(height: 8),
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 253.5),
+                          child: Text(
+                            'sight_search.change_query'.tr(),
+                            textAlign: TextAlign.center,
+                            style: dmMatBodyText2,
                           ),
-                          if (bufferSearchList.elementAt(0) != item)
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Divider(),
-                            ),
-                        ],
-                      ),
-                    if (bufferSearchList.isNotEmpty && !_showResoultList)
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            bufferSearchList.clear();
-                          });
-                        },
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text('sight_search.clear_history'.tr()),
                         ),
                       ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-
-          // когда состояние поиска не пустое, показать контент поиска
-
-          if (_showResoultList && searchResoult.isNotEmpty && !_isLoading)
-            Expanded(
-              child: Container(
-                child: ListView(
-                  physics: Platform.isIOS
-                      ? BouncingScrollPhysics()
-                      : ClampingScrollPhysics(),
-                  children: [
-                    SizedBox(height: 32.0),
-                    for (final res in searchResoult)
-                      Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => SightDetailsScreen(
-                                    sightId: res.id,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ListTile(
-                              dense: false,
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(12.0),
-                                child: Image.network(
-                                  res.galery.first,
-                                  width: 56,
-                                  height: 56,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) {
-                                      return child;
-                                    }
-                                    return Center(
-                                      child: Platform.isAndroid
-                                          ? CircularProgressIndicator(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .secondary,
-                                              value: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : null,
-                                            )
-                                          : CupertinoActivityIndicator
-                                              .partiallyRevealed(
-                                              progress: loadingProgress
-                                                          .expectedTotalBytes !=
-                                                      null
-                                                  ? loadingProgress
-                                                          .cumulativeBytesLoaded /
-                                                      loadingProgress
-                                                          .expectedTotalBytes!
-                                                  : 0,
-                                            ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              title: RichText(
-                                text: TextSpan(
-                                  children: highlightOccurrences(res.name,
-                                      searchTextController.text.trim()),
-                                  style: Theme.of(context)
-                                      .primaryTextTheme
-                                      .subtitle1
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                ),
-                              ),
-                              subtitle: Text(
-                                res.type,
-                                style: lmMatBodyText2,
-                              ),
-                            ),
-                          ),
-                          if (searchResoult.last != res)
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 88.0, right: 16.0),
-                              child: Divider(),
-                            ),
-                        ],
-                      ),
-                  ],
-                ),
-              ),
-            ),
-
-          // пустое состояние поиска
-          if (_showResoultList && searchResoult.isEmpty && !_isLoading)
-            Expanded(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(child: SvgPicture.asset(icSearch, height: 48.0)),
-                    SizedBox(
-                      height: 32.0,
-                    ),
-                    Center(
-                      child: Text(
-                        'sight_search.empty'.tr(),
-                        style: Theme.of(context)
-                            .primaryTextTheme
-                            .headline6
-                            ?.copyWith(color: lmInactiveColor),
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 253.5),
-                        child: Text(
-                          'sight_search.change_query'.tr(),
-                          textAlign: TextAlign.center,
-                          style: dmMatBodyText2,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-          // ошибка загрузки запроса
-          if (_errorState) Text("Error State"),
-        ],
+      
+            // ошибка загрузки запроса
+            if (_errorState) Text("Error State"),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

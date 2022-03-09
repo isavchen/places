@@ -8,6 +8,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/utils/filtration_utils.dart';
+import 'package:places/ui/utils/get_category_type.dart';
 import 'package:places/ui/widget/filter_item.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/slider_radius_search.dart';
@@ -47,6 +48,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -69,167 +73,129 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
         ],
       ),
-      body: OverscrollGlowAbsorber(
-        child: ListView(
-          physics: Platform.isIOS
-              ? BouncingScrollPhysics()
-              : ClampingScrollPhysics(),
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              child: Text(
-                'filters.categories'.tr(),
-                style: smallText.copyWith(fontSize: 12.0),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Container(
-                width: double.infinity,
-                height: 214,
-                child: GridView.count(
-                  physics: NeverScrollableScrollPhysics(),
-                  crossAxisCount: 3,
-                  children: [
-                    FilterItem(
-                      category: mocksCategory[0],
-                      value: filter.categoryType[CategoryType.hotel]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe:
-                                  filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: currentValue,
-                              CategoryType.myseum:
-                                  filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park:
-                                  filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant:
-                                  filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star:
-                                  filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[1],
-                      value: filter.categoryType[CategoryType.restaurant]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: currentValue,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[2],
-                      value: filter.categoryType[CategoryType.star]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                         filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: currentValue,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[3],
-                      value: filter.categoryType[CategoryType.park]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: currentValue,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[4],
-                      value: filter.categoryType[CategoryType.myseum]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: filter.categoryType[CategoryType.cafe]!,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: currentValue,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                          _filtrationPlace();
-                      },
-                    ),
-                    FilterItem(
-                      category: mocksCategory[5],
-                      value: filter.categoryType[CategoryType.cafe]!,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          filter = filter.copyWith(
-                            categoryType: {
-                              CategoryType.cafe: currentValue,
-                              CategoryType.hotel: filter.categoryType[CategoryType.hotel]!,
-                              CategoryType.myseum: filter.categoryType[CategoryType.myseum]!,
-                              CategoryType.park: filter.categoryType[CategoryType.park]!,
-                              CategoryType.restaurant: filter.categoryType[CategoryType.restaurant]!,
-                              CategoryType.star: filter.categoryType[CategoryType.star]!,
-                            },
-                          );
-                        });
-                        _filtrationPlace();
-                      },
-                    ),
-                  ],
+      body: SafeArea(
+        child: OverscrollGlowAbsorber(
+          child: ListView(
+            physics: Platform.isIOS
+                ? BouncingScrollPhysics()
+                : ClampingScrollPhysics(),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 24.0),
+                child: Text(
+                  'filters.categories'.tr(),
+                  style: smallText.copyWith(fontSize: 12.0),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 56,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                child: Container(
+                  width: double.infinity,
+                  height: (_width <= 375 && _height <= 667) ||
+                          MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                      ? 100
+                      : 214,
+                  child: (_width <= 375 && _height <= 667) ||
+                          MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                      ? ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 92,
+                              width: 92,
+                              child: FilterItem(
+                                category: mocksCategory[index],
+                                value: filter.categoryType[getCategoryType(
+                                    mocksCategory[index].name.toLowerCase())]!,
+                                onChanged: (currentValue) {
+                                  setState(() {
+                                    filter = filter.copyWith(
+                                      categoryType: Map.from(
+                                        filter.categoryType.map(
+                                          (key, value) {
+                                            return key ==
+                                                    getCategoryType(
+                                                        mocksCategory[index]
+                                                            .name
+                                                            .toLowerCase())
+                                                ? MapEntry(key, currentValue)
+                                                : MapEntry(key, value);
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                  _filtrationPlace();
+                                },
+                              ),
+                            );
+                          },
+                          itemCount: mocksCategory.length,
+                        )
+                      : GridView.builder(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                          ),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: mocksCategory.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 92,
+                              width: 92,
+                              child: FilterItem(
+                                category: mocksCategory[index],
+                                value: filter.categoryType[getCategoryType(
+                                    mocksCategory[index].name.toLowerCase())]!,
+                                onChanged: (currentValue) {
+                                  setState(() {
+                                    filter = filter.copyWith(
+                                      categoryType: Map.from(
+                                        filter.categoryType.map(
+                                          (key, value) {
+                                            return key ==
+                                                    getCategoryType(
+                                                        mocksCategory[index]
+                                                            .name
+                                                            .toLowerCase())
+                                                ? MapEntry(key, currentValue)
+                                                : MapEntry(key, value);
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  });
+                                  _filtrationPlace();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                ),
               ),
-              child: SliderRadiusSearch(
-                value: filter.radius,
-                onChanged: (currentValue) {
-                  setState(() {
-                    filter = filter.copyWith(radius: currentValue);
-                  });
-                  _filtrationPlace();
-                },
+              Padding(
+                padding: EdgeInsets.only(
+                  top: (_width <= 375 && _height <= 667) ||
+                          MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                      ? 24
+                      : 56,
+                ),
+                child: SliderRadiusSearch(
+                  value: filter.radius,
+                  onChanged: (currentValue) {
+                    setState(() {
+                      filter = filter.copyWith(radius: currentValue);
+                    });
+                    _filtrationPlace();
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

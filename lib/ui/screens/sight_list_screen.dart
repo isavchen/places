@@ -42,13 +42,7 @@ class _SightListScreenState extends State<SightListScreen> {
       CategoryType.star: true,
     },
   );
-  late Text _title = Text(
-    'sight_list.title.expanded'.tr(),
-    style: Theme.of(context)
-        .primaryTextTheme
-        .headline6!
-        .copyWith(fontWeight: FontWeight.w700, fontSize: 32),
-  );
+  late var _title;
 
   @override
   void initState() {
@@ -66,13 +60,7 @@ class _SightListScreenState extends State<SightListScreen> {
       ..addListener(() {
         setState(() {
           _title = !_isSliverAppBarExpanded
-              ? Text(
-                  'sight_list.title.expanded'.tr(),
-                  style: Theme.of(context).primaryTextTheme.headline6!.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 32,
-                      ),
-                )
+              ? _getTitle(MediaQuery.of(context).orientation)
               : Text('sight_list.title.normal'.tr());
         });
       });
@@ -86,197 +74,245 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 
   bool get _isSliverAppBarExpanded {
-    return _scrollController.hasClients && (_scrollController.offset > 150);
+    return _scrollController.hasClients &&
+        (_scrollController.offset > (_isPortraitOrientation ? 140 : 80));
+  }
+
+  bool get _isPortraitOrientation {
+    return MediaQuery.of(context).orientation == Orientation.portrait;
+  }
+
+  Text _getTitle(Orientation orientation) {
+    switch (orientation) {
+      case Orientation.landscape:
+        return Text(
+          'sight_list.title.normal'.tr(),
+          style: Theme.of(context).primaryTextTheme.headline6!,
+        );
+      default:
+        return Text(
+          'sight_list.title.expanded'.tr(),
+          style: Theme.of(context)
+              .primaryTextTheme
+              .headline6!
+              .copyWith(fontWeight: FontWeight.w700, fontSize: 32),
+        );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: OverscrollGlowAbsorber(
-        child: CustomScrollView(
-          controller: _scrollController,
-          physics: Platform.isIOS
-              ? BouncingScrollPhysics()
-              : ClampingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 186,
-              elevation: 0,
-              pinned: true,
-              centerTitle: true,
-              title: _isSliverAppBarExpanded ? _title : Container(),
-              flexibleSpace: FlexibleSpaceBar(
-                background: Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: _isSliverAppBarExpanded ? 0.0 : 16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 46.0),
-                      !_isSliverAppBarExpanded ? _title : Container(),
-                      SizedBox(height: 16.0),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: Stack(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  PageRouteBuilder(
-                                    pageBuilder:
-                                        (context, animation1, animation2) =>
-                                            SightSearchScreen(
-                                      filter: filter,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: SearchBar(
-                                enabled: false,
-                              ),
-                            ),
-                            Positioned(
-                              top: 5,
-                              right: 8,
-                              child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(10),
-                                  onTap: () async {
-                                    final searchFilter =
-                                        await Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => FiltersScreen(
-                                          filter: filter,
-                                        ),
+    return SafeArea(
+      child: Scaffold(
+        body: OverscrollGlowAbsorber(
+          child: CustomScrollView(
+            controller: _scrollController,
+            physics: Platform.isIOS
+                ? BouncingScrollPhysics()
+                : ClampingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                expandedHeight: _isPortraitOrientation ? 184 : 140,
+                elevation: 0,
+                pinned: true,
+                centerTitle: true,
+                title: _isSliverAppBarExpanded
+                    ? _title == null
+                        ? _getTitle(MediaQuery.of(context).orientation)
+                        : _title
+                    : Container(),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: _isSliverAppBarExpanded ? 0.0 : 16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        !_isSliverAppBarExpanded
+                            ? _getTitle(MediaQuery.of(context).orientation)
+                            : Container(),
+                        SizedBox(height: 16.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                          child: Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation1, animation2) =>
+                                              SightSearchScreen(
+                                        filter: filter,
                                       ),
-                                    );
-                                    if (searchFilter != null) {
-                                      setState(() {
-                                        filter = searchFilter;
-                                        listSights = filtrationPlace(
-                                          filter: filter,
-                                          incomingList: mocks,
-                                          location: myLocation,
-                                        );
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: SvgPicture.asset(
-                                      icFilter,
-                                      color:
-                                          Theme.of(context).colorScheme.surface,
+                                    ),
+                                  );
+                                },
+                                child: SearchBar(
+                                  enabled: false,
+                                ),
+                              ),
+                              Positioned(
+                                top: 5,
+                                right: 8,
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
+                                    onTap: () async {
+                                      final searchFilter =
+                                          await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => FiltersScreen(
+                                            filter: filter,
+                                          ),
+                                        ),
+                                      );
+                                      if (searchFilter != null) {
+                                        setState(() {
+                                          filter = searchFilter;
+                                          listSights = filtrationPlace(
+                                            filter: filter,
+                                            incomingList: mocks,
+                                            location: myLocation,
+                                          );
+                                        });
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12.0),
+                                      child: SvgPicture.asset(
+                                        icFilter,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      )
-                    ],
+                        SizedBox(
+                          height: 8.0,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Padding(
-                    padding: index == 0
-                        ? const EdgeInsets.all(16.0)
-                        : const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                    child: SightCard(sight: listSights[index]),
-                  );
-                },
-                childCount: listSights.length,
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0),
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [
-              Theme.of(context).canvasColor,
-              Theme.of(context).colorScheme.surface,
+              _isPortraitOrientation
+                  ? SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                    16.0, 0, 16.0, 16.0),
+                            child: SightCard(sight: listSights[index]),
+                          );
+                        },
+                        childCount: listSights.length,
+                      ),
+                    )
+                  : SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                    16.0, 0, 16.0, 16.0),
+                            child: SightCard(sight: listSights[index]),
+                          );
+                        },
+                        childCount: listSights.length,
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 36.0,
+                        childAspectRatio: 30 / 19,
+                      ),
+                    ),
             ],
           ),
         ),
-        child: FloatingActionButton.extended(
-          elevation: 0,
-          highlightElevation: 0,
-          backgroundColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onPressed: () async {
-            final newSight = await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => AddSightScreen()),
-            );
-            if (newSight != null) {
-              await showDialog(
-                context: context,
-                builder: (_) => Platform.isIOS
-                    ? CupertinoAlertDialog(
-                        title: Text(
-                          'add_sight.sight_created_dialog.title'.tr(),
-                        ),
-                        actions: [
-                          CupertinoDialogAction(
-                            child: Text(
-                              'add_sight.sight_created_dialog.button.title'
-                                  .tr(),
-                            ),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      )
-                    : AlertDialog(
-                        title: Text(
-                          'add_sight.sight_created_dialog.title'.tr(),
-                        ),
-                        actions: [
-                          TextButton(
-                            child: Text(
-                              'add_sight.sight_created_dialog.button.title'
-                                  .tr(),
-                            ),
-                            onPressed: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      ),
-              );
-              setState(() {
-                listSights = filtrationPlace(
-                  filter: filter,
-                  incomingList: mocks,
-                  location: myLocation,
-                );
-              });
-            }
-          },
-          label: Container(
-            child: Text(
-              'sight_list.new_sight'.tr(),
-              style: textButton,
+        floatingActionButton: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24.0),
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Theme.of(context).canvasColor,
+                Theme.of(context).colorScheme.surface,
+              ],
             ),
           ),
-          icon: Icon(
-            Icons.add_rounded,
-            color: Colors.white,
+          child: FloatingActionButton.extended(
+            elevation: 0,
+            highlightElevation: 0,
+            backgroundColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            onPressed: () async {
+              final newSight = await Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AddSightScreen()),
+              );
+              if (newSight != null) {
+                await showDialog(
+                  context: context,
+                  builder: (_) => Platform.isIOS
+                      ? CupertinoAlertDialog(
+                          title: Text(
+                            'add_sight.sight_created_dialog.title'.tr(),
+                          ),
+                          actions: [
+                            CupertinoDialogAction(
+                              child: Text(
+                                'add_sight.sight_created_dialog.button.title'
+                                    .tr(),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        )
+                      : AlertDialog(
+                          title: Text(
+                            'add_sight.sight_created_dialog.title'.tr(),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text(
+                                'add_sight.sight_created_dialog.button.title'
+                                    .tr(),
+                              ),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                );
+                setState(() {
+                  listSights = filtrationPlace(
+                    filter: filter,
+                    incomingList: mocks,
+                    location: myLocation,
+                  );
+                });
+              }
+            },
+            label: Container(
+              child: Text(
+                'sight_list.new_sight'.tr(),
+                style: textButton,
+              ),
+            ),
+            icon: Icon(
+              Icons.add_rounded,
+              color: Colors.white,
+            ),
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

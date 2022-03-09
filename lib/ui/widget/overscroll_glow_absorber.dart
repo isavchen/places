@@ -10,7 +10,7 @@ class OverscrollGlowAbsorber extends StatelessWidget {
       child: child,
       onNotification: (notification) {
         if (notification is OverscrollIndicatorNotification) {
-          notification.disallowGlow();
+          notification.disallowIndicator();
         }
         return false;
       },

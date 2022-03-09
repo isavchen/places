@@ -7,6 +7,7 @@ import 'package:places/domain/sight.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/screens/sight_details_bottomsheet_screen.dart';
+import 'package:places/ui/screens/sight_details_screen.dart';
 
 class WantVisitingCard extends StatelessWidget {
   final Function() onTapClose;
@@ -145,7 +146,15 @@ class WantVisitingCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                _openDetailsScreen(sight.id, context);
+                MediaQuery.of(context).orientation == Orientation.portrait
+                    ? _openDetailsScreen(sight.id, context)
+                    : Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => SightDetailsScreen(
+                            sightId: sight.id,
+                          ),
+                        ),
+                      );
               },
             ),
           ),
@@ -156,20 +165,16 @@ class WantVisitingCard extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {
-                showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now().subtract(Duration(days: 100)),
-                  lastDate: DateTime.now().add(
-                    Duration(days: 100),
-                  ),
-                ).then(
-                  (value) => showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.now(),
-                  ),
-                );
+              onTap: () async {
+                var dateTime;
+                if (Platform.isAndroid)
+                  dateTime = await _openAndroidDateTimePicker(context);
+                else
+                  dateTime = await _openIOSDateTimePicker(context);
+                if (dateTime != null) {
+                  //TODO: установить напоминание
+                  print(dateTime);
+                }
               },
               borderRadius: BorderRadius.circular(20),
               child: Container(
@@ -220,4 +225,130 @@ class WantVisitingCard extends StatelessWidget {
       isScrollControlled: true,
     );
   }
+}
+
+Future<dynamic> _openAndroidDateTimePicker(BuildContext context) {
+  return showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now().subtract(Duration(days: 100)),
+    lastDate: DateTime.now().add(
+      Duration(days: 100),
+    ),
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: Theme.of(context).primaryColor == Colors.white
+            ? ThemeData.light().copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: lmGreenColor,
+                  secondary: lmGreenColor,
+                ),
+              )
+            : ThemeData.dark().copyWith(
+                dialogBackgroundColor: dmPrimaryColor,
+                colorScheme: ColorScheme.light(
+                  primary: dmGreenColor,
+                  onPrimary: dmAccentColor,
+                  onSurface: dmAccentColor,
+                ),
+              ),
+        child: child!,
+      );
+    },
+  ).then(
+    (value) {
+      if (value != null) {
+        return showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.now(),
+          builder: (context, child) => Theme(
+            data: Theme.of(context).primaryColor == Colors.white
+                ? ThemeData.light().copyWith(
+                    colorScheme: ColorScheme.light(
+                      primary: lmGreenColor,
+                      secondary: lmGreenColor,
+                    ),
+                  )
+                : ThemeData.dark().copyWith(
+                    dialogBackgroundColor: dmPrimaryColor,
+                    colorScheme: ColorScheme.dark(
+                      primary: dmGreenColor,
+                      onPrimary: dmAccentColor,
+                      onSurface: dmAccentColor,
+                    ),
+                  ),
+            child: child!,
+          ),
+        );
+      }
+    },
+  );
+}
+
+Future<dynamic> _openIOSDateTimePicker(BuildContext context) {
+  DateTime? _selected;
+  return showModalBottomSheet(
+    context: context,
+    builder: (_) => Container(
+      height: 250,
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+      ),
+      child: Column(
+        children: [
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                CupertinoButton(
+                  child: Text(
+                    'Cancel',
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.surface),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                CupertinoButton(
+                  child: Text(
+                    'Done',
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.surface),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(_selected);
+                  },
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            height: 0,
+            thickness: 1,
+          ),
+          Expanded(
+            child: Container(
+              child: CupertinoTheme(
+                data: CupertinoThemeData(
+                  brightness: Theme.of(context).primaryColor == Colors.white ? Brightness.light : Brightness.dark,
+                ),
+                child: CupertinoDatePicker(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  initialDateTime: DateTime.now(),
+                  minimumDate: DateTime.now().subtract(Duration(days: 100)),
+                  maximumDate: DateTime.now().add(
+                    Duration(days: 100),
+                  ),
+                  onDateTimeChanged: (value) {
+                    _selected = value;
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

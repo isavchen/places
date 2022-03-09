@@ -33,7 +33,9 @@ class _DraggableWidgetState extends State<DraggableWidget> {
   @override
   Widget build(BuildContext context) {
     return Draggable<int>(
-      axis: Axis.vertical,
+      axis: MediaQuery.of(context).orientation == Orientation.portrait
+          ? Axis.vertical
+          : null,
       onDragStarted: () {
         setState(() {
           isDrag = true;
@@ -93,18 +95,24 @@ class _DraggableWidgetState extends State<DraggableWidget> {
               ],
             ),
       feedback: Dismissible(
-        key: UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
-        child: widget.content == 1
-            ? WantVisitingCard(
-                sight: widget.sight,
-                onTapClose: widget.onTabClose,
-                key: globalKey,
-              )
-            : VisitedSightCard(
-                sight: widget.sight,
-                onTapClose: widget.onTabClose,
-                key: globalKey,
-              ),
+        key:
+            UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
+        child: Container(
+          width: MediaQuery.of(context).orientation == Orientation.portrait
+              ? null
+              : MediaQuery.of(context).size.width * 0.43,
+          child: widget.content == 1
+              ? WantVisitingCard(
+                  sight: widget.sight,
+                  onTapClose: widget.onTabClose,
+                  key: globalKey,
+                )
+              : VisitedSightCard(
+                  sight: widget.sight,
+                  onTapClose: widget.onTabClose,
+                  key: globalKey,
+                ),
+        ),
       ),
     );
   }
