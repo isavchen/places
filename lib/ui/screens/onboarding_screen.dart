@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/model/place.dart';
-import 'package:places/data/repository/placeRepository.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
@@ -20,7 +18,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   PageController _pageController = PageController();
   bool isLastPageView = false;
-  PlaceRepository _placeRepository = PlaceRepository();
 
   final List<OnboardingPage> _onboardingPages = [
     OnboardingPage(
@@ -39,12 +36,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       subtitle: 'onboarding.third_page.subtitle'.tr(),
     ),
   ];
-
-  @override
-  void initState() {
-   
-    super.initState();
-  }
 
   void _pageChanged(int index) {
     if (index == 2) {

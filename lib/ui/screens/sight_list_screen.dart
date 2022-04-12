@@ -34,12 +34,15 @@ class _SightListScreenState extends State<SightListScreen> {
   Filter filter = Filter(
     radius: 10000,
     categoryType: {
-      CategoryType.cafe: true,
-      CategoryType.hotel: true,
+      CategoryType.temple: true,
       CategoryType.monument: true,
       CategoryType.park: true,
+      CategoryType.theatre: true,
+      CategoryType.museum: true,
+      CategoryType.hotel: true,
       CategoryType.restaurant: true,
-      CategoryType.temple: true,
+      CategoryType.cafe: true,
+      CategoryType.other: true,
     },
   );
   late var _title;
@@ -208,8 +211,8 @@ class _SightListScreenState extends State<SightListScreen> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                    16.0, 0, 16.0, 16.0),
+                            padding:
+                                const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                             child: SightCard(sight: listSights[index]),
                           );
                         },
@@ -220,8 +223,8 @@ class _SightListScreenState extends State<SightListScreen> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                    16.0, 0, 16.0, 16.0),
+                            padding:
+                                const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                             child: SightCard(sight: listSights[index]),
                           );
                         },

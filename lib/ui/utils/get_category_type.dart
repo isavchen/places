@@ -4,20 +4,22 @@ CategoryType getCategoryType(String category) {
   switch (category) {
     case 'храм':
       return CategoryType.temple;
-    case 'памятник':
+    case 'памятник': //
       return CategoryType.monument;
-    case 'особое место':
-      return CategoryType.park;
     case 'парк':
+      return CategoryType.park;
+    case 'театр':
       return CategoryType.theatre;
     case 'музей':
       return CategoryType.museum;
-    case 'кафе':
+    case 'отель': //
       return CategoryType.hotel;
-    case 'кафе':
+    case 'ресторан': //
       return CategoryType.restaurant;
     case 'кафе':
       return CategoryType.cafe;
+    case 'Остальное':
+      return CategoryType.other;
     default:
       return CategoryType.other;
   }

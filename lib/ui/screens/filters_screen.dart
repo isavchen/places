@@ -59,11 +59,14 @@ class _FiltersScreenState extends State<FiltersScreen> {
             onPressed: () {
               setState(() {
                 filter = filter.copyWith(categoryType: {
-                  CategoryType.cafe: false,
-                  CategoryType.hotel: false,
+                  CategoryType.temple: false,
                   CategoryType.monument: false,
                   CategoryType.park: false,
+                  CategoryType.theatre: false,
+                  CategoryType.museum: false,
+                  CategoryType.hotel: false,
                   CategoryType.restaurant: false,
+                  CategoryType.cafe: false,
                   CategoryType.other: false,
                 }, radius: 10000);
               });
@@ -96,7 +99,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                           MediaQuery.of(context).orientation ==
                               Orientation.landscape
                       ? 100
-                      : 214,
+                      : 324,
                   child: (_width <= 375 && _height <= 667) ||
                           MediaQuery.of(context).orientation ==
                               Orientation.landscape
