@@ -48,6 +48,7 @@ class _FilterItemState extends State<FilterItem> {
                 child: Center(
                   child: SvgPicture.asset(
                     widget.category.img,
+                    height: 28,
                     color: Theme.of(context).colorScheme.surface,
                   ),
                 ),

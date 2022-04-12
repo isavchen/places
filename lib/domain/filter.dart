@@ -1,4 +1,4 @@
-enum CategoryType { hotel, restaurant, star, park, myseum, cafe }
+enum CategoryType {temple, monument,park,theatre, museum, hotel, restaurant, cafe, other }
 
 class Filter {
   final double radius;

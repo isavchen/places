@@ -165,6 +165,26 @@ final List<Sight> mocks = [
 
 final List mocksCategory = [
   Category(
+    name: "Храм",
+    img: icTemple,
+  ),
+  Category(
+    name: "Памятник",
+    img: icMonument,
+  ),
+  Category(
+    name: "Парк",
+    img: icPark,
+  ),
+  Category(
+    name: "Театр",
+    img: icTheatre,
+  ),
+  Category(
+    name: "Музей",
+    img: icMuseum,
+  ),
+  Category(
     name: "Отель",
     img: icHotel,
   ),
@@ -173,19 +193,11 @@ final List mocksCategory = [
     img: icRestaurant,
   ),
   Category(
-    name: "Особое место",
-    img: icStar,
-  ),
-  Category(
-    name: "Парк",
-    img: icPark,
-  ),
-  Category(
-    name: "Музей",
-    img: icMuseum,
-  ),
-  Category(
     name: "Кафе",
     img: icCafe,
+  ),
+  Category(
+    name: "Остальное",
+    img: icOther,
   ),
 ];
