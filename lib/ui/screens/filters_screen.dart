@@ -61,10 +61,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 filter = filter.copyWith(categoryType: {
                   CategoryType.cafe: false,
                   CategoryType.hotel: false,
-                  CategoryType.myseum: false,
+                  CategoryType.monument: false,
                   CategoryType.park: false,
                   CategoryType.restaurant: false,
-                  CategoryType.star: false,
+                  CategoryType.other: false,
                 }, radius: 10000);
               });
               _filtrationPlace();

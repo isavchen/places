@@ -36,10 +36,10 @@ class _SightListScreenState extends State<SightListScreen> {
     categoryType: {
       CategoryType.cafe: true,
       CategoryType.hotel: true,
-      CategoryType.myseum: true,
+      CategoryType.monument: true,
       CategoryType.park: true,
       CategoryType.restaurant: true,
-      CategoryType.star: true,
+      CategoryType.temple: true,
     },
   );
   late var _title;
