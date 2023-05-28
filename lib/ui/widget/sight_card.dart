@@ -1,15 +1,18 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/response/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/screens/sight_details_screen.dart';
+import 'package:provider/provider.dart';
 
 class SightCard extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   const SightCard({Key? key, required this.sight}) : super(key: key);
 
   @override
@@ -25,7 +28,7 @@ class SightCard extends StatelessWidget {
 }
 
 class _SightCardPortraitWidget extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   const _SightCardPortraitWidget({Key? key, required this.sight})
       : super(key: key);
 
@@ -43,7 +46,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.galery.first,
+                    sight.urls.first,
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
@@ -54,7 +57,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
                       }
                       return Container(
                         height: 96,
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         child: Center(
                           child: Platform.isAndroid
                               ? CircularProgressIndicator(
@@ -82,9 +85,9 @@ class _SightCardPortraitWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
                   child: Text(
-                    sight.type,
+                    'plase.type.${sight.placeType}'.tr(),
                     style:
-                        Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                        Theme.of(context).primaryTextTheme.titleSmall?.copyWith(
                               color: Colors.white,
                             ),
                   ),
@@ -96,7 +99,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16.0),
                   bottomRight: Radius.circular(16.0),
@@ -116,15 +119,15 @@ class _SightCardPortraitWidget extends StatelessWidget {
                       sight.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).primaryTextTheme.subtitle1,
+                      style: Theme.of(context).primaryTextTheme.titleMedium,
                     ),
                   ),
                   Text(
-                    sight.details,
+                    sight.description,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .primaryTextTheme
-                        .bodyText2
+                        .bodyMedium
                         ?.copyWith(color: dmSecondaryColor2),
                   ),
                 ],
@@ -156,21 +159,35 @@ class _SightCardPortraitWidget extends StatelessWidget {
           right: 8,
           child: Material(
             color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                //TODO: функционал кнопки "Добавить в избранное"
-                print("Add to favorite");
+            child: Consumer<PlaceInteractor>(
+              builder: (context, placeInteractor, child) {
+                return InkWell(
+                  onTap: () {
+                    print(placeInteractor.getFavouritePlacesList
+                        .any((element) => element.id == sight.id));
+
+                    placeInteractor.getFavouritePlacesList
+                            .any((element) => element.id == sight.id)
+                        ? Provider.of<PlaceInteractor>(context, listen: false)
+                            .removeFromFavourites(place: sight)
+                        : Provider.of<PlaceInteractor>(context, listen: false)
+                            .addToFavourites(place: sight);
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    child: SvgPicture.asset(
+                      placeInteractor.getFavouritePlacesList
+                              .any((element) => element.id == sight.id)
+                          ? icHeartFull
+                          : icHeart,
+                      color: Colors.white,
+                    ),
+                  ),
+                );
               },
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                child: SvgPicture.asset(
-                  icHeart,
-                  color: Colors.white,
-                ),
-              ),
             ),
           ),
         ),
@@ -180,7 +197,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
 }
 
 class _SightCardLandscapeWidget extends StatelessWidget {
-  final Sight sight;
+  final Place sight;
   const _SightCardLandscapeWidget({Key? key, required this.sight})
       : super(key: key);
 
@@ -198,7 +215,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.galery.first,
+                    sight.urls.first,
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
@@ -209,7 +226,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                       }
                       return Container(
                         height: 96,
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         child: Center(
                           child: Platform.isAndroid
                               ? CircularProgressIndicator(
@@ -237,9 +254,9 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
                   child: Text(
-                    sight.type,
+                    sight.placeType,
                     style:
-                        Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                        Theme.of(context).primaryTextTheme.titleSmall?.copyWith(
                               color: Colors.white,
                             ),
                   ),
@@ -251,7 +268,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
               width: double.infinity,
               padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16.0),
                   bottomRight: Radius.circular(16.0),
@@ -271,15 +288,15 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                       sight.name,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).primaryTextTheme.subtitle1,
+                      style: Theme.of(context).primaryTextTheme.titleMedium,
                     ),
                   ),
                   Text(
-                    sight.details,
+                    sight.description,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .primaryTextTheme
-                        .bodyText2
+                        .bodyMedium
                         ?.copyWith(color: dmSecondaryColor2),
                   ),
                 ],
@@ -313,8 +330,8 @@ class _SightCardLandscapeWidget extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                //TODO: функционал кнопки "Добавить в избранное"
-                print("Add to favorite");
+                Provider.of<PlaceInteractor>(context, listen: false)
+                    .addToFavourites(place: sight);
               },
               borderRadius: BorderRadius.circular(20),
               child: Container(

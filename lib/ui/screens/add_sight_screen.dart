@@ -89,8 +89,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
           },
           child: Text('add_sight.app_bar.leading'.tr()),
           style: TextButton.styleFrom(
-            primary: dmSecondaryColor2,
-            textStyle: Theme.of(context).primaryTextTheme.subtitle1,
+            foregroundColor: dmSecondaryColor2,
+            textStyle: Theme.of(context).primaryTextTheme.titleMedium,
           ),
         ),
         leadingWidth: 100,
@@ -107,8 +107,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
               Container(
                 height: 120,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.0, horizontal: 8.0),
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -175,7 +175,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                   : category,
                               style: Theme.of(context)
                                   .primaryTextTheme
-                                  .subtitle1
+                                  .titleMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.w400,
                                     color: dmSecondaryColor2,
@@ -194,7 +194,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
               ),
               SizedBox(height: 24.0),
-      
+
               // Текстовое поле ввода названия
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -223,9 +223,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
               ),
               SizedBox(height: 24.0),
-      
+
               // Текстовые поля ввода долготы и широты
-      
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -300,7 +300,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ],
                 ),
               ),
-      
+
               //кнопка выбора местоположения на карте
               SizedBox(height: 5.0),
               Align(
@@ -314,7 +314,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
               ),
               SizedBox(height: 37.0),
-      
+
               //текстовое поле ввода описания
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -339,11 +339,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       onChanged: (String val) {
                         setState(() {});
                       },
-                      style:
-                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .titleMedium
+                          ?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                       decoration: InputDecoration(
                         hintText: 'add_sight.enter_description'.tr(),
                         hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
@@ -355,7 +357,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                 },
                                 child: Icon(
                                   Icons.cancel_rounded,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               )
                             : null,
@@ -381,14 +384,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(
                             width: 2.0,
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                         ),
                         contentPadding:
@@ -500,7 +503,7 @@ class MyTextField extends StatelessWidget {
       validator: validator,
       cursorColor: Theme.of(context).colorScheme.secondary,
       onChanged: onChanged,
-      style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+      style: Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w400,
             color: Theme.of(context).colorScheme.secondary,
           ),
@@ -528,14 +531,14 @@ class MyTextField extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
             width: 2.0,
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
         enabledBorder: OutlineInputBorder(

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/response/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/widget/visited_sight_card.dart';
@@ -9,7 +9,7 @@ import 'package:places/ui/widget/want_visiting_card.dart';
 
 class DraggableWidget extends StatefulWidget {
   final int index;
-  final Sight sight;
+  final Place sight;
   final int content;
   final dynamic Function() onTabClose;
   final Function(DismissDirection) onDismissed;
@@ -77,7 +77,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
                   ),
                 ),
                 Dismissible(
-                  key: UniqueKey(),
+                  key: ValueKey(widget.sight.id),
                   direction: DismissDirection.endToStart,
                   onDismissed: widget.onDismissed,
                   child: widget.content == 1
@@ -95,8 +95,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
               ],
             ),
       feedback: Dismissible(
-        key:
-            UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
+        key: ValueKey(widget.sight.id),
         child: Container(
           width: MediaQuery.of(context).orientation == Orientation.portrait
               ? null

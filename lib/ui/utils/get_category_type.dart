@@ -2,23 +2,23 @@ import 'package:places/domain/filter.dart';
 
 CategoryType getCategoryType(String category) {
   switch (category) {
-    case 'храм':
+    case 'temple':
       return CategoryType.temple;
-    case 'памятник': //
+    case 'monument': //
       return CategoryType.monument;
-    case 'парк':
+    case 'park':
       return CategoryType.park;
-    case 'театр':
+    case 'theatre':
       return CategoryType.theatre;
-    case 'музей':
+    case 'museum':
       return CategoryType.museum;
-    case 'отель': //
+    case 'hotel': //
       return CategoryType.hotel;
-    case 'ресторан': //
+    case 'restaurant': //
       return CategoryType.restaurant;
-    case 'кафе':
+    case 'cafe':
       return CategoryType.cafe;
-    case 'Остальное':
+    case 'other':
       return CategoryType.other;
     default:
       return CategoryType.other;

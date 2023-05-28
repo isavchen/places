@@ -2,14 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:places/data/network/base_url.dart';
 
 class ApiClient {
-
   static final _dio = createDio();
 
   static BaseOptions _baseOptions = BaseOptions(
     baseUrl: BaseUrl.host,
-    connectTimeout: 5000,
-    receiveTimeout: 5000,
-    sendTimeout: 5000,
+    connectTimeout: Duration(seconds: 5),
+    receiveTimeout: Duration(seconds: 5),
+    sendTimeout: Duration(seconds: 5),
     responseType: ResponseType.json,
   );
 
@@ -20,12 +19,11 @@ class ApiClient {
   static Dio getApiClient() => _dio
     ..interceptors.add(
       InterceptorsWrapper(
-        onError: (err, handler) {
+        onError: (DioError err, handler) {
           print(
               'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.baseUrl + err.requestOptions.path}\nERROR: ${err.error} -> ${err.response}');
 
-          throw Exception(
-              'В запросе ${err.requestOptions.path} возникла ошибка: ${err.response?.statusCode ?? 0} ${err.response?.statusMessage ?? 'Unknown network error'}');
+          return handler.next(err);
         },
         onRequest: (options, handler) {
           print(

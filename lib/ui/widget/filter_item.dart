@@ -84,7 +84,7 @@ class _FilterItemState extends State<FilterItem> {
         SizedBox(height: 12.0),
         Text(
           widget.category.name,
-          style: Theme.of(context).primaryTextTheme.caption,
+          style: Theme.of(context).primaryTextTheme.bodySmall,
         ),
       ],
     );

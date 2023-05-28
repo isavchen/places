@@ -21,7 +21,7 @@ class MyCustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _MyCustomAppBarState extends State<MyCustomAppBar> {
   @override
   Widget build(BuildContext context) {
-    TextStyle? titleTextStyle = Theme.of(context).primaryTextTheme.headline6?.copyWith(fontWeight: FontWeight.w700, fontSize: 32);
+    TextStyle? titleTextStyle = Theme.of(context).primaryTextTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700, fontSize: 32);
 
     Widget title = widget.title;
 

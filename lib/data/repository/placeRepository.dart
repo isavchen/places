@@ -2,36 +2,36 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:places/data/model/place.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:places/data/model/request/places_filter_request_dto.dart';
+import 'package:places/data/model/response/place.dart';
+import 'package:places/data/model/response/place_dto.dart';
 import 'package:places/data/network/api_client.dart';
 import 'package:places/data/network/base_url.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/domain/filter_request.dart';
-import 'package:places/domain/location.dart';
 import 'package:places/ui/utils/get_category_type.dart';
+import 'package:mime_type/mime_type.dart';
 
 class PlaceRepository {
   final Dio _client = ApiClient.getApiClient();
 
   //get filtered places
-  Future<List<Place>> getFilteredPlaces({
-    required Location? geolocation,
+  Future<List<PlaceDto>> getFilteredPlaces({
     required Filter? filter,
-    required String? nameFilter,
   }) async {
-    late FilterRequest data;
+    late PlacesFilterRequestDto data;
 
-    if (geolocation != null)
-      data = FilterRequest(
-        lat: geolocation.lat,
-        lng: geolocation.lng,
-        radius: filter!.radius,
+    if (filter != null && filter.userLocation != null)
+      data = PlacesFilterRequestDto(
+        lat: filter.userLocation?.lat,
+        lng: filter.userLocation?.lng,
+        radius: filter.radius,
         typeFilter: getPlaceTypes(filter.categoryType),
-        nameFilter: nameFilter != null ? nameFilter.trim() : null,
+        nameFilter: filter.nameFilter?.trim(),
       );
     else
-      data = FilterRequest(
-        nameFilter: nameFilter != null ? nameFilter.trim() : null,
+      data = PlacesFilterRequestDto(
+        nameFilter: filter?.nameFilter?.trim(),
       );
 
     final response = await _client.post(
@@ -39,8 +39,9 @@ class PlaceRepository {
       data: jsonEncode(data.toJson()),
     );
 
-    final List<Place> places =
-        (response.data as List).map((place) => Place.fromJson(place)).toList();
+    final List<PlaceDto> places = (response.data as List)
+        .map((place) => PlaceDto.fromJson(place))
+        .toList();
 
     places.forEach((e) => print(e.toString()));
 
@@ -54,7 +55,7 @@ class PlaceRepository {
     );
 
     final List<Place> places =
-        (response.data as List).map((place) => Place.fromJson(place)).toList();
+        (response.data as List<dynamic>).map((place) => Place.fromJson(place as Map<String, dynamic>)).toList();
 
     places.forEach((e) => print(e.toString()));
 
@@ -95,20 +96,41 @@ class PlaceRepository {
   }
 
   //update place
-  Future<void> updatePlace(Place place) async {
-    await _client.put(
+  Future<Place> updatePlace(Place place) async {
+    final response = await _client.put(
       BaseUrl.place.placeById(id: place.id.toString()),
       data: jsonEncode(place.toJson()),
     );
+
+    final Place updatedPlace =
+        Place.fromJson(response.data as Map<String, dynamic>);
+
+    print(updatedPlace.toString());
+    return updatedPlace;
   }
 
   //upload photo
-  Future<void> uploadPhoto(File image) async {
-    //TODO: check image type
-    await _client.post(
-      BaseUrl.media.upload,
-      //TODO: add image FormData
-      // data: FormData.fromMap(map),
-    );
+  Future<String> uploadPhoto(File image) async {
+    String fileName = image.path.split('/').last;
+    String? mimeType = mime(fileName);
+    String? type = mimeType?.split('/')[0];
+    String? subType = mimeType?.split('/')[1];
+
+    if (mimeType != null) {
+      FormData formData = FormData.fromMap({
+        'image': await MultipartFile.fromFile(
+          image.path,
+          filename: fileName,
+          contentType: MediaType(type!, subType!),
+        ),
+      });
+      final response = await _client.post(
+        BaseUrl.media.upload,
+        data: formData,
+      );
+      return '${BaseUrl.host}/${response.headers['location']?.first}';
+    } else {
+      throw Exception("Undefined type of file");
+    }
   }
 }

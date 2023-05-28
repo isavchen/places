@@ -16,21 +16,25 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final widgetOptions = [
-    SightListScreen(),
-    VisitingScreen(),
-    SettingsScreen(),
+    const SightListScreen(),
+    const VisitingScreen(),
+    const SettingsScreen(),
   ];
 
-  void _onTap(currentIndex) {
-    setState(() {
-      _currentIndex = currentIndex;
-    });
+  void _onTap(index) {
+    if (_currentIndex != index)
+      setState(() {
+        _currentIndex = index;
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widgetOptions.elementAt(_currentIndex),
+      body: IndexedStack(
+        index: _currentIndex,
+        children: widgetOptions,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(

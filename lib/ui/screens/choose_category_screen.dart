@@ -100,7 +100,7 @@ class CategoryItem extends StatelessWidget {
               children: <Widget>[
                 Text(
                   _item.text,
-                  style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+                  style: Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w400,
                         color: Theme.of(context).colorScheme.secondary,
                       ),

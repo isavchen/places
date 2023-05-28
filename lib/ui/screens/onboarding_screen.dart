@@ -156,7 +156,7 @@ class OnboardingPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .primaryTextTheme
-                .headline5!
+                .headlineSmall!
                 .copyWith(color: Theme.of(context).colorScheme.secondary),
           ),
         ),

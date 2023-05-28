@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
-import 'package:places/mocks.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/sight_details_screen.dart';
 import 'package:places/ui/utils/filtration_utils.dart';
-import 'package:places/ui/widget/search_bar.dart';
+import 'package:places/ui/widget/search_field.dart';
 
 class SightSearchScreen extends StatefulWidget {
   final Filter filter;
@@ -38,7 +37,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     imitationLoading();
     var searchResoultWithFilter = filtrationPlace(
       filter: widget.filter,
-      incomingList: mocks,
+      incomingList: [],
       location: myLocation,
     );
     for (final res in searchResoultWithFilter) {
@@ -70,7 +69,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
 
       children.add(TextSpan(
         text: source.substring(match.start, match.end),
-        style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+        style: Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
               color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w600,
             ),
@@ -134,7 +133,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
-            child: SearchBar(
+            child: SearchField(
               controller: searchTextController,
               onSubmitted: (value) {
                 if (value.trim().isNotEmpty) {
@@ -191,7 +190,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             'sight_search.history'.tr(),
                             style: Theme.of(context)
                                 .primaryTextTheme
-                                .caption
+                                .bodySmall
                                 ?.copyWith(color: lmInactiveColor),
                           ),
                         ),
@@ -214,7 +213,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                         item,
                                         style: Theme.of(context)
                                             .primaryTextTheme
-                                            .subtitle1
+                                            .titleMedium
                                             ?.copyWith(
                                               fontWeight: FontWeight.w400,
                                               color: lmSecondaryColor2,
@@ -336,7 +335,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                                         searchTextController.text.trim()),
                                     style: Theme.of(context)
                                         .primaryTextTheme
-                                        .subtitle1
+                                        .titleMedium
                                         ?.copyWith(
                                           color: Theme.of(context)
                                               .colorScheme
@@ -380,7 +379,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                           'sight_search.empty'.tr(),
                           style: Theme.of(context)
                               .primaryTextTheme
-                              .headline6
+                              .titleLarge
                               ?.copyWith(color: lmInactiveColor),
                         ),
                       ),

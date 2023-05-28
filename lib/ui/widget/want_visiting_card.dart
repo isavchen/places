@@ -1,17 +1,17 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/domain/sight.dart';
+import 'package:places/data/model/response/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
-import 'package:places/ui/screens/sight_details_bottomsheet_screen.dart';
 import 'package:places/ui/screens/sight_details_screen.dart';
 
 class WantVisitingCard extends StatelessWidget {
   final Function() onTapClose;
-  final Sight sight;
+  final Place sight;
   const WantVisitingCard(
       {Key? key, required this.sight, required this.onTapClose})
       : super(key: key);
@@ -30,7 +30,7 @@ class WantVisitingCard extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Image.network(
-                    sight.galery.first,
+                    sight.urls.first,
                     height: 96,
                     width: MediaQuery.of(context).size.width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
@@ -55,6 +55,7 @@ class WantVisitingCard extends StatelessWidget {
                                     : null,
                               )
                             : CupertinoActivityIndicator.partiallyRevealed(
+                                color: Theme.of(context).colorScheme.secondary,
                                 progress: loadingProgress.expectedTotalBytes !=
                                         null
                                     ? loadingProgress.cumulativeBytesLoaded /
@@ -69,9 +70,9 @@ class WantVisitingCard extends StatelessWidget {
                   top: 16.0,
                   left: 16.0,
                   child: Text(
-                    sight.type,
+                    'plase.type.${sight.placeType}'.tr(),
                     style:
-                        Theme.of(context).primaryTextTheme.subtitle2?.copyWith(
+                        Theme.of(context).primaryTextTheme.titleSmall?.copyWith(
                               color: Colors.white,
                             ),
                   ),
@@ -83,7 +84,7 @@ class WantVisitingCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width - 32.0,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Theme.of(context).backgroundColor,
+                color: Theme.of(context).colorScheme.background,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(16.0),
                   bottomRight: Radius.circular(16.0),
@@ -98,7 +99,7 @@ class WantVisitingCard extends StatelessWidget {
                     child: Text(
                       sight.name,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).primaryTextTheme.subtitle1,
+                      style: Theme.of(context).primaryTextTheme.titleMedium,
                     ),
                   ),
                   SizedBox(
@@ -112,7 +113,7 @@ class WantVisitingCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(
                             color: Theme.of(context).colorScheme.surface,
                           ),
@@ -127,7 +128,7 @@ class WantVisitingCard extends StatelessWidget {
                       "закрыто до 09:00",
                       style: Theme.of(context)
                           .primaryTextTheme
-                          .bodyText2
+                          .bodyMedium
                           ?.copyWith(
                             color: dmSecondaryColor2,
                           ),
@@ -218,9 +219,20 @@ class WantVisitingCard extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return SightDetailsBottomsheet(
-          sightId: sightId,
-        );
+        return ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16.0),
+              topRight: Radius.circular(16.0),
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.of(context).size.height * 0.92,
+              ),
+              child: SightDetailsScreen(
+                sightId: sightId,
+                isBottomSheet: true,
+              ),
+            ));
       },
       isScrollControlled: true,
     );
@@ -331,7 +343,9 @@ Future<dynamic> _openIOSDateTimePicker(BuildContext context) {
             child: Container(
               child: CupertinoTheme(
                 data: CupertinoThemeData(
-                  brightness: Theme.of(context).primaryColor == Colors.white ? Brightness.light : Brightness.dark,
+                  brightness: Theme.of(context).primaryColor == Colors.white
+                      ? Brightness.light
+                      : Brightness.dark,
                 ),
                 child: CupertinoDatePicker(
                   backgroundColor: Theme.of(context).primaryColor,

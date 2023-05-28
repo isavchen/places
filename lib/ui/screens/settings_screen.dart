@@ -39,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text(
                       'settings.dark_theme'.tr(),
                       style:
-                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+                          Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
                                 color: Theme.of(context).colorScheme.secondary,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -70,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text(
                       'settings.tutorial'.tr(),
                       style:
-                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+                          Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
                                 color: Theme.of(context).colorScheme.secondary,
                                 fontWeight: FontWeight.w400,
                               ),

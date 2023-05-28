@@ -32,7 +32,7 @@ class _VisitingScreenState extends State<VisitingScreen> {
                       height: 40,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       child: TabBar(

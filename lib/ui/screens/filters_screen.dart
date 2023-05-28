@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:places/data/model/response/place.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
-import 'package:places/domain/sight.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/utils/filtration_utils.dart';
@@ -22,7 +22,7 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  List<Sight> filterList = [];
+  List<Place> filterList = [];
   Location myLocation = Location(lat: 50.413475, lng: 30.525177);
   late Filter filter;
   int count = 0;
@@ -37,8 +37,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
   }
 
   void _filtrationPlace() {
-    List<Sight> tempList = filtrationPlace(
-        filter: filter, incomingList: mocks, location: myLocation);
+    List<Place> tempList = filtrationPlace(
+        filter: filter, incomingList: [], location: myLocation);
 
     setState(() {
       filterList = tempList;
@@ -99,7 +99,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                           MediaQuery.of(context).orientation ==
                               Orientation.landscape
                       ? 100
-                      : 324,
+                      : 354,
                   child: (_width <= 375 && _height <= 667) ||
                           MediaQuery.of(context).orientation ==
                               Orientation.landscape
@@ -188,7 +188,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                       : 56,
                 ),
                 child: SliderRadiusSearch(
-                  value: filter.radius,
+                  value: filter.radius ?? 0,
                   onChanged: (currentValue) {
                     setState(() {
                       filter = filter.copyWith(radius: currentValue);

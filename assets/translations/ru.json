@@ -56,5 +56,14 @@
     "dialog.title.camera": "Камера",
     "dialog.title.photo": "Фотография",
     "dialog.title.file": "Файл",
+    "plase.type.temple": "Храм",
+    "plase.type.monument": "Памятник",
+    "plase.type.park": "Парк",
+    "plase.type.theatre": "Театр",
+    "plase.type.museum": "Музей",
+    "plase.type.hotel": "Отель",
+    "plase.type.restaurant": "Ресторан",
+    "plase.type.cafe": "Кафе",
+    "plase.type.other": "Остальное",
     "": ""
 }
