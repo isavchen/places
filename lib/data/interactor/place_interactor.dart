@@ -1,10 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:places/data/model/request/place_request.dart';
 import 'package:places/data/model/response/place.dart';
-import 'package:places/data/place_model_selector.dart';
 import 'package:places/data/repository/placeRepository.dart';
-import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/ui/utils/location_utils.dart';
 
@@ -27,18 +26,10 @@ class PlaceInteractor extends ChangeNotifier {
   // Get uploaded images list
   List<String> get getUploadedImagesList => _uploadedImages;
 
-  // Get list of places
-  // sorted by distance to user
-  Future<List<Place>> getFilteredPlaces({required Filter filter}) async {
-    final responseDto = await placeRepository.getFilteredPlaces(filter: filter);
-
-    responseDto.sort(((a, b) => a.distance.compareTo(b.distance)));
-
+  void updatePlacesList(List<Place> places) {
     _places.clear();
-    _places.addAll(responseDto.map((e) => placeModelFromDtoSelector(e)));
+    _places.addAll(places);
     notifyListeners();
-
-    return _places;
   }
 
   // Get not filtered list of places
@@ -52,6 +43,7 @@ class PlaceInteractor extends ChangeNotifier {
 
     return response;
   }
+
 
   // Get place details by id
   Future<Place> getPlaceDetails({required int id}) async {
@@ -115,14 +107,18 @@ class PlaceInteractor extends ChangeNotifier {
     notifyListeners();
   }
 
+  //Remove image from list place
+  Future<void> deleteImage({required String image}) async {
+    _uploadedImages.remove(image);
+    notifyListeners();
+  }
+
   // Add new place
-  Future<Place> addNewPlace({required Place place}) async {
+  Future<Place> addNewPlace({required PlaceRequest place}) async {
     place.urls.addAll(_uploadedImages);
 
     final response = await placeRepository.createPlace(place);
     _uploadedImages.clear();
-    // _places.insert(0, response);
-    // notifyListeners();
 
     return response;
   }

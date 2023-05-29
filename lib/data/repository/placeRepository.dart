@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:places/data/model/request/place_request.dart';
 import 'package:places/data/model/request/places_filter_request_dto.dart';
 import 'package:places/data/model/response/place.dart';
 import 'package:places/data/model/response/place_dto.dart';
@@ -17,11 +18,11 @@ class PlaceRepository {
 
   //get filtered places
   Future<List<PlaceDto>> getFilteredPlaces({
-    required Filter? filter,
+    required Filter filter,
   }) async {
     late PlacesFilterRequestDto data;
 
-    if (filter != null && filter.userLocation != null)
+    if (filter.userLocation != null)
       data = PlacesFilterRequestDto(
         lat: filter.userLocation?.lat,
         lng: filter.userLocation?.lng,
@@ -31,7 +32,8 @@ class PlaceRepository {
       );
     else
       data = PlacesFilterRequestDto(
-        nameFilter: filter?.nameFilter?.trim(),
+        nameFilter: filter.nameFilter?.trim(),
+        typeFilter: getPlaceTypes(filter.categoryType),
       );
 
     final response = await _client.post(
@@ -54,8 +56,9 @@ class PlaceRepository {
       BaseUrl.place.placesUrl,
     );
 
-    final List<Place> places =
-        (response.data as List<dynamic>).map((place) => Place.fromJson(place as Map<String, dynamic>)).toList();
+    final List<Place> places = (response.data as List<dynamic>)
+        .map((place) => Place.fromJson(place as Map<String, dynamic>))
+        .toList();
 
     places.forEach((e) => print(e.toString()));
 
@@ -76,7 +79,7 @@ class PlaceRepository {
   }
 
   //create new place
-  Future<Place> createPlace(Place place) async {
+  Future<Place> createPlace(PlaceRequest place) async {
     final response = await _client.post(
       BaseUrl.place.placesUrl,
       data: jsonEncode(place.toJson()),

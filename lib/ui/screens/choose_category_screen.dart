@@ -57,7 +57,7 @@ class ChooseCategoryState extends State<ChooseCategory> {
                 },
               ),
             ),
-      
+
             // кнопка сохранить
           ],
         ),
@@ -99,11 +99,12 @@ class CategoryItem extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Text(
-                  _item.text,
-                  style: Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w400,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+                  "plase.type.${_item.text}".tr(),
+                  style:
+                      Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                 ),
                 _item.isSelected
                     ? SvgPicture.asset(

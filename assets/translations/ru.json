@@ -65,5 +65,7 @@
     "plase.type.restaurant": "Ресторан",
     "plase.type.cafe": "Кафе",
     "plase.type.other": "Остальное",
+    "camera.not_available": "Камера недоступна",
+    "snackbar.close": "Закрыть",
     "": ""
 }
