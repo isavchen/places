@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/ui/res/themes.dart';
+import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/ui/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -11,20 +11,20 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
-    EasyLocalization(
-      supportedLocales: [
-        Locale('ru'),
-      ],
-      path: 'assets/translations',
-      fallbackLocale: Locale('ru'),
-      saveLocale: true,
-      child: App(),
+    ChangeNotifierProvider(
+      create: (context) => SettingsInteractor(),
+      child: EasyLocalization(
+        supportedLocales: [
+          Locale('ru'),
+        ],
+        path: 'assets/translations',
+        fallbackLocale: Locale('ru'),
+        saveLocale: true,
+        child: App(),
+      ),
     ),
   );
 }
-
-ChangeNotifier changeNotifier = ChangeNotifier();
-bool isDarkTheme = false;
 
 class App extends StatefulWidget {
   @override
@@ -33,30 +33,24 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   @override
-  void initState() {
-    changeNotifier.addListener(() {
-      setState(() {
-        isDarkTheme = !isDarkTheme;
-      });
-    });
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => PlaceInteractor()),
           ChangeNotifierProvider(create: (context) => SearchInteractor()),
         ],
-        child: MaterialApp(
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          debugShowCheckedModeBanner: false,
-          theme: isDarkTheme ? darkTheme : lightTheme,
-          title: 'Places',
-          home: SplashScreen(),
+        child: Consumer<SettingsInteractor>(
+          builder: (context, settingsInteractor, child) {
+            return MaterialApp(
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              theme: settingsInteractor.getCurrentTheme,
+              title: 'Places',
+              home: SplashScreen(),
+            );
+          },
         ));
   }
 }
