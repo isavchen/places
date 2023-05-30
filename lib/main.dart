@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/ui/res/themes.dart';
 import 'package:places/ui/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,7 @@ class _AppState extends State<App> {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => PlaceInteractor()),
+          ChangeNotifierProvider(create: (context) => SearchInteractor()),
         ],
         child: MaterialApp(
           localizationsDelegates: context.localizationDelegates,

@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/data/interactor/place_interactor.dart';
-import 'package:places/data/model/response/place.dart';
+import 'package:places/domain/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/screens/sight_details_screen.dart';

@@ -1,4 +1,4 @@
-import 'package:places/data/model/response/place.dart';
+import 'package:places/domain/place.dart';
 import 'package:places/data/model/response/place_dto.dart';
 
 Place placeModelFromDtoSelector(PlaceDto placeDto) {

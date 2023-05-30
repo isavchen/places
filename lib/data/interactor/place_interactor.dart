@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:places/data/model/request/place_request.dart';
-import 'package:places/data/model/response/place.dart';
+import 'package:places/domain/place.dart';
+import 'package:places/data/place_model_selector.dart';
 import 'package:places/data/repository/placeRepository.dart';
+import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/ui/utils/location_utils.dart';
 
@@ -26,9 +28,15 @@ class PlaceInteractor extends ChangeNotifier {
   // Get uploaded images list
   List<String> get getUploadedImagesList => _uploadedImages;
 
-  void updatePlacesList(List<Place> places) {
+  //Get list of filtrated places
+  Future<void> filtrationPlaces({required Filter filter}) async {
+    final responseDto = await placeRepository.getFilteredPlaces(filter: filter);
+
+    if (filter.radius != null || filter.userLocation != null)
+      responseDto.sort(((a, b) => a.distance!.compareTo(b.distance!)));
+
     _places.clear();
-    _places.addAll(places);
+    _places.addAll(responseDto.map((e) => placeModelFromDtoSelector(e)));
     notifyListeners();
   }
 
@@ -43,7 +51,6 @@ class PlaceInteractor extends ChangeNotifier {
 
     return response;
   }
-
 
   // Get place details by id
   Future<Place> getPlaceDetails({required int id}) async {
@@ -122,7 +129,6 @@ class PlaceInteractor extends ChangeNotifier {
 
     return response;
   }
-
 
   //Update place
   Future<Place> updatePlace({required Place place}) async {

@@ -54,15 +54,19 @@ class _SliderRadiusSearchState extends State<SliderRadiusSearch> {
           Container(
             height: 16,
             child: Slider(
-                min: 0,
-                max: 10000,
-                value: _value,
-                onChanged: (currentlyValue) {
-                  setState(() {
-                    _value = currentlyValue;
-                  });
-                  widget.onChanged(_value);
-                }),
+              min: 0,
+              max: 10000,
+              value: 10000,
+              onChanged: null,
+              //TODO: add radius changing when geolocation will be conected
+              // value: _value,
+              // onChanged: (currentlyValue) {
+              //   setState(() {
+              //     _value = currentlyValue;
+              //   });
+              //   widget.onChanged(_value);
+              // }
+            ),
           ),
         ],
       ),

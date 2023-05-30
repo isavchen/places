@@ -1,4 +1,4 @@
-import 'package:places/data/model/response/place.dart';
+import 'package:places/domain/place.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/domain/location.dart';
 import 'package:places/ui/utils/get_category_type.dart';

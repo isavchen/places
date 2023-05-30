@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/domain/location.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/add_sight_screen.dart';
@@ -28,9 +27,12 @@ class SightListScreen extends StatefulWidget {
 
 class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
+
+  //TODO: move this parameter to search interactor e.g
+  //TODO add radius and userLocation when geolocation will be conected
   Filter filter = Filter(
-    userLocation: Location(lat: 50.413475, lng: 30.525177),
-    radius: 10000,
+    // userLocation: Location(lat: 50.413475, lng: 30.525177),
+    // radius: 10000,
     categoryType: {
       CategoryType.temple: true,
       CategoryType.monument: true,
@@ -47,11 +49,11 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   void initState() {
-    if (widget.filter != null) {
-      getFilteredPlaces(widget.filter!);
-    } else {
-      getAllPlaces();
-    }
+    // if (widget.filter != null) {
+    // getFilteredPlaces(widget.filter!);
+    // } else {
+    getAllPlaces();
+    // }
     _scrollController = ScrollController()
       ..addListener(() {
         setState(() {
@@ -73,10 +75,10 @@ class _SightListScreenState extends State<SightListScreen> {
     await Provider.of<PlaceInteractor>(context, listen: false).getAllPlaces();
   }
 
-  void getFilteredPlaces(Filter filter) async {
-    await Provider.of<PlaceInteractor>(context, listen: false)
-        .getFilteredPlaces(filter: filter);
-  }
+  // void getFilteredPlaces(Filter filter) async {
+  //   await Provider.of<PlaceInteractor>(context, listen: false)
+  //       .filtrationPlaces(filter: filter);
+  // }
 
   bool get _isSliverAppBarExpanded {
     return _scrollController.hasClients &&
@@ -177,7 +179,10 @@ class _SightListScreenState extends State<SightListScreen> {
                                           ),
                                         );
                                         if (searchFilter != null) {
-                                          getFilteredPlaces(searchFilter);
+                                          setState(() {
+                                            filter = searchFilter;
+                                          });
+                                          // getFilteredPlaces(searchFilter);
                                         }
                                       },
                                       child: Container(
@@ -294,7 +299,7 @@ class _SightListScreenState extends State<SightListScreen> {
                           ],
                         ),
                 );
-                getFilteredPlaces(widget.filter ?? filter);
+                // getFilteredPlaces(widget.filter ?? filter);
               }
             },
             label: Container(

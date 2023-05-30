@@ -2,7 +2,7 @@ class PlaceDto {
   int id;
   double lat, lng;
   String name;
-  double distance;
+  double? distance;
   List<String> urls;
   String placeType;
   String description;
@@ -10,7 +10,7 @@ class PlaceDto {
   PlaceDto({
     required this.id,
     required this.name,
-    required this.distance,
+    this.distance,
     required this.lat,
     required this.lng,
     required this.urls,

@@ -15,13 +15,11 @@ enum CategoryType {
 class Filter {
   final Location? userLocation;
   final double? radius;
-  final String? nameFilter;
   final Map<CategoryType, bool> categoryType;
 
   Filter({
     this.userLocation,
     this.radius,
-    this.nameFilter,
     required this.categoryType,
   });
 
@@ -50,11 +48,19 @@ class Filter {
     }
   }
 
-  Filter copyWith({Location? userLocation, double? radius, Map<CategoryType, bool>? categoryType, String? nameFilter}) =>
+  Filter copyWith({
+    Location? userLocation,
+    double? radius,
+    Map<CategoryType, bool>? categoryType,
+  }) =>
       Filter(
         userLocation: userLocation ?? this.userLocation,
         radius: radius ?? this.radius,
         categoryType: categoryType ?? this.categoryType,
-        nameFilter: nameFilter ?? this.nameFilter
       );
+
+  @override
+  String toString() {
+    return 'Filter: userLocation(lat: ${userLocation?.lat}, lng: ${userLocation?.lng}), radius: $radius, categoryType: $categoryType';
+  }
 }

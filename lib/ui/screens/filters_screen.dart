@@ -2,16 +2,15 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:places/data/model/response/place.dart';
+import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/domain/location.dart';
 import 'package:places/mocks.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/utils/filtration_utils.dart';
 import 'package:places/ui/utils/get_category_type.dart';
 import 'package:places/ui/widget/filter_item.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/slider_radius_search.dart';
+import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
   final Filter filter;
@@ -22,29 +21,34 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  List<Place> filterList = [];
-  Location myLocation = Location(lat: 50.413475, lng: 30.525177);
+  // List<Place> filterList = [];
+  // Location myLocation = Location(lat: 50.413475, lng: 30.525177);
   late Filter filter;
-  int count = 0;
+  // int count = 0;
 
   @override
   void initState() {
-    super.initState();
     setState(() {
       filter = widget.filter;
     });
     _filtrationPlace();
+    super.initState();
   }
 
-  void _filtrationPlace() {
-    List<Place> tempList = filtrationPlace(
-        filter: filter, incomingList: [], location: myLocation);
-
-    setState(() {
-      filterList = tempList;
-      count = filterList.length;
-    });
+  Future<void> _filtrationPlace() async {
+    await Provider.of<PlaceInteractor>(context, listen: false)
+        .filtrationPlaces(filter: filter);
   }
+
+  // void _filtrationPlace() {
+  //   List<Place> tempList = filtrationPlace(
+  //       filter: filter, incomingList: [], location: filter.userLocation);
+
+  //   setState(() {
+  //     filterList = tempList;
+  //     count = filterList.length;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +59,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         elevation: 0,
         actions: [
+          //TODO add radius when geolocation will be conected
           TextButton(
             onPressed: () {
               setState(() {
@@ -68,7 +73,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
                   CategoryType.restaurant: false,
                   CategoryType.cafe: false,
                   CategoryType.other: false,
-                }, radius: 10000);
+                }, radius: null);
               });
               _filtrationPlace();
             },
@@ -204,22 +209,26 @@ class _FiltersScreenState extends State<FiltersScreen> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: ElevatedButton(
-            onPressed: count == 0
-                ? null
-                : () {
-                    Navigator.of(context).pop(filter);
-                  },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15.0),
-              child: Text(
-                'filters.show_button'.tr(
-                  namedArgs: {
-                    'count': count.toString(),
-                  },
+          child: Consumer<PlaceInteractor>(
+            builder: (context, placeInteractor, child) {
+              return ElevatedButton(
+                onPressed: placeInteractor.getPlaces.length == 0
+                    ? null
+                    : () {
+                        Navigator.of(context).pop(filter);
+                      },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                  child: Text(
+                    'filters.show_button'.tr(
+                      namedArgs: {
+                        'count': placeInteractor.getPlaces.length.toString(),
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
       ),

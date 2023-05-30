@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:places/data/model/request/place_request.dart';
 import 'package:places/data/model/request/places_filter_request_dto.dart';
-import 'package:places/data/model/response/place.dart';
+import 'package:places/domain/place.dart';
 import 'package:places/data/model/response/place_dto.dart';
 import 'package:places/data/network/api_client.dart';
 import 'package:places/data/network/base_url.dart';
@@ -18,22 +18,22 @@ class PlaceRepository {
 
   //get filtered places
   Future<List<PlaceDto>> getFilteredPlaces({
-    required Filter filter,
+    Filter? filter,
+    String? namePlace,
   }) async {
     late PlacesFilterRequestDto data;
 
-    if (filter.userLocation != null)
+    if (filter != null && filter.userLocation != null && filter.radius != null)
       data = PlacesFilterRequestDto(
         lat: filter.userLocation?.lat,
         lng: filter.userLocation?.lng,
         radius: filter.radius,
         typeFilter: getPlaceTypes(filter.categoryType),
-        nameFilter: filter.nameFilter?.trim(),
       );
     else
       data = PlacesFilterRequestDto(
-        nameFilter: filter.nameFilter?.trim(),
-        typeFilter: getPlaceTypes(filter.categoryType),
+        nameFilter: namePlace,
+        typeFilter: getPlaceTypes(filter!.categoryType),
       );
 
     final response = await _client.post(
