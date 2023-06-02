@@ -1,16 +1,20 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:places/domain/sight.dart';
-import 'package:places/mocks.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/data/model/request/place_request.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
+import 'package:places/ui/screens/camera_screen.dart';
 import 'package:places/ui/screens/choose_category_screen.dart';
 import 'package:places/ui/widget/image_dialog.dart';
 import 'package:places/ui/widget/new_photo_card.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
+import 'package:provider/provider.dart';
 
 class AddSightScreen extends StatefulWidget {
   const AddSightScreen({Key? key}) : super(key: key);
@@ -30,41 +34,44 @@ class _AddSightScreenState extends State<AddSightScreen> {
   FocusNode lonFocusNode = FocusNode();
   FocusNode descFocusNode = FocusNode();
 
-  List<String> photoList = [];
-
   bool isValid() {
     if (titleTextEditingController.text.isNotEmpty &&
         latTextEditingController.text.isNotEmpty &&
         lonTextEditingController.text.isNotEmpty &&
         descTextEditingController.text.isNotEmpty &&
         category.isNotEmpty &&
-        photoList.isNotEmpty) return true;
+        Provider.of<PlaceInteractor>(context, listen: false)
+            .getUploadedImagesList
+            .isNotEmpty) return true;
     return false;
   }
 
   @override
   void initState() {
+    // setState(() {
+    //   photoList = Provider.of<PlaceInteractor>(context, listen: false).getUploadedImagesList;
+    // });
     super.initState();
-    titleTextEditingController.addListener(() {
-      setState(() {});
-    });
-    latFocusNode.addListener(() {
-      setState(() {});
-    });
-    lonFocusNode.addListener(() {
-      setState(() {});
-    });
-    descFocusNode.addListener(() {
-      setState(() {});
-    });
+    // titleTextEditingController.addListener(() {
+    //   setState(() {});
+    // });
+    // latFocusNode.addListener(() {
+    //   setState(() {});
+    // });
+    // lonFocusNode.addListener(() {
+    //   setState(() {});
+    // });
+    // descFocusNode.addListener(() {
+    //   setState(() {});
+    // });
   }
 
   @override
   void dispose() {
-    titleFocusNode.dispose();
-    latFocusNode.dispose();
-    lonFocusNode.dispose();
-    descFocusNode.dispose();
+    // titleFocusNode.dispose();
+    // latFocusNode.dispose();
+    // lonFocusNode.dispose();
+    // descFocusNode.dispose();
     super.dispose();
   }
 
@@ -89,8 +96,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
           },
           child: Text('add_sight.app_bar.leading'.tr()),
           style: TextButton.styleFrom(
-            primary: dmSecondaryColor2,
-            textStyle: Theme.of(context).primaryTextTheme.subtitle1,
+            foregroundColor: dmSecondaryColor2,
+            textStyle: Theme.of(context).primaryTextTheme.titleMedium,
           ),
         ),
         leadingWidth: 100,
@@ -107,32 +114,40 @@ class _AddSightScreenState extends State<AddSightScreen> {
               Container(
                 height: 120,
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      NewPhotoCard(
-                        isAddButton: true,
-                        imageUrl: "",
-                        key: ValueKey("addbutton"),
-                        onPressed: () {
-                          _openImagePicker(context);
-                        },
-                      ),
-                      // for (final photo in photoList)
-                      for (int i = 0; i < photoList.length; i++)
-                        NewPhotoCard(
-                          imageUrl: photoList[i],
-                          key:
-                              UniqueKey(), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
-                          onDelete: () {
-                            setState(() {
-                              photoList.removeAt(i);
-                            });
-                          },
-                        ),
-                    ],
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 16.0, horizontal: 8.0),
+                  child: Consumer<PlaceInteractor>(
+                    builder: (context, placeInteractor, child) {
+                      return ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          NewPhotoCard(
+                            isAddButton: true,
+                            imageUrl: "",
+                            key: ValueKey("addbutton"),
+                            onPressed: () {
+                              _openImagePicker();
+                            },
+                          ),
+                          // for (final photo in photoList)
+                          for (int i = 0;
+                              i < placeInteractor.getUploadedImagesList.length;
+                              i++)
+                            NewPhotoCard(
+                              imageUrl:
+                                  placeInteractor.getUploadedImagesList[i],
+                              key: ValueKey(placeInteractor
+                                      .getUploadedImagesList[
+                                  i]), //ValueKey(id),  заменить на ValueKey(id) на основе id сущности при работе с сетью.
+                              onDelete: () {
+                                placeInteractor.deleteImage(
+                                    image: placeInteractor
+                                        .getUploadedImagesList[i]);
+                              },
+                            ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ),
@@ -150,15 +165,15 @@ class _AddSightScreenState extends State<AddSightScreen> {
                     ),
                     InkWell(
                       onTap: () async {
-                        final category1 = await Navigator.push(
+                        final data = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ChooseCategory()),
                         );
                         titleFocusNode.requestFocus();
-                        if (category1 != null) {
+                        if (data != null) {
                           setState(() {
-                            category = category1;
+                            category = data;
                           });
                         }
                       },
@@ -172,10 +187,10 @@ class _AddSightScreenState extends State<AddSightScreen> {
                             Text(
                               category.isEmpty
                                   ? 'add_sight.not_selected'.tr()
-                                  : category,
+                                  : "plase.type.$category".tr(),
                               style: Theme.of(context)
                                   .primaryTextTheme
-                                  .subtitle1
+                                  .titleMedium
                                   ?.copyWith(
                                     fontWeight: FontWeight.w400,
                                     color: dmSecondaryColor2,
@@ -194,7 +209,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
               ),
               SizedBox(height: 24.0),
-      
+
               // Текстовое поле ввода названия
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -223,9 +238,9 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
               ),
               SizedBox(height: 24.0),
-      
+
               // Текстовые поля ввода долготы и широты
-      
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -300,7 +315,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                   ],
                 ),
               ),
-      
+
               //кнопка выбора местоположения на карте
               SizedBox(height: 5.0),
               Align(
@@ -314,7 +329,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
                 ),
               ),
               SizedBox(height: 37.0),
-      
+
               //текстовое поле ввода описания
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -339,11 +354,13 @@ class _AddSightScreenState extends State<AddSightScreen> {
                       onChanged: (String val) {
                         setState(() {});
                       },
-                      style:
-                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .titleMedium
+                          ?.copyWith(
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                       decoration: InputDecoration(
                         hintText: 'add_sight.enter_description'.tr(),
                         hintStyle: dmMatBodyText2.copyWith(fontSize: 16.0),
@@ -355,7 +372,8 @@ class _AddSightScreenState extends State<AddSightScreen> {
                                 },
                                 child: Icon(
                                   Icons.cancel_rounded,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               )
                             : null,
@@ -381,14 +399,14 @@ class _AddSightScreenState extends State<AddSightScreen> {
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(
                             width: 2.0,
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).colorScheme.error,
                           ),
                         ),
                         contentPadding:
@@ -410,19 +428,18 @@ class _AddSightScreenState extends State<AddSightScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: ElevatedButton(
             onPressed: isValid()
-                ? () {
-                    mocks.add(
-                      Sight(
-                        id: mocks.last.id + 1,
-                        name: titleTextEditingController.text.trim(),
-                        lat: double.parse(latTextEditingController.text.trim()),
-                        lon: double.parse(lonTextEditingController.text.trim()),
-                        url: photoList.first,
-                        details: descTextEditingController.text.trim(),
-                        galery: photoList,
-                        type: category.toLowerCase(),
-                      ),
-                    );
+                ? () async {
+                    await Provider.of<PlaceInteractor>(context, listen: false)
+                        .addNewPlace(
+                            place: PlaceRequest(
+                      name: titleTextEditingController.text.trim(),
+                      lat: double.parse(latTextEditingController.text.trim()),
+                      lng: double.parse(lonTextEditingController.text.trim()),
+                      urls: [],
+                      description: descTextEditingController.text.trim(),
+                      placeType: category,
+                    ));
+                    // TODO add for creating new place
                     Navigator.of(context).pop(true);
                   }
                 : null,
@@ -436,7 +453,7 @@ class _AddSightScreenState extends State<AddSightScreen> {
     );
   }
 
-  void _openImagePicker(BuildContext context) async {
+  void _openImagePicker() async {
     final res = await showDialog(
       context: context,
       builder: (_) {
@@ -444,23 +461,59 @@ class _AddSightScreenState extends State<AddSightScreen> {
       },
     );
     if (res != null) {
+      // Provider.of<PlaceInteractor>(context, listen: false).addImage(image: res);
       setState(() {
         switch (res) {
           case 'camera':
-            photoList.add(
-                "http://thenewcamera.com/wp-content/uploads/2019/09/Fuji-X-A7-sample-image-1.jpg");
+            _openCamerePage();
             break;
           case 'photo':
-            photoList.add(
-                "https://cdn.turkishairlines.com/m/4118b6df9b5d7df7/original/Travel-Guide-of-Kiev-via-Turkish-Airlines.jpg");
+            _openGallery();
             break;
           case 'file':
-            photoList.add(
-                "https://www.dreamsbook.com.ua/uploads/15747xJILGQdTEiVPzpKH.jpg");
+            //TODO: change to file
+            _openGallery();
             break;
         }
       });
     }
+  }
+
+  void _openGallery() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null)
+      Provider.of<PlaceInteractor>(context, listen: false)
+          .addImage(image: File(image.path));
+  }
+
+  void _openCamerePage() async {
+    await availableCameras().then((value) async {
+      if (value.isNotEmpty) {
+        final image = await Navigator.push(context,
+            MaterialPageRoute(builder: (_) => CameraScreen(cameras: value)));
+        if (image != null)
+          Provider.of<PlaceInteractor>(context, listen: false)
+              .addImage(image: File(image));
+      } else {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'camera.not_available'.tr(),
+            style: Theme.of(context)
+                .primaryTextTheme
+                .bodyMedium
+                ?.copyWith(color: Theme.of(context).primaryColor),
+          ),
+          action: SnackBarAction(
+            label: 'snackbar.close'.tr(),
+            textColor: lmGreenColor,
+            onPressed: () {
+              // Some code to undo the change.
+            },
+          ),
+        ));
+      }
+    });
   }
 }
 
@@ -500,7 +553,7 @@ class MyTextField extends StatelessWidget {
       validator: validator,
       cursorColor: Theme.of(context).colorScheme.secondary,
       onChanged: onChanged,
-      style: Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
+      style: Theme.of(context).primaryTextTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w400,
             color: Theme.of(context).colorScheme.secondary,
           ),
@@ -528,14 +581,14 @@ class MyTextField extends StatelessWidget {
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
             width: 2.0,
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
         enabledBorder: OutlineInputBorder(

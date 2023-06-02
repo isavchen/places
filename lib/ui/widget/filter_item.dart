@@ -1,8 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/domain/category.dart';
 import 'package:places/ui/res/assets.dart';
-
 
 //коллбек onChanged, возвращает текущее значение итема
 typedef MyBoolCallback(bool);
@@ -42,12 +42,14 @@ class _FilterItemState extends State<FilterItem> {
                 width: 64.0,
                 height: 64.0,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface.withOpacity(0.16),
+                  color:
+                      Theme.of(context).colorScheme.surface.withOpacity(0.16),
                   borderRadius: BorderRadius.circular(32.0),
                 ),
                 child: Center(
                   child: SvgPicture.asset(
                     widget.category.img,
+                    height: 28,
                     color: Theme.of(context).colorScheme.surface,
                   ),
                 ),
@@ -82,8 +84,8 @@ class _FilterItemState extends State<FilterItem> {
         ),
         SizedBox(height: 12.0),
         Text(
-          widget.category.name,
-          style: Theme.of(context).primaryTextTheme.caption,
+          'plase.type.${widget.category.name}'.tr(),
+          style: Theme.of(context).primaryTextTheme.bodySmall,
         ),
       ],
     );

@@ -3,8 +3,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/main.dart';
+import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/ui/screens/onboarding_screen.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -14,7 +15,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // ignore: unused_field
   bool _isDarkTheme = false;
 
   @override
@@ -38,22 +38,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Text(
                       'settings.dark_theme'.tr(),
-                      style:
-                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontWeight: FontWeight.w400,
-                              ),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .titleMedium
+                          ?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.w400,
+                          ),
                     ),
                     CupertinoSwitch(
                       trackColor: Theme.of(context).dividerColor,
                       activeColor: Theme.of(context).colorScheme.surface,
-                      value: isDarkTheme,
+                      value: _isDarkTheme,
                       onChanged: (currentValue) {
                         setState(() {
                           _isDarkTheme = currentValue;
                         });
-                        // ignore: invalid_use_of_visible_for_testing_member
-                        changeNotifier.notifyListeners();
+                        Provider.of<SettingsInteractor>(context, listen: false)
+                            .changeTheme(isDarkTheme: _isDarkTheme);
                       },
                     ),
                   ],
@@ -69,11 +71,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   children: [
                     Text(
                       'settings.tutorial'.tr(),
-                      style:
-                          Theme.of(context).primaryTextTheme.subtitle1?.copyWith(
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontWeight: FontWeight.w400,
-                              ),
+                      style: Theme.of(context)
+                          .primaryTextTheme
+                          .titleMedium
+                          ?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.w400,
+                          ),
                     ),
                     IconButton(
                         onPressed: () {

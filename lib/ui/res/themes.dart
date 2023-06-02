@@ -6,16 +6,10 @@ import 'package:places/ui/widget/slider_radius_search.dart';
 
 final lightTheme = ThemeData(
   primaryColor: lmPrimaryColor,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    secondary: lmAccentColor,
-    surface: lmGreenColor,
-  ),
   focusColor: lmFocusColor,
   scaffoldBackgroundColor: lmPrimaryColor,
-  backgroundColor: lmBackgroundColor,
   dividerColor: lmInactiveColor,
   canvasColor: lmYellowColor,
-  errorColor: lmRedColor,
   highlightColor: Colors.transparent,
   appBarTheme: AppBarTheme(
     backgroundColor: lmPrimaryColor,
@@ -26,12 +20,12 @@ final lightTheme = ThemeData(
     systemOverlayStyle: SystemUiOverlayStyle.dark,
   ),
   primaryTextTheme: TextTheme(
-    headline6: lmMatHeadline6,
-    headline5: lmMatHeadline5,
-    subtitle1: lmMatSubtitle1,
-    subtitle2: lmMatSubtitle2,
-    bodyText2: lmMatBodyText2,
-    caption: lmCaptionText,
+    titleLarge: lmMatHeadline6,
+    headlineSmall: lmMatHeadline5,
+    titleMedium: lmMatSubtitle1,
+    titleSmall: lmMatSubtitle2,
+    bodyMedium: lmMatBodyText2,
+    bodySmall: lmCaptionText,
   ),
   tabBarTheme: TabBarTheme(
     labelColor: lmPrimaryColor,
@@ -72,7 +66,7 @@ final lightTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      primary: lmGreenColor,
+      foregroundColor: lmGreenColor,
       textStyle: lmMatSubtitle1,
       padding: EdgeInsets.symmetric(horizontal: 16.0),
     ),
@@ -96,17 +90,15 @@ final lightTheme = ThemeData(
     dialBackgroundColor: Colors.grey[300],
     dialHandColor: Colors.lightGreen,
     dialTextColor: Colors.black,
-  ),
+  ), colorScheme: ColorScheme.fromSwatch().copyWith(
+    secondary: lmAccentColor,
+    surface: lmGreenColor,
+  ).copyWith(background: lmBackgroundColor).copyWith(error: lmRedColor),
 );
 
 final darkTheme = ThemeData(
   primaryColor: dmPrimaryColor,
-  colorScheme: ColorScheme.fromSwatch().copyWith(
-    secondary: dmAccentColor,
-    surface: dmGreenColor,
-  ),
   focusColor: dmFocusColor,
-  backgroundColor: dmBackgroundColor,
   scaffoldBackgroundColor: dmPrimaryColor,
   dividerColor: dmInactiveColor,
   appBarTheme: AppBarTheme(
@@ -118,15 +110,14 @@ final darkTheme = ThemeData(
     systemOverlayStyle: SystemUiOverlayStyle.light,
   ),
   canvasColor: dmYellowColor,
-  errorColor: dmRedColor,
   highlightColor: Colors.transparent,
   primaryTextTheme: TextTheme(
-    headline6: dmMatHeadline6,
-    headline5: dmMatHeadline5,
-    subtitle1: dmMatSubtitle1,
-    subtitle2: dmMatSubtitle2,
-    bodyText2: dmMatBodyText2,
-    caption: dmCaptionText,
+    titleLarge: dmMatHeadline6,
+    headlineSmall: dmMatHeadline5,
+    titleMedium: dmMatSubtitle1,
+    titleSmall: dmMatSubtitle2,
+    bodyMedium: dmMatBodyText2,
+    bodySmall: dmCaptionText,
   ),
   tabBarTheme: TabBarTheme(
     labelColor: dmSecondaryColor,
@@ -177,7 +168,7 @@ final darkTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-    primary: dmGreenColor,
+    foregroundColor: dmGreenColor,
     textStyle: dmMatSubtitle1,
     padding: EdgeInsets.symmetric(horizontal: 16.0),
   )),
@@ -202,5 +193,8 @@ final darkTheme = ThemeData(
     dialTextColor: Colors.white,
     entryModeIconColor: Colors.white,
     helpTextStyle: TextStyle(color: Colors.white),
-  ),
+  ), colorScheme: ColorScheme.fromSwatch().copyWith(
+    secondary: dmAccentColor,
+    surface: dmGreenColor,
+  ).copyWith(background: dmBackgroundColor).copyWith(error: dmRedColor),
 );
