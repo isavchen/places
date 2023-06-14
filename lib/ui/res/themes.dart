@@ -90,10 +90,14 @@ final lightTheme = ThemeData(
     dialBackgroundColor: Colors.grey[300],
     dialHandColor: Colors.lightGreen,
     dialTextColor: Colors.black,
-  ), colorScheme: ColorScheme.fromSwatch().copyWith(
+  ),
+  colorScheme: ColorScheme.fromSwatch().copyWith(
     secondary: lmAccentColor,
     surface: lmGreenColor,
-  ).copyWith(background: lmBackgroundColor).copyWith(error: lmRedColor),
+    background: lmBackgroundColor,
+    error: lmRedColor,
+    secondaryContainer: lmSecondaryColor2,
+  ),
 );
 
 final darkTheme = ThemeData(
@@ -193,8 +197,12 @@ final darkTheme = ThemeData(
     dialTextColor: Colors.white,
     entryModeIconColor: Colors.white,
     helpTextStyle: TextStyle(color: Colors.white),
-  ), colorScheme: ColorScheme.fromSwatch().copyWith(
+  ),
+  colorScheme: ColorScheme.fromSwatch().copyWith(
     secondary: dmAccentColor,
     surface: dmGreenColor,
-  ).copyWith(background: dmBackgroundColor).copyWith(error: dmRedColor),
+    background: dmBackgroundColor,
+    error: dmRedColor,
+    secondaryContainer: dmSecondaryColor2,
+  ),
 );

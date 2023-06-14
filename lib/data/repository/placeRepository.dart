@@ -33,7 +33,6 @@ class PlaceRepository {
     else
       data = PlacesFilterRequestDto(
         nameFilter: namePlace,
-        typeFilter: getPlaceTypes(filter!.categoryType),
       );
 
     final response = await _client.post(
