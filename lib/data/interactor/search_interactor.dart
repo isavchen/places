@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:places/domain/place.dart';
 import 'package:places/data/place_model_selector.dart';
@@ -18,15 +19,20 @@ class SearchInteractor extends ChangeNotifier {
   // Get list of places
   // sorted by distance to user
   Future<void> searchPlaces({required String namePlace}) async {
-    final responseDto =
-        await placeRepository.getFilteredPlaces(namePlace: namePlace);
+    try {
+      final responseDto =
+          await placeRepository.getFilteredPlaces(namePlace: namePlace);
 
-    _searchResult.clear();
-    _searchResult.addAll(responseDto.map((e) => placeModelFromDtoSelector(e)));
+      _searchResult.clear();
+      _searchResult
+          .addAll(responseDto.map((e) => placeModelFromDtoSelector(e)));
 
-    addToSearchHistory(namePlace);
+      addToSearchHistory(namePlace);
 
-    notifyListeners();
+      notifyListeners();
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   void addToSearchHistory(String request) {

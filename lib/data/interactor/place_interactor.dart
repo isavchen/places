@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:places/data/model/request/place_request.dart';
 import 'package:places/domain/place.dart';
@@ -30,33 +31,46 @@ class PlaceInteractor extends ChangeNotifier {
 
   //Get list of filtrated places
   Future<void> filtrationPlaces({required Filter filter}) async {
-    final responseDto = await placeRepository.getFilteredPlaces(filter: filter);
+    try {
+      final responseDto =
+          await placeRepository.getFilteredPlaces(filter: filter);
 
-    if (filter.radius != null || filter.userLocation != null)
-      responseDto.sort(((a, b) => a.distance!.compareTo(b.distance!)));
+      if (filter.radius != null || filter.userLocation != null)
+        responseDto.sort(((a, b) => a.distance!.compareTo(b.distance!)));
 
-    _places.clear();
-    _places.addAll(responseDto.map((e) => placeModelFromDtoSelector(e)));
-    notifyListeners();
+      _places.clear();
+      _places.addAll(responseDto.map((e) => placeModelFromDtoSelector(e)));
+      notifyListeners();
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   // Get not filtered list of places
   Future<List<Place>> getAllPlaces() async {
-    final response = await placeRepository.getPlaces();
+    try {
+      final response = await placeRepository.getPlaces();
 
-    _places.clear();
-    _places.addAll(response);
+      _places.clear();
+      _places.addAll(response);
 
-    notifyListeners();
+      notifyListeners();
 
-    return response;
+      return response;
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   // Get place details by id
   Future<Place> getPlaceDetails({required int id}) async {
-    final response = await placeRepository.getPlaceById(id: id.toString());
+    try {
+      final response = await placeRepository.getPlaceById(id: id.toString());
 
-    return response;
+      return response;
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   // Get list of favourite places
@@ -108,10 +122,14 @@ class PlaceInteractor extends ChangeNotifier {
 
   //Add image of place
   Future<void> addImage({required File image}) async {
-    final response = await placeRepository.uploadPhoto(image);
+    try {
+      final response = await placeRepository.uploadPhoto(image);
 
-    _uploadedImages.add(response);
-    notifyListeners();
+      _uploadedImages.add(response);
+      notifyListeners();
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   //Remove image from list place
@@ -122,25 +140,37 @@ class PlaceInteractor extends ChangeNotifier {
 
   // Add new place
   Future<Place> addNewPlace({required PlaceRequest place}) async {
-    place.urls.addAll(_uploadedImages);
+    try {
+      place.urls.addAll(_uploadedImages);
 
-    final response = await placeRepository.createPlace(place);
-    _uploadedImages.clear();
+      final response = await placeRepository.createPlace(place);
+      _uploadedImages.clear();
 
-    return response;
+      return response;
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   //Update place
   Future<Place> updatePlace({required Place place}) async {
-    final response = await placeRepository.updatePlace(place);
+    try {
+      final response = await placeRepository.updatePlace(place);
 
-    _places[_places.indexOf(place)] = response;
-    notifyListeners();
-    return response;
+      _places[_places.indexOf(place)] = response;
+      notifyListeners();
+      return response;
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 
   //Delete place
   Future<void> removePlace({required String id}) async {
-    await placeRepository.removePlace(id: id);
+    try {
+      await placeRepository.removePlace(id: id);
+    } on DioError catch (e) {
+      throw placeRepository.getNetworkException(e);
+    }
   }
 }

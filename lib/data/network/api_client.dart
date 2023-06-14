@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:places/data/exceptions/network_exception.dart';
 import 'package:places/data/network/base_url.dart';
 
 class ApiClient {
@@ -37,13 +38,13 @@ class ApiClient {
         },
       ),
     );
+
+  NetworkException getNetworkException(DioError err) {
+    return NetworkException(
+      request: err.requestOptions.baseUrl + err.requestOptions.path,
+      errorCode: err.response?.statusCode,
+      errorName: err.message,
+    );
+  }
 }
-
-
-// Future<dynamic> getPosts() async {
-//   initInterceptors();
-//   final postResponse = await dio.get("/users");
-//   if (postResponse.statusCode == 200) return postResponse.data;
-//   throw Exception("HTTP request error. Error code ${postResponse.statusCode}");
-// }
 
