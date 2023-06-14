@@ -10,6 +10,7 @@ import 'package:places/domain/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/add_sight_screen.dart';
+import 'package:places/ui/screens/error_placeholder_screen.dart';
 import 'package:places/ui/screens/filters_screen.dart';
 import 'package:places/ui/screens/sight_search_screen.dart';
 import 'package:places/ui/widget/gradient_progress_indicator.dart';
@@ -68,6 +69,7 @@ class _SightListScreenState extends State<SightListScreen> {
                 style: Theme.of(context).primaryTextTheme.titleLarge!,
               ));
       });
+
     super.initState();
   }
 
@@ -81,10 +83,14 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 
   void getAllPlaces() async {
-    final placesList =
-        await Provider.of<PlaceInteractor>(context, listen: false)
-            .getAllPlaces();
-    _placesStreamController.sink.add(placesList);
+    try {
+      final placesList =
+          await Provider.of<PlaceInteractor>(context, listen: false)
+              .getAllPlaces();
+      _placesStreamController.sink.add(placesList);
+    } catch (e) {
+      _placesStreamController.sink.addError(e);
+    }
   }
 
   bool get _isSliverAppBarExpanded {
@@ -226,80 +232,86 @@ class _SightListScreenState extends State<SightListScreen> {
                   StreamBuilder<List<Place>>(
                     stream: _placesStreamController.stream,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting)
+                      if (snapshot.hasError) {
                         return SliverFillRemaining(
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return Container(
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                                child: Center(
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: GradientProgressIndicator(
-                                      progress: 0.8,
-                                      strokeWidth: 6.0,
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .background,
-                                      gradient: SweepGradient(
-                                        colors: [
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .secondaryContainer,
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .background,
-                                        ],
+                            child: ErrorPlaceholderScreen());
+                      } else {
+                        if (snapshot.connectionState == ConnectionState.waiting)
+                          return SliverFillRemaining(
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                return Container(
+                                  width: constraints.maxWidth,
+                                  height: constraints.maxHeight,
+                                  child: Center(
+                                    child: Container(
+                                      width: 40,
+                                      height: 40,
+                                      child: GradientProgressIndicator(
+                                        progress: 0.8,
+                                        strokeWidth: 6.0,
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .background,
+                                        gradient: SweepGradient(
+                                          colors: [
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .secondaryContainer,
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .background,
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      else if (snapshot.connectionState ==
-                              ConnectionState.active &&
-                          snapshot.data != null)
-                        return SliverList(
-                          // delegate: SliverChildBuilderDelegate(
-                          //   (context, index) {
-                          //     return Padding(
-                          //       padding: const EdgeInsets.fromLTRB(
-                          //           16.0, 0, 16.0, 16.0),
-                          //       child: SightCard(
-                          //           sight: placeInteractor.getPlaces[index]),
-                          //     );
-                          //   },
-                          //   childCount: placeInteractor.getPlaces.length,
-                          // ),
-
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) => Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  16.0, 0, 16.0, 16.0),
-                              child: SightCard(
-                                sight: snapshot.data![index],
-                                //TODO: delete onTap function, it's just for task 11
-                                onTap: () {
-                                  if (_favouritePlaces
-                                      .contains(snapshot.data![index]))
-                                    _favouritePlaces
-                                        .remove(snapshot.data![index]);
-                                  else
-                                    _favouritePlaces.add(snapshot.data![index]);
-                                  _favouriteStreamController.sink
-                                      .add(_favouritePlaces);
-                                },
-                              ),
+                                );
+                              },
                             ),
-                            childCount: snapshot.data!.length,
-                          ),
-                        );
-                      else
-                        return SizedBox.shrink();
+                          );
+                        else if (snapshot.connectionState ==
+                                ConnectionState.active &&
+                            snapshot.data != null)
+                          return SliverList(
+                            // delegate: SliverChildBuilderDelegate(
+                            //   (context, index) {
+                            //     return Padding(
+                            //       padding: const EdgeInsets.fromLTRB(
+                            //           16.0, 0, 16.0, 16.0),
+                            //       child: SightCard(
+                            //           sight: placeInteractor.getPlaces[index]),
+                            //     );
+                            //   },
+                            //   childCount: placeInteractor.getPlaces.length,
+                            // ),
+
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) => Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    16.0, 0, 16.0, 16.0),
+                                child: SightCard(
+                                  sight: snapshot.data![index],
+                                  //TODO: delete onTap function, it's just for task 11
+                                  onTap: () {
+                                    if (_favouritePlaces
+                                        .contains(snapshot.data![index]))
+                                      _favouritePlaces
+                                          .remove(snapshot.data![index]);
+                                    else
+                                      _favouritePlaces
+                                          .add(snapshot.data![index]);
+                                    _favouriteStreamController.sink
+                                        .add(_favouritePlaces);
+                                  },
+                                ),
+                              ),
+                              childCount: snapshot.data!.length,
+                            ),
+                          );
+                        else
+                          return SizedBox.shrink();
+                      }
                     },
                   )
                 else

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:places/data/exceptions/network_exception.dart';
 import 'package:places/data/model/request/place_request.dart';
 import 'package:places/data/model/request/places_filter_request_dto.dart';
 import 'package:places/domain/place.dart';
@@ -135,4 +136,7 @@ class PlaceRepository {
       throw Exception("Undefined type of file");
     }
   }
+
+  NetworkException getNetworkException(DioError e) =>
+      ApiClient().getNetworkException(e);
 }
