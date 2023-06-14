@@ -35,6 +35,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
   }
 
   void getPlaceById(int id) async {
+    //
     final detail = await Provider.of<PlaceInteractor>(context, listen: false)
         .getPlaceDetails(id: id);
 

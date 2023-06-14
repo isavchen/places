@@ -11,6 +11,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
+    //
     ChangeNotifierProvider(
       create: (context) => SettingsInteractor(),
       child: EasyLocalization(
@@ -34,11 +35,13 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
+    // Изначально реализовал бизнес-логику через Provider в модуле 10
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => PlaceInteractor()),
           ChangeNotifierProvider(create: (context) => SearchInteractor()),
         ],
+        //
         child: Consumer<SettingsInteractor>(
           builder: (context, settingsInteractor, child) {
             return MaterialApp(

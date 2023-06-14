@@ -54,6 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         setState(() {
                           _isDarkTheme = currentValue;
                         });
+                        //
                         Provider.of<SettingsInteractor>(context, listen: false)
                             .changeTheme(isDarkTheme: _isDarkTheme);
                       },

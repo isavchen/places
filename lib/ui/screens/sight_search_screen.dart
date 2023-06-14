@@ -55,6 +55,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
     setState(() {
       _isLoading = true;
     });
+    //
     await Provider.of<SearchInteractor>(context, listen: false)
         .searchPlaces(namePlace: searchTextController.text.trim());
     setState(() {

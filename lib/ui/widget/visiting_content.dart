@@ -23,6 +23,7 @@ class VisitingContent extends StatefulWidget {
 
 class _VisitingContentState extends State<VisitingContent> {
 
+  //
   void removePlace(Place place) {
     if (widget.content == 1) {
       Provider.of<PlaceInteractor>(context, listen: false)

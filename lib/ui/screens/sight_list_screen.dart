@@ -84,6 +84,7 @@ class _SightListScreenState extends State<SightListScreen> {
 
   void getAllPlaces() async {
     try {
+      //
       final placesList =
           await Provider.of<PlaceInteractor>(context, listen: false)
               .getAllPlaces();

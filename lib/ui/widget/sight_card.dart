@@ -173,6 +173,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
                   onTap: () {
                     //TODO: delete onTap function, it's just for task 11
                     onTap();
+                    //
                     placeInteractor.getFavouritePlacesList
                             .any((element) => element.id == sight.id)
                         ? Provider.of<PlaceInteractor>(context, listen: false)
@@ -186,6 +187,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(20)),
                     child: SvgPicture.asset(
+                      //
                       placeInteractor.getFavouritePlacesList
                               .any((element) => element.id == sight.id)
                           ? icHeartFull
@@ -344,6 +346,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                   onTap: () {
                      //TODO: delete onTap function, it's just for task 11
                     onTap();
+                    //
                     placeInteractor.getFavouritePlacesList
                             .any((element) => element.id == sight.id)
                         ? Provider.of<PlaceInteractor>(context, listen: false)
@@ -357,6 +360,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(20)),
                     child: SvgPicture.asset(
+                      //
                       placeInteractor.getFavouritePlacesList
                               .any((element) => element.id == sight.id)
                           ? icHeartFull
