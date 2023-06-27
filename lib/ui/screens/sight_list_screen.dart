@@ -4,9 +4,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/interactor/place_interactor.dart';
+import 'package:mobx/mobx.dart';
+import 'package:places/data/repository/placeRepository.dart';
 import 'package:places/domain/filter.dart';
-import 'package:places/domain/place.dart';
+import 'package:places/store/place_list_store.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
 import 'package:places/ui/screens/add_sight_screen.dart';
@@ -18,6 +19,7 @@ import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/search_field.dart';
 import 'package:places/ui/widget/sight_card.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class SightListScreen extends StatefulWidget {
   final Filter? filter;
@@ -31,18 +33,10 @@ class SightListScreen extends StatefulWidget {
 class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
   StreamController<Widget> _titleStreamController = StreamController<Widget>();
-  StreamController<List<Place>> _placesStreamController =
-      StreamController<List<Place>>();
-  StreamController<List<Place>> _favouriteStreamController =
-      StreamController<List<Place>>();
 
-  List<Place> _favouritePlaces = [];
+  late PlaceListStore _store;
 
-  //TODO: move this parameter to search interactor e.g
-  //TODO add radius and userLocation when geolocation will be conected
   Filter filter = Filter(
-    // userLocation: Location(lat: 50.413475, lng: 30.525177),
-    // radius: 10000,
     categoryType: {
       CategoryType.temple: true,
       CategoryType.monument: true,
@@ -55,11 +49,12 @@ class _SightListScreenState extends State<SightListScreen> {
       CategoryType.other: true,
     },
   );
-  // late dynamic _title;
 
   @override
   void initState() {
-    getAllPlaces();
+    _store = PlaceListStore(context.read<PlaceRepository>());
+    _store.getPlaces();
+
     _scrollController = ScrollController()
       ..addListener(() {
         _titleStreamController.sink.add(!_isSliverAppBarExpanded
@@ -77,20 +72,7 @@ class _SightListScreenState extends State<SightListScreen> {
   void dispose() {
     _scrollController.dispose();
     _titleStreamController.close();
-    _placesStreamController.close();
-    _favouriteStreamController.close();
     super.dispose();
-  }
-
-  void getAllPlaces() async {
-    try {
-      final placesList =
-          await Provider.of<PlaceInteractor>(context, listen: false)
-              .getAllPlaces();
-      _placesStreamController.sink.add(placesList);
-    } catch (e) {
-      _placesStreamController.sink.addError(e);
-    }
   }
 
   bool get _isSliverAppBarExpanded {
@@ -125,291 +107,238 @@ class _SightListScreenState extends State<SightListScreen> {
     return SafeArea(
       child: Scaffold(
         body: OverscrollGlowAbsorber(
-          child: Consumer<PlaceInteractor>(
-              builder: (context, placeInteractor, child) {
-            return CustomScrollView(
-              controller: _scrollController,
-              physics: Platform.isIOS
-                  ? BouncingScrollPhysics()
-                  : ClampingScrollPhysics(),
-              slivers: [
-                // TODO: replace SliverAppBar with SliverPersistentHeaderDelegate
-                // for auto collapsing app bar
-                SliverAppBar(
-                  expandedHeight: _isPortraitOrientation ? 184 : 140,
-                  elevation: 0,
-                  pinned: true,
-                  centerTitle: true,
-                  title: StreamBuilder(
-                    stream: _titleStreamController.stream,
-                    initialData: Container(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return _isSliverAppBarExpanded
-                            ? snapshot.data as Widget
-                            : Container();
-                      } else {
-                        return _getTitle(MediaQuery.of(context).orientation);
-                      }
-                    },
-                  ),
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _getTitle(MediaQuery.of(context).orientation),
-                          SizedBox(height: 16.0),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6.0),
-                            child: Stack(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      PageRouteBuilder(
-                                        pageBuilder:
-                                            (context, animation1, animation2) =>
-                                                SightSearchScreen(
-                                          filter: filter,
-                                        ),
+          child: CustomScrollView(
+            controller: _scrollController,
+            physics: Platform.isIOS
+                ? BouncingScrollPhysics()
+                : ClampingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                expandedHeight: _isPortraitOrientation ? 184 : 140,
+                elevation: 0,
+                pinned: true,
+                centerTitle: true,
+                title: StreamBuilder(
+                  stream: _titleStreamController.stream,
+                  initialData: Container(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return _isSliverAppBarExpanded
+                          ? snapshot.data as Widget
+                          : Container();
+                    } else {
+                      return _getTitle(MediaQuery.of(context).orientation);
+                    }
+                  },
+                ),
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _getTitle(MediaQuery.of(context).orientation),
+                        SizedBox(height: 16.0),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6.0),
+                          child: Stack(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    PageRouteBuilder(
+                                      pageBuilder:
+                                          (context, animation1, animation2) =>
+                                              SightSearchScreen(
+                                        filter: filter,
                                       ),
-                                    );
-                                  },
-                                  child: SearchField(
-                                    enabled: false,
-                                  ),
+                                    ),
+                                  );
+                                },
+                                child: SearchField(
+                                  enabled: false,
                                 ),
-                                Positioned(
-                                  top: 5,
-                                  right: 8,
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(10),
-                                      onTap: () async {
-                                        final searchFilter =
-                                            await Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) => FiltersScreen(
-                                              filter: filter,
-                                            ),
+                              ),
+                              Positioned(
+                                top: 5,
+                                right: 8,
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
+                                    onTap: () async {
+                                      final searchFilter =
+                                          await Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => FiltersScreen(
+                                            filter: filter,
                                           ),
-                                        );
-                                        if (searchFilter != null) {
-                                          setState(() {
-                                            filter = searchFilter;
-                                          });
-                                          // getFilteredPlaces(searchFilter);
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: SvgPicture.asset(
-                                          icFilter,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .surface,
                                         ),
+                                      );
+                                      if (searchFilter != null) {
+                                        setState(() {
+                                          filter = searchFilter;
+                                        });
+                                        // getFilteredPlaces(searchFilter);
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(12.0),
+                                      child: SvgPicture.asset(
+                                        icFilter,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
                                       ),
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
-                          SizedBox(
-                            height: 8.0,
-                          )
-                        ],
-                      ),
+                        ),
+                        SizedBox(
+                          height: 8.0,
+                        )
+                      ],
                     ),
                   ),
                 ),
-                if (_isPortraitOrientation)
-                  StreamBuilder<List<Place>>(
-                    stream: _placesStreamController.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return SliverFillRemaining(
-                            child: ErrorPlaceholderScreen());
-                      } else {
-                        if (snapshot.connectionState == ConnectionState.waiting)
-                          return SliverFillRemaining(
-                            child: LayoutBuilder(
-                              builder: (context, constraints) {
-                                return Container(
-                                  width: constraints.maxWidth,
-                                  height: constraints.maxHeight,
-                                  child: Center(
-                                    child: Container(
-                                      width: 40,
-                                      height: 40,
-                                      child: GradientProgressIndicator(
-                                        progress: 0.8,
-                                        strokeWidth: 6.0,
-                                        backgroundColor: Theme.of(context)
+              ),
+              if (_isPortraitOrientation)
+                Observer(
+                  builder: (_) {
+                    if (_store.getPlacesFuture?.status ==
+                        FutureStatus.rejected) {
+                      return SliverFillRemaining(
+                        child: ErrorPlaceholderScreen(),
+                      );
+                    } else if (_store.getPlacesFuture?.status ==
+                        FutureStatus.pending) {
+                      return SliverFillRemaining(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Container(
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                              child: Center(
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  child: GradientProgressIndicator(
+                                    progress: 0.8,
+                                    strokeWidth: 6.0,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    gradient: SweepGradient(
+                                      colors: [
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .secondaryContainer,
+                                        Theme.of(context)
                                             .colorScheme
                                             .background,
-                                        gradient: SweepGradient(
-                                          colors: [
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .secondaryContainer,
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .background,
-                                          ],
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                );
-                              },
-                            ),
-                          );
-                        else if (snapshot.connectionState ==
-                                ConnectionState.active &&
-                            snapshot.data != null)
-                          return SliverList(
-                            // delegate: SliverChildBuilderDelegate(
-                            //   (context, index) {
-                            //     return Padding(
-                            //       padding: const EdgeInsets.fromLTRB(
-                            //           16.0, 0, 16.0, 16.0),
-                            //       child: SightCard(
-                            //           sight: placeInteractor.getPlaces[index]),
-                            //     );
-                            //   },
-                            //   childCount: placeInteractor.getPlaces.length,
-                            // ),
-
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) => Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    16.0, 0, 16.0, 16.0),
-                                child: SightCard(
-                                  sight: snapshot.data![index],
-                                  //TODO: delete onTap function, it's just for task 11
-                                  onTap: () {
-                                    if (_favouritePlaces
-                                        .contains(snapshot.data![index]))
-                                      _favouritePlaces
-                                          .remove(snapshot.data![index]);
-                                    else
-                                      _favouritePlaces
-                                          .add(snapshot.data![index]);
-                                    _favouriteStreamController.sink
-                                        .add(_favouritePlaces);
-                                  },
                                 ),
                               ),
-                              childCount: snapshot.data!.length,
+                            );
+                          },
+                        ),
+                      );
+                    } else if (_store.getPlacesFuture?.status ==
+                        FutureStatus.fulfilled) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                            child: SightCard(
+                              sight: _store.getPlacesFuture!.value![index],
                             ),
-                          );
-                        else
-                          return SizedBox.shrink();
-                      }
-                    },
-                  )
-                else
-                  StreamBuilder<List<Place>>(
-                    stream: _placesStreamController.stream,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting)
-                        return SliverFillRemaining(
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return Container(
-                                width: constraints.maxWidth,
-                                height: constraints.maxHeight,
-                                child: Center(
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    child: GradientProgressIndicator(
-                                      progress: 0.8,
-                                      strokeWidth: 6.0,
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .background,
-                                      gradient: SweepGradient(
-                                        colors: [
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .secondaryContainer,
-                                          Theme.of(context)
-                                              .colorScheme
-                                              .background,
-                                        ],
-                                      ),
+                          ),
+                          childCount: _store.getPlacesFuture!.value!.length,
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                )
+              else
+                Observer(
+                  builder: (_) {
+                    if (_store.getPlacesFuture?.status ==
+                        FutureStatus.rejected) {
+                      return SliverFillRemaining(
+                        child: ErrorPlaceholderScreen(),
+                      );
+                    } else if (_store.getPlacesFuture?.status ==
+                        FutureStatus.pending) {
+                      return SliverFillRemaining(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Container(
+                              width: constraints.maxWidth,
+                              height: constraints.maxHeight,
+                              child: Center(
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  child: GradientProgressIndicator(
+                                    progress: 0.8,
+                                    strokeWidth: 6.0,
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    gradient: SweepGradient(
+                                      colors: [
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .secondaryContainer,
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .background,
+                                      ],
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                        );
-                      else if (snapshot.connectionState ==
-                              ConnectionState.active &&
-                          snapshot.data != null) {
-                        return SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    16.0, 0, 16.0, 16.0),
-                                child: SightCard(
-                                    sight: snapshot.data![index],
-                                    //TODO: delete onTap function, it's just for task 11
-                                    onTap: () {
-                                      if (_favouritePlaces
-                                          .contains(snapshot.data![index]))
-                                        _favouritePlaces
-                                            .remove(snapshot.data![index]);
-                                      else
-                                        _favouritePlaces
-                                            .add(snapshot.data![index]);
-                                      _favouriteStreamController.sink
-                                          .add(_favouritePlaces);
-                                    }),
-                              );
-                            },
-                            childCount: snapshot.data!.length,
-                          ),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 36.0,
-                            childAspectRatio: 30 / 19,
-                          ),
-                          // delegate: SliverChildBuilderDelegate(
-                          //   (context, index) {
-                          //     return Padding(
-                          //       padding: const EdgeInsets.fromLTRB(
-                          //           16.0, 0, 16.0, 16.0),
-                          //       child: SightCard(
-                          //           sight: placeInteractor.getPlaces[index]),
-                          //     );
-                          //   },
-                          //   childCount: placeInteractor.getPlaces.length,
-                          // ),
-                          // gridDelegate:
-                          //     SliverGridDelegateWithFixedCrossAxisCount(
-                          //   crossAxisCount: 2,
-                          //   crossAxisSpacing: 36.0,
-                          //   childAspectRatio: 30 / 19,
-                          // ),
-                        );
-                      } else
-                        return SizedBox.shrink();
-                    },
-                  ),
-              ],
-            );
-          }),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else if (_store.getPlacesFuture?.status ==
+                        FutureStatus.fulfilled) {
+                      return SliverGrid(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  16.0, 0, 16.0, 16.0),
+                              child: SightCard(
+                                sight: _store.getPlacesFuture!.value![index],
+                              ),
+                            );
+                          },
+                          childCount: _store.getPlacesFuture!.value!.length,
+                        ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 36.0,
+                          childAspectRatio: 30 / 19,
+                        ),
+                      );
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                ),
+            ],
+          ),
         ),
         floatingActionButton: Container(
           decoration: BoxDecoration(

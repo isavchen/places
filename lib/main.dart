@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
 import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:places/data/repository/placeRepository.dart';
 import 'package:places/ui/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +37,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          Provider(create: (context) => PlaceRepository()),
           ChangeNotifierProvider(create: (context) => PlaceInteractor()),
           ChangeNotifierProvider(create: (context) => SearchInteractor()),
         ],
