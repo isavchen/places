@@ -13,29 +13,23 @@ import 'package:provider/provider.dart';
 
 class SightCard extends StatelessWidget {
   final Place sight;
-  final Function() onTap;
-  const SightCard({Key? key, required this.sight, required this.onTap})
-      : super(key: key);
+  const SightCard({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait
         ? _SightCardPortraitWidget(
             sight: sight,
-            onTap: onTap,
           )
         : _SightCardLandscapeWidget(
             sight: sight,
-            onTap: onTap,
           );
   }
 }
 
 class _SightCardPortraitWidget extends StatelessWidget {
   final Place sight;
-  final Function() onTap;
-  const _SightCardPortraitWidget(
-      {Key? key, required this.sight, required this.onTap})
+  const _SightCardPortraitWidget({Key? key, required this.sight})
       : super(key: key);
 
   @override
@@ -171,8 +165,6 @@ class _SightCardPortraitWidget extends StatelessWidget {
               builder: (context, placeInteractor, child) {
                 return InkWell(
                   onTap: () {
-                    //TODO: delete onTap function, it's just for task 11
-                    onTap();
                     placeInteractor.getFavouritePlacesList
                             .any((element) => element.id == sight.id)
                         ? Provider.of<PlaceInteractor>(context, listen: false)
@@ -205,8 +197,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
 
 class _SightCardLandscapeWidget extends StatelessWidget {
   final Place sight;
-  final Function() onTap;
-  const _SightCardLandscapeWidget({Key? key, required this.sight, required this.onTap})
+  const _SightCardLandscapeWidget({Key? key, required this.sight})
       : super(key: key);
 
   @override
@@ -264,7 +255,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0, left: 16.0),
                   child: Text(
-                    sight.placeType,
+                    'plase.type.${sight.placeType}'.tr(),
                     style:
                         Theme.of(context).primaryTextTheme.titleSmall?.copyWith(
                               color: Colors.white,
@@ -342,8 +333,6 @@ class _SightCardLandscapeWidget extends StatelessWidget {
               builder: (context, placeInteractor, child) {
                 return InkWell(
                   onTap: () {
-                     //TODO: delete onTap function, it's just for task 11
-                    onTap();
                     placeInteractor.getFavouritePlacesList
                             .any((element) => element.id == sight.id)
                         ? Provider.of<PlaceInteractor>(context, listen: false)
