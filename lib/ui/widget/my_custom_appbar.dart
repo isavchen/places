@@ -41,7 +41,7 @@ class _MyCustomAppBarState extends State<MyCustomAppBar> {
           alignment: Alignment.bottomLeft,
           child: ConstrainedBox(
             constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.65),
+                maxWidth: MediaQuery.sizeOf(context).width * 0.65),
             child: title,
           ),
         ),

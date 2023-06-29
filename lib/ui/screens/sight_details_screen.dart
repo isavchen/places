@@ -3,7 +3,11 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:places/bloc/want_to_visit/want_to_visit_bloc.dart';
+import 'package:places/bloc/want_to_visit/want_to_visit_event.dart';
+import 'package:places/bloc/want_to_visit/want_to_visit_state.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/domain/place.dart';
 import 'package:places/ui/res/assets.dart';
@@ -70,7 +74,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                   slivers: [
                     SliverAppBar(
                       automaticallyImplyLeading: false,
-                      expandedHeight: MediaQuery.of(context).size.height * 0.5,
+                      expandedHeight: MediaQuery.sizeOf(context).height * 0.5,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Stack(
                           children: [
@@ -179,8 +183,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                             if (widget.isBottomSheet)
                               Positioned(
                                 top: 12.0,
-                                left:
-                                    MediaQuery.of(context).size.width / 2 - 20,
+                                left: MediaQuery.sizeOf(context).width / 2 - 20,
                                 child: Container(
                                   height: 4.0,
                                   width: 40.0,
@@ -193,7 +196,7 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                             Positioned(
                               bottom: 0.0,
                               child: PageIndicator(
-                                width: MediaQuery.of(context).size.width /
+                                width: MediaQuery.sizeOf(context).width /
                                     place.urls.length,
                                 controller: _pageController,
                                 itemCount: place.urls.length,
@@ -317,74 +320,58 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                                   ),
                                   Expanded(
                                     flex: 1,
-                                    child: Consumer<PlaceInteractor>(
-                                      builder:
-                                          (context, placeInteractor, child) {
-                                        return InkWell(
-                                          onTap: () {
-                                            print(Provider.of<PlaceInteractor>(
-                                                    context,
-                                                    listen: false)
-                                                .getFavouritePlacesList
-                                                .any((element) =>
-                                                    element.id == place.id));
-                                            Provider.of<PlaceInteractor>(
-                                                        context,
-                                                        listen: false)
-                                                    .getFavouritePlacesList
-                                                    .any((element) =>
-                                                        element.id == place.id)
-                                                ? Provider.of<PlaceInteractor>(
-                                                        context,
-                                                        listen: false)
-                                                    .removeFromFavourites(
-                                                        place: place)
-                                                : Provider.of<PlaceInteractor>(
-                                                        context,
-                                                        listen: false)
-                                                    .addToFavourites(
-                                                        place: place);
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 8.0),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                SvgPicture.asset(
-                                                  Provider.of<PlaceInteractor>(
-                                                              context,
-                                                              listen: false)
-                                                          .getFavouritePlacesList
-                                                          .any((element) =>
-                                                              element.id ==
-                                                              place.id)
-                                                      ? icHeartFull
-                                                      : icHeart,
-                                                  width: 20,
-                                                  color: Theme.of(context)
-                                                      .focusColor,
-                                                ),
-                                                SizedBox(
-                                                  width: 9,
-                                                ),
-                                                Text(
-                                                  'sight_details.to_favorite'
-                                                      .tr(),
-                                                  style: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .bodyMedium
-                                                      ?.copyWith(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .focusColor),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
+                                    child: InkWell(
+                                      onTap: () {
+                                        context
+                                            .read<WantToVisitBloc>()
+                                            .add(WantToVisitUpdateList(place));
                                       },
+                                      child: BlocBuilder<WantToVisitBloc,
+                                          WantToVisitState>(
+                                        builder: (context, state) {
+                                          if (state
+                                              is WantToVisitListUpdatedSuccess) {
+                                            bool isFavoutitePlace = state.places
+                                                .any((element) =>
+                                                    element.id == place.id);
+                                            return Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    isFavoutitePlace
+                                                        ? icHeartFull
+                                                        : icHeart,
+                                                    width: 20,
+                                                    color: Theme.of(context)
+                                                        .focusColor,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 9,
+                                                  ),
+                                                  Text(
+                                                    'sight_details.to_favorite'
+                                                        .tr(),
+                                                    style: Theme.of(context)
+                                                        .primaryTextTheme
+                                                        .bodyMedium
+                                                        ?.copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .focusColor),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                          throw ArgumentError(
+                                              'Wrong state in SightDetailsScreen');
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ],

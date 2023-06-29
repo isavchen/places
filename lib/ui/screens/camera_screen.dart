@@ -92,7 +92,7 @@ class _CameraScreenState extends State<CameraScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.15,
+                height: MediaQuery.sizeOf(context).height * 0.15,
                 decoration: BoxDecoration(
                     // borderRadius:
                     //     BorderRadius.vertical(top: Radius.circular(24)),

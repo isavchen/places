@@ -3,40 +3,38 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:places/data/interactor/place_interactor.dart';
+import 'package:places/bloc/want_to_visit/want_to_visit_bloc.dart';
+import 'package:places/bloc/want_to_visit/want_to_visit_event.dart';
+import 'package:places/bloc/want_to_visit/want_to_visit_state.dart';
 import 'package:places/domain/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/screens/sight_details_screen.dart';
-import 'package:provider/provider.dart';
 
 class SightCard extends StatelessWidget {
   final Place sight;
-  final Function() onTap;
-  const SightCard({Key? key, required this.sight, required this.onTap})
-      : super(key: key);
+  const SightCard({Key? key, required this.sight}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).orientation == Orientation.portrait
+    return MediaQuery.orientationOf(context) == Orientation.portrait
         ? _SightCardPortraitWidget(
             sight: sight,
-            onTap: onTap,
           )
         : _SightCardLandscapeWidget(
             sight: sight,
-            onTap: onTap,
           );
   }
 }
 
 class _SightCardPortraitWidget extends StatelessWidget {
   final Place sight;
-  final Function() onTap;
-  const _SightCardPortraitWidget(
-      {Key? key, required this.sight, required this.onTap})
-      : super(key: key);
+  const _SightCardPortraitWidget({
+    Key? key,
+    required this.sight,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -167,34 +165,33 @@ class _SightCardPortraitWidget extends StatelessWidget {
           right: 8,
           child: Material(
             color: Colors.transparent,
-            child: Consumer<PlaceInteractor>(
-              builder: (context, placeInteractor, child) {
-                return InkWell(
-                  onTap: () {
-                    //TODO: delete onTap function, it's just for task 11
-                    onTap();
-                    placeInteractor.getFavouritePlacesList
-                            .any((element) => element.id == sight.id)
-                        ? Provider.of<PlaceInteractor>(context, listen: false)
-                            .removeFromFavourites(place: sight)
-                        : Provider.of<PlaceInteractor>(context, listen: false)
-                            .addToFavourites(place: sight);
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: SvgPicture.asset(
-                      placeInteractor.getFavouritePlacesList
-                              .any((element) => element.id == sight.id)
-                          ? icHeartFull
-                          : icHeart,
-                      color: Colors.white,
-                    ),
-                  ),
-                );
+            child: InkWell(
+              onTap: () {
+                context
+                    .read<WantToVisitBloc>()
+                    .add(WantToVisitUpdateList(sight));
               },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                child: BlocBuilder<WantToVisitBloc, WantToVisitState>(
+                  builder: (context, state) {
+                    if (state is WantToVisitListUpdatedSuccess) {
+                      bool isFavoutitePlace =
+                          state.places.any((place) => place.id == sight.id);
+                      return SvgPicture.asset(
+                        isFavoutitePlace ? icHeartFull : icHeart,
+                        color: Colors.white,
+                      );
+                    }
+
+                    throw ArgumentError(
+                        'Wrong state in _SightCardPortraitWidget');
+                  },
+                ),
+              ),
             ),
           ),
         ),
@@ -205,9 +202,10 @@ class _SightCardPortraitWidget extends StatelessWidget {
 
 class _SightCardLandscapeWidget extends StatelessWidget {
   final Place sight;
-  final Function() onTap;
-  const _SightCardLandscapeWidget({Key? key, required this.sight, required this.onTap})
-      : super(key: key);
+  const _SightCardLandscapeWidget({
+    Key? key,
+    required this.sight,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -338,34 +336,32 @@ class _SightCardLandscapeWidget extends StatelessWidget {
           right: 8,
           child: Material(
             color: Colors.transparent,
-            child: Consumer<PlaceInteractor>(
-              builder: (context, placeInteractor, child) {
-                return InkWell(
-                  onTap: () {
-                     //TODO: delete onTap function, it's just for task 11
-                    onTap();
-                    placeInteractor.getFavouritePlacesList
-                            .any((element) => element.id == sight.id)
-                        ? Provider.of<PlaceInteractor>(context, listen: false)
-                            .removeFromFavourites(place: sight)
-                        : Provider.of<PlaceInteractor>(context, listen: false)
-                            .addToFavourites(place: sight);
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    child: SvgPicture.asset(
-                      placeInteractor.getFavouritePlacesList
-                              .any((element) => element.id == sight.id)
-                          ? icHeartFull
-                          : icHeart,
-                      color: Colors.white,
-                    ),
-                  ),
-                );
+            child: InkWell(
+              onTap: () {
+                BlocProvider.of<WantToVisitBloc>(context)
+                    .add(WantToVisitUpdateList(sight));
               },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                child: BlocBuilder<WantToVisitBloc, WantToVisitState>(
+                  builder: (context, state) {
+                    if (state is WantToVisitListUpdatedSuccess) {
+                      bool isFavoutitePlace =
+                          state.places.any((place) => place.id == sight.id);
+                      return SvgPicture.asset(
+                        isFavoutitePlace ? icHeartFull : icHeart,
+                        color: Colors.white,
+                      );
+                    }
+
+                    throw ArgumentError(
+                        'Wrong state in _SightCardPortraitWidget');
+                  },
+                ),
+              ),
             ),
           ),
         ),

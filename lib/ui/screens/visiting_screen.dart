@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:places/ui/widget/visiting_content.dart';
+import 'package:places/ui/widget/visited_content_widget.dart';
+import 'package:places/ui/widget/want_to_visit_content_widget.dart';
 
 class VisitingScreen extends StatefulWidget {
   const VisitingScreen({Key? key}) : super(key: key);
@@ -56,12 +57,8 @@ class _VisitingScreenState extends State<VisitingScreen> {
           body: Container(
             child: TabBarView(
               children: [
-                VisitingContent(
-                  content: 1,
-                ),
-                VisitingContent(
-                  content: 2,
-                ),
+                WantToVisitContent(),
+                VisitedContent(),
               ],
             ),
           ),
