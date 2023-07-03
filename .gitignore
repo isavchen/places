@@ -6,6 +6,7 @@
 *.lock
 .idea
 build/
+test/
 **/android/**/GeneratedPluginRegistrant.java
 ios/.generated/
 ios/Flutter/Generated.xcconfig
