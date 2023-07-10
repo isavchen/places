@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/bloc/want_to_visit/want_to_visit_bloc.dart';
-import 'package:places/bloc/want_to_visit/want_to_visit_event.dart';
-import 'package:places/bloc/want_to_visit/want_to_visit_state.dart';
+import 'package:places/bloc/visiting_screen/want_to_visit/want_to_visit_bloc.dart';
+import 'package:places/bloc/visiting_screen/want_to_visit/want_to_visit_event.dart';
+import 'package:places/bloc/visiting_screen/want_to_visit/want_to_visit_state.dart';
 import 'package:places/ui/widget/dismissible_card_widget.dart';
 import 'package:places/ui/widget/overscroll_glow_absorber.dart';
 import 'package:places/ui/widget/visiting_content_empty_widget.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/bloc/visited/visited_event.dart';
-import 'package:places/bloc/visited/visited_state.dart';
+import 'package:places/bloc/visiting_screen/visited/visited_event.dart';
+import 'package:places/bloc/visiting_screen/visited/visited_state.dart';
 
 class VisitedBloc extends Bloc<VisitedEvent, VisitedState> {
   VisitedBloc() : super(VisitedListUpdatedSuccess(places: [])) {

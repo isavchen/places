@@ -3,9 +3,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:places/data/interactor/settings_interactor.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:places/bloc/settings_screen/settings_bloc.dart';
+import 'package:places/bloc/settings_screen/settings_event.dart';
+import 'package:places/bloc/settings_screen/settings_state.dart';
 import 'package:places/ui/screens/onboarding_screen.dart';
-import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -15,7 +17,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _isDarkTheme = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,16 +47,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             fontWeight: FontWeight.w400,
                           ),
                     ),
-                    CupertinoSwitch(
-                      trackColor: Theme.of(context).dividerColor,
-                      activeColor: Theme.of(context).colorScheme.surface,
-                      value: _isDarkTheme,
-                      onChanged: (currentValue) {
-                        setState(() {
-                          _isDarkTheme = currentValue;
-                        });
-                        Provider.of<SettingsInteractor>(context, listen: false)
-                            .changeTheme(isDarkTheme: _isDarkTheme);
+                    BlocBuilder<SettingsBloc, AppSettingsState>(
+                      builder: (context, state) {
+                        return CupertinoSwitch(
+                          trackColor: Theme.of(context).dividerColor,
+                          activeColor: Theme.of(context).colorScheme.surface,
+                          value: state.isDarkTheme,
+                          onChanged: (currentValue) {
+                            context
+                                .read<SettingsBloc>()
+                                .add(ChangeTheme(changeToDark: currentValue));
+                          },
+                        );
                       },
                     ),
                   ],
