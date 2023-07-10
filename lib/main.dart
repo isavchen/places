@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:places/bloc/place_list_screen/place_list_screen_bloc.dart';
 import 'package:places/bloc/settings_screen/settings_bloc.dart';
 import 'package:places/bloc/settings_screen/settings_state.dart';
 import 'package:places/bloc/visiting_screen/visited/visited_bloc.dart';
@@ -45,6 +46,11 @@ class _AppState extends State<App> {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (_) => PlaceListScreenBloc(
+              placeInteractor: PlaceInteractor(),
+            )..add(LoadPlacesList()),
+          ),
           BlocProvider(create: (_) => WantToVisitBloc()),
           BlocProvider(create: (_) => VisitedBloc()),
         ],
