@@ -36,8 +36,6 @@ class _SightListScreenState extends State<SightListScreen> {
   StreamController<List<Place>> _favouriteStreamController =
       StreamController<List<Place>>();
 
-  List<Place> _favouritePlaces = [];
-
   //TODO: move this parameter to search interactor e.g
   //TODO add radius and userLocation when geolocation will be conected
   Filter filter = Filter(
@@ -55,7 +53,6 @@ class _SightListScreenState extends State<SightListScreen> {
       CategoryType.other: true,
     },
   );
-  // late dynamic _title;
 
   @override
   void initState() {
@@ -63,7 +60,7 @@ class _SightListScreenState extends State<SightListScreen> {
     _scrollController = ScrollController()
       ..addListener(() {
         _titleStreamController.sink.add(!_isSliverAppBarExpanded
-            ? _getTitle(MediaQuery.of(context).orientation)
+            ? _getTitle(MediaQuery.orientationOf(context))
             : Text(
                 'sight_list.title.normal'.tr(),
                 style: Theme.of(context).primaryTextTheme.titleLarge!,
@@ -84,9 +81,7 @@ class _SightListScreenState extends State<SightListScreen> {
 
   void getAllPlaces() async {
     try {
-      final placesList =
-          await Provider.of<PlaceInteractor>(context, listen: false)
-              .getAllPlaces();
+      final placesList = await context.read<PlaceInteractor>().getAllPlaces();
       _placesStreamController.sink.add(placesList);
     } catch (e) {
       _placesStreamController.sink.addError(e);
@@ -99,7 +94,7 @@ class _SightListScreenState extends State<SightListScreen> {
   }
 
   bool get _isPortraitOrientation {
-    return MediaQuery.of(context).orientation == Orientation.portrait;
+    return MediaQuery.orientationOf(context) == Orientation.portrait;
   }
 
   Text _getTitle(Orientation orientation) {
@@ -149,7 +144,7 @@ class _SightListScreenState extends State<SightListScreen> {
                             ? snapshot.data as Widget
                             : Container();
                       } else {
-                        return _getTitle(MediaQuery.of(context).orientation);
+                        return _getTitle(MediaQuery.orientationOf(context));
                       }
                     },
                   ),
@@ -160,7 +155,7 @@ class _SightListScreenState extends State<SightListScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _getTitle(MediaQuery.of(context).orientation),
+                          _getTitle(MediaQuery.orientationOf(context)),
                           SizedBox(height: 16.0),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -292,18 +287,6 @@ class _SightListScreenState extends State<SightListScreen> {
                                     16.0, 0, 16.0, 16.0),
                                 child: SightCard(
                                   sight: snapshot.data![index],
-                                  //TODO: delete onTap function, it's just for task 11
-                                  onTap: () {
-                                    if (_favouritePlaces
-                                        .contains(snapshot.data![index]))
-                                      _favouritePlaces
-                                          .remove(snapshot.data![index]);
-                                    else
-                                      _favouritePlaces
-                                          .add(snapshot.data![index]);
-                                    _favouriteStreamController.sink
-                                        .add(_favouritePlaces);
-                                  },
                                 ),
                               ),
                               childCount: snapshot.data!.length,
@@ -362,19 +345,8 @@ class _SightListScreenState extends State<SightListScreen> {
                                 padding: const EdgeInsets.fromLTRB(
                                     16.0, 0, 16.0, 16.0),
                                 child: SightCard(
-                                    sight: snapshot.data![index],
-                                    //TODO: delete onTap function, it's just for task 11
-                                    onTap: () {
-                                      if (_favouritePlaces
-                                          .contains(snapshot.data![index]))
-                                        _favouritePlaces
-                                            .remove(snapshot.data![index]);
-                                      else
-                                        _favouritePlaces
-                                            .add(snapshot.data![index]);
-                                      _favouriteStreamController.sink
-                                          .add(_favouritePlaces);
-                                    }),
+                                  sight: snapshot.data![index],
+                                ),
                               );
                             },
                             childCount: snapshot.data!.length,

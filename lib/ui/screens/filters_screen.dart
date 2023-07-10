@@ -52,8 +52,8 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.sizeOf(context).width;
+    final _height = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       appBar: AppBar(
@@ -101,12 +101,12 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 child: Container(
                   width: double.infinity,
                   height: (_width <= 375 && _height <= 667) ||
-                          MediaQuery.of(context).orientation ==
+                          MediaQuery.orientationOf(context) ==
                               Orientation.landscape
                       ? 100
                       : 354,
                   child: (_width <= 375 && _height <= 667) ||
-                          MediaQuery.of(context).orientation ==
+                          MediaQuery.orientationOf(context) ==
                               Orientation.landscape
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
@@ -187,7 +187,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
               Padding(
                 padding: EdgeInsets.only(
                   top: (_width <= 375 && _height <= 667) ||
-                          MediaQuery.of(context).orientation ==
+                          MediaQuery.orientationOf(context) ==
                               Orientation.landscape
                       ? 24
                       : 56,

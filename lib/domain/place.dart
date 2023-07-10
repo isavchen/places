@@ -1,10 +1,12 @@
-class Place {
-  int id;
-  double lat, lng;
-  String name;
-  List<String> urls;
-  String placeType;
-  String description;
+import 'package:equatable/equatable.dart';
+
+class Place extends Equatable {
+  final int id;
+  final double lat, lng;
+  final String name;
+  final List<String> urls;
+  final String placeType;
+  final String description;
 
   Place({
     required this.id,
@@ -36,9 +38,10 @@ class Place {
         'description': description,
         'placeType': placeType,
       };
+  
+  @override
+  List<Object?> get props => [id, name, lat, lng, urls, description, placeType];
 
   @override
-  String toString() {
-    return 'Place id: $id, name: $name, type: $placeType';
-  }
+  bool? get stringify => true;
 }

@@ -9,13 +9,13 @@ import 'package:places/ui/widget/want_visiting_card.dart';
 
 class DismissibleCardWidget extends StatefulWidget {
   final Place sight;
-  final int content;
+  final bool isWantToVisitContent;
   final dynamic Function() onTabClose;
   final Function(DismissDirection) onDismissed;
   const DismissibleCardWidget({
     Key? key,
     required this.sight,
-    required this.content,
+    required this.isWantToVisitContent,
     required this.onTabClose,
     required this.onDismissed,
   }) : super(key: key);
@@ -35,7 +35,7 @@ class _DismissibleCardWidgetState extends State<DismissibleCardWidget> {
         ClipRRect(
           borderRadius: BorderRadius.circular(17.0),
           child: Container(
-            height: widget.content == 1 ? 197 : 217,
+            height: widget.isWantToVisitContent ? 197 : 217,
             alignment: AlignmentDirectional.centerEnd,
             color: Colors.red,
             child: Padding(
@@ -61,7 +61,7 @@ class _DismissibleCardWidgetState extends State<DismissibleCardWidget> {
           key: ValueKey(widget.sight.id),
           direction: DismissDirection.endToStart,
           onDismissed: widget.onDismissed,
-          child: widget.content == 1
+          child: widget.isWantToVisitContent
               ? WantVisitingCard(
                   sight: widget.sight,
                   onTapClose: widget.onTabClose,

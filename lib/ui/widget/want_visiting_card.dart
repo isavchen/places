@@ -32,7 +32,7 @@ class WantVisitingCard extends StatelessWidget {
                   child: Image.network(
                     sight.urls.first,
                     height: 96,
-                    width: MediaQuery.of(context).size.width - 32.0,
+                    width: MediaQuery.sizeOf(context).width - 32.0,
                     colorBlendMode: BlendMode.srcATop,
                     color: Theme.of(context)
                         .colorScheme
@@ -81,7 +81,7 @@ class WantVisitingCard extends StatelessWidget {
             ),
             Container(
               height: 102,
-              width: MediaQuery.of(context).size.width - 32.0,
+              width: MediaQuery.sizeOf(context).width - 32.0,
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
@@ -147,7 +147,7 @@ class WantVisitingCard extends StatelessWidget {
               splashColor: Colors.teal.withOpacity(0.1),
               highlightColor: Colors.transparent,
               onTap: () {
-                MediaQuery.of(context).orientation == Orientation.portrait
+                MediaQuery.orientationOf(context) == Orientation.portrait
                     ? _openDetailsScreen(sight.id, context)
                     : Navigator.of(context).push(
                         MaterialPageRoute(
@@ -226,7 +226,7 @@ class WantVisitingCard extends StatelessWidget {
             ),
             child: ConstrainedBox(
               constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.92,
+                maxHeight: MediaQuery.sizeOf(context).height * 0.92,
               ),
               child: SightDetailsScreen(
                 sightId: sightId,

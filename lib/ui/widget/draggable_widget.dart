@@ -33,7 +33,7 @@ class _DraggableWidgetState extends State<DraggableWidget> {
   @override
   Widget build(BuildContext context) {
     return Draggable<int>(
-      axis: MediaQuery.of(context).orientation == Orientation.portrait
+      axis: MediaQuery.orientationOf(context) == Orientation.portrait
           ? Axis.vertical
           : null,
       onDragStarted: () {
@@ -97,9 +97,9 @@ class _DraggableWidgetState extends State<DraggableWidget> {
       feedback: Dismissible(
         key: ValueKey(widget.sight.id),
         child: Container(
-          width: MediaQuery.of(context).orientation == Orientation.portrait
+          width: MediaQuery.orientationOf(context) == Orientation.portrait
               ? null
-              : MediaQuery.of(context).size.width * 0.43,
+              : MediaQuery.sizeOf(context).width * 0.43,
           child: widget.content == 1
               ? WantVisitingCard(
                   sight: widget.sight,

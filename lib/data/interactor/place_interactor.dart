@@ -109,8 +109,10 @@ class PlaceInteractor extends ChangeNotifier {
 
   // Add place to list of visited places
   void addToVisitedPlaces({required Place place}) {
-    _visitedPlacesList.add(place);
-    notifyListeners();
+    if (!_visitedPlacesList.any((element) => element.id == place.id)) {
+      _visitedPlacesList.add(place);
+      notifyListeners();
+    }
   }
 
   // Remove place from list of visited places
