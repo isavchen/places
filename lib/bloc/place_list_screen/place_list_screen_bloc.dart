@@ -8,9 +8,9 @@ part 'place_list_screen_state.dart';
 
 class PlaceListScreenBloc
     extends Bloc<PlaceListScreenEvent, PlaceListScreenState> {
-  final PlaceInteractor placeInteractor;
+  final PlaceInteractor _placeInteractor;
 
-  PlaceListScreenBloc({required this.placeInteractor})
+  PlaceListScreenBloc(this._placeInteractor)
       : super(PlaceListScreenLoadingState()) {
     on<LoadPlacesList>(_loadPlaces);
   }
@@ -19,7 +19,7 @@ class PlaceListScreenBloc
       LoadPlacesList event, Emitter<PlaceListScreenState> emit) async {
     emit(PlaceListScreenLoadingState());
     try {
-      final places = await placeInteractor.getAllPlaces();
+      final places = await _placeInteractor.getAllPlaces();
       emit(PlaceListScreenSuccessState(places: places));
     } catch (e) {
       emit(PlaceListScreenErrorState());

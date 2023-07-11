@@ -47,9 +47,8 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => PlaceListScreenBloc(
-              placeInteractor: PlaceInteractor(),
-            )..add(LoadPlacesList()),
+            create: (_) =>
+                PlaceListScreenBloc(PlaceInteractor())..add(LoadPlacesList()),
           ),
           BlocProvider(create: (_) => WantToVisitBloc()),
           BlocProvider(create: (_) => VisitedBloc()),

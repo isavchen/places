@@ -100,6 +100,7 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.sizeOf(context).height);
     return SafeArea(
       child: Scaffold(
         body: OverscrollGlowAbsorber(
