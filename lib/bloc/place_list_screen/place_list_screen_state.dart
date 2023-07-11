@@ -13,6 +13,9 @@ class PlaceListScreenSuccessState extends PlaceListScreenState {
   final List<Place> places;
 
   PlaceListScreenSuccessState({required this.places});
+
+  @override
+  List<Object> get props => [places];
 }
 
 class PlaceListScreenErrorState extends PlaceListScreenState {}

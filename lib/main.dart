@@ -42,7 +42,7 @@ class _AppState extends State<App> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => PlaceInteractor()),
-        ChangeNotifierProvider(create: (context) => SearchInteractor()),
+        Provider(create: (context) => SearchInteractor()),
       ],
       child: MultiBlocProvider(
         providers: [
