@@ -21,7 +21,9 @@ dependencies:
   http_parser: ^4.0.2
   image_picker: ^0.8.7+5
   mime_type: ^1.0.0
+  mwwm: ^1.0.0
   provider: ^6.0.5
+  relation: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -50,3 +52,4 @@ flutter:
         - asset: assets/fonts/Roboto/Roboto-Regular.ttf
         - asset: assets/fonts/Roboto/Roboto-Thin.ttf
         - asset: assets/fonts/Roboto/Roboto-ThinItalic.ttf
+ 

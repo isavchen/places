@@ -123,12 +123,13 @@ class PlaceInteractor extends ChangeNotifier {
   }
 
   //Add image of place
-  Future<void> addImage({required File image}) async {
+  Future<String> addImage({required File image}) async {
     try {
       final response = await placeRepository.uploadPhoto(image);
 
       _uploadedImages.add(response);
       notifyListeners();
+      return response;
     } on DioError catch (e) {
       throw placeRepository.getNetworkException(e);
     }

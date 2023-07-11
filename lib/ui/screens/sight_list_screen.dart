@@ -9,7 +9,7 @@ import 'package:places/domain/filter.dart';
 import 'package:places/domain/place.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/styles.dart';
-import 'package:places/ui/screens/add_sight_screen.dart';
+import 'package:places/ui/screens/add_place_screen.dart/add_sight_screen.dart';
 import 'package:places/ui/screens/error_placeholder_screen.dart';
 import 'package:places/ui/screens/filters_screen.dart';
 import 'package:places/ui/screens/sight_search_screen.dart';
