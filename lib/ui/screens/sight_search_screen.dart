@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/bloc/place_search_screen/place_search_screen_bloc.dart';
 import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/domain/filter.dart';
 import 'package:places/ui/res/assets.dart';
 import 'package:places/ui/res/colors.dart';
 import 'package:places/ui/res/styles.dart';
@@ -17,8 +16,7 @@ import 'package:places/ui/utils/highlight_occurrences.dart';
 import 'package:places/ui/widget/search_field.dart';
 
 class SightSearchScreen extends StatefulWidget {
-  final Filter filter;
-  const SightSearchScreen({Key? key, required this.filter}) : super(key: key);
+  const SightSearchScreen({Key? key}) : super(key: key);
 
   @override
   _SightSearchScreenState createState() => _SightSearchScreenState();

@@ -41,7 +41,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => PlaceInteractor()),
+        Provider(create: (context) => PlaceInteractor()),
         Provider(create: (context) => SearchInteractor()),
       ],
       child: MultiBlocProvider(

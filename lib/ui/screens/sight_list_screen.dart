@@ -31,24 +31,6 @@ class _SightListScreenState extends State<SightListScreen> {
   ScrollController _scrollController = ScrollController();
   StreamController<Widget> _titleStreamController = StreamController<Widget>();
 
-  //TODO: move this parameter to search interactor e.g
-  //TODO add radius and userLocation when geolocation will be conected
-  Filter filter = Filter(
-    // userLocation: Location(lat: 50.413475, lng: 30.525177),
-    // radius: 10000,
-    categoryType: {
-      CategoryType.temple: true,
-      CategoryType.monument: true,
-      CategoryType.park: true,
-      CategoryType.theatre: true,
-      CategoryType.museum: true,
-      CategoryType.hotel: true,
-      CategoryType.restaurant: true,
-      CategoryType.cafe: true,
-      CategoryType.other: true,
-    },
-  );
-
   @override
   void initState() {
     _scrollController = ScrollController()
@@ -148,9 +130,7 @@ class _SightListScreenState extends State<SightListScreen> {
                                     PageRouteBuilder(
                                       pageBuilder:
                                           (context, animation1, animation2) =>
-                                              SightSearchScreen(
-                                        filter: filter,
-                                      ),
+                                              SightSearchScreen(),
                                     ),
                                   );
                                 },
@@ -165,21 +145,12 @@ class _SightListScreenState extends State<SightListScreen> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(10),
-                                    onTap: () async {
-                                      final searchFilter =
-                                          await Navigator.of(context).push(
+                                    onTap: () {
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => FiltersScreen(
-                                            filter: filter,
-                                          ),
+                                          builder: (context) => FiltersScreen(),
                                         ),
                                       );
-                                      if (searchFilter != null) {
-                                        setState(() {
-                                          filter = searchFilter;
-                                        });
-                                        // getFilteredPlaces(searchFilter);
-                                      }
                                     },
                                     child: Container(
                                       padding: EdgeInsets.all(12.0),
@@ -220,17 +191,14 @@ class _SightListScreenState extends State<SightListScreen> {
                                 child: GradientProgressIndicator(
                                   progress: 0.8,
                                   strokeWidth: 6.0,
-                                  backgroundColor: Theme.of(context)
-                                      .colorScheme
-                                      .background,
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.background,
                                   gradient: SweepGradient(
                                     colors: [
                                       Theme.of(context)
                                           .colorScheme
                                           .secondaryContainer,
-                                      Theme.of(context)
-                                          .colorScheme
-                                          .background,
+                                      Theme.of(context).colorScheme.background,
                                     ],
                                   ),
                                 ),
@@ -355,8 +323,7 @@ class _SightListScreenState extends State<SightListScreen> {
             ),
           ),
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

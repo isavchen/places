@@ -8,3 +8,12 @@ abstract class PlaceListScreenEvent extends Equatable {
 }
 
 class LoadPlacesList extends PlaceListScreenEvent {}
+
+class AddFilteredPlaces extends PlaceListScreenEvent {
+  final List<Place> places;
+
+  AddFilteredPlaces({required this.places});
+
+  @override
+  List<Object> get props => [places];
+}

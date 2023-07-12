@@ -13,6 +13,7 @@ class PlaceListScreenBloc
   PlaceListScreenBloc(this._placeInteractor)
       : super(PlaceListScreenLoadingState()) {
     on<LoadPlacesList>(_loadPlaces);
+    on<AddFilteredPlaces>(_addFilteredPlaces);
   }
 
   Future<void> _loadPlaces(
@@ -24,5 +25,10 @@ class PlaceListScreenBloc
     } catch (e) {
       emit(PlaceListScreenErrorState());
     }
+  }
+
+  void _addFilteredPlaces(
+      AddFilteredPlaces event, Emitter<PlaceListScreenState> emit) {
+    emit(PlaceListScreenSuccessState(places: event.places));
   }
 }

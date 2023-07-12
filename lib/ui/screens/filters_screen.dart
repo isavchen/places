@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:places/bloc/filters_screen/filter_button/filter_button_bloc.dart';
+import 'package:places/bloc/filters_screen/filter_items/filter_items_bloc.dart';
+import 'package:places/bloc/place_list_screen/place_list_screen_bloc.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/domain/filter.dart';
 import 'package:places/mocks.dart';
@@ -13,42 +17,41 @@ import 'package:places/ui/widget/slider_radius_search.dart';
 import 'package:provider/provider.dart';
 
 class FiltersScreen extends StatefulWidget {
-  final Filter filter;
-  const FiltersScreen({Key? key, required this.filter}) : super(key: key);
+  const FiltersScreen({Key? key}) : super(key: key);
 
   @override
   _FiltersScreenState createState() => _FiltersScreenState();
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  // List<Place> filterList = [];
-  // Location myLocation = Location(lat: 50.413475, lng: 30.525177);
-  late Filter filter;
-  // int count = 0;
+  late FilterButtonBloc _filterButtonBloc;
+  late FilterItemsBloc _filterItemsBloc;
 
   @override
   void initState() {
-    setState(() {
-      filter = widget.filter;
-    });
-    _filtrationPlace();
+    _filterButtonBloc = FilterButtonBloc(
+      context.read<PlaceInteractor>(),
+      context.read<PlaceListScreenBloc>(),
+    )..add(LoadFiltratedPlaces(
+        filter: Filter(
+          // userLocation: Location(lat: 50.413475, lng: 30.525177),
+          // radius: 10000,
+          categoryType: {
+            CategoryType.temple: true,
+            CategoryType.monument: true,
+            CategoryType.park: true,
+            CategoryType.theatre: true,
+            CategoryType.museum: true,
+            CategoryType.hotel: true,
+            CategoryType.restaurant: true,
+            CategoryType.cafe: true,
+            CategoryType.other: true,
+          },
+        ),
+      ));
+    _filterItemsBloc = FilterItemsBloc(_filterButtonBloc);
     super.initState();
   }
-
-  Future<void> _filtrationPlace() async {
-    await Provider.of<PlaceInteractor>(context, listen: false)
-        .filtrationPlaces(filter: filter);
-  }
-
-  // void _filtrationPlace() {
-  //   List<Place> tempList = filtrationPlace(
-  //       filter: filter, incomingList: [], location: filter.userLocation);
-
-  //   setState(() {
-  //     filterList = tempList;
-  //     count = filterList.length;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,23 +62,9 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         elevation: 0,
         actions: [
-          //TODO add radius when geolocation will be conected
           TextButton(
             onPressed: () {
-              setState(() {
-                filter = filter.copyWith(categoryType: {
-                  CategoryType.temple: false,
-                  CategoryType.monument: false,
-                  CategoryType.park: false,
-                  CategoryType.theatre: false,
-                  CategoryType.museum: false,
-                  CategoryType.hotel: false,
-                  CategoryType.restaurant: false,
-                  CategoryType.cafe: false,
-                  CategoryType.other: false,
-                }, radius: null);
-              });
-              _filtrationPlace();
+              _filterItemsBloc.add(ClearFilter());
             },
             child: Text('filters.clear_button'.tr()),
           ),
@@ -83,126 +72,144 @@ class _FiltersScreenState extends State<FiltersScreen> {
       ),
       body: SafeArea(
         child: OverscrollGlowAbsorber(
-          child: ListView(
-            physics: Platform.isIOS
-                ? BouncingScrollPhysics()
-                : ClampingScrollPhysics(),
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 24.0),
-                child: Text(
-                  'filters.categories'.tr(),
-                  style: smallText.copyWith(fontSize: 12.0),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Container(
-                  width: double.infinity,
-                  height: (_width <= 375 && _height <= 667) ||
-                          MediaQuery.orientationOf(context) ==
-                              Orientation.landscape
-                      ? 100
-                      : 354,
-                  child: (_width <= 375 && _height <= 667) ||
-                          MediaQuery.orientationOf(context) ==
-                              Orientation.landscape
-                      ? ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 92,
-                              width: 92,
-                              child: FilterItem(
-                                category: mocksCategory[index],
-                                value: filter.categoryType[getCategoryType(
-                                    mocksCategory[index].name.toLowerCase())]!,
-                                onChanged: (currentValue) {
-                                  setState(() {
-                                    filter = filter.copyWith(
-                                      categoryType: Map.from(
-                                        filter.categoryType.map(
-                                          (key, value) {
-                                            return key ==
-                                                    getCategoryType(
-                                                        mocksCategory[index]
-                                                            .name
-                                                            .toLowerCase())
-                                                ? MapEntry(key, currentValue)
-                                                : MapEntry(key, value);
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  });
-                                  _filtrationPlace();
+          child: BlocBuilder<FilterItemsBloc, FilterItemsState>(
+            bloc: _filterItemsBloc,
+            builder: (context, state) {
+              if (state is FilterItemsDataState) {
+                final filter = state.filter;
+                return ListView(
+                  physics: Platform.isIOS
+                      ? BouncingScrollPhysics()
+                      : ClampingScrollPhysics(),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 24.0),
+                      child: Text(
+                        'filters.categories'.tr(),
+                        style: smallText.copyWith(fontSize: 12.0),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Container(
+                        width: double.infinity,
+                        height: (_width <= 375 && _height <= 667) ||
+                                MediaQuery.orientationOf(context) ==
+                                    Orientation.landscape
+                            ? 100
+                            : 354,
+                        child: (_width <= 375 && _height <= 667) ||
+                                MediaQuery.orientationOf(context) ==
+                                    Orientation.landscape
+                            ? ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    height: 92,
+                                    width: 92,
+                                    child: FilterItem(
+                                      category: mocksCategory[index],
+                                      value: filter.categoryType[
+                                          getCategoryType(mocksCategory[index]
+                                              .name
+                                              .toLowerCase())]!,
+                                      onChanged: (currentValue) {
+                                        _filterItemsBloc.add(
+                                          ChangeFilter(
+                                            filter: filter.copyWith(
+                                              categoryType: Map.from(
+                                                filter.categoryType.map(
+                                                  (key, value) {
+                                                    return key ==
+                                                            getCategoryType(
+                                                                mocksCategory[
+                                                                        index]
+                                                                    .name
+                                                                    .toLowerCase())
+                                                        ? MapEntry(
+                                                            key, currentValue)
+                                                        : MapEntry(key, value);
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                itemCount: mocksCategory.length,
+                              )
+                            : GridView.builder(
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                ),
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: mocksCategory.length,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    height: 92,
+                                    width: 92,
+                                    child: FilterItem(
+                                      category: mocksCategory[index],
+                                      value: filter.categoryType[
+                                          getCategoryType(mocksCategory[index]
+                                              .name
+                                              .toLowerCase())]!,
+                                      onChanged: (currentValue) {
+                                        _filterItemsBloc.add(
+                                          ChangeFilter(
+                                            filter: filter.copyWith(
+                                              categoryType: Map.from(
+                                                filter.categoryType.map(
+                                                  (key, value) {
+                                                    return key ==
+                                                            getCategoryType(
+                                                                mocksCategory[
+                                                                        index]
+                                                                    .name
+                                                                    .toLowerCase())
+                                                        ? MapEntry(
+                                                            key, currentValue)
+                                                        : MapEntry(key, value);
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
                                 },
                               ),
-                            );
-                          },
-                          itemCount: mocksCategory.length,
-                        )
-                      : GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                          ),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: mocksCategory.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 92,
-                              width: 92,
-                              child: FilterItem(
-                                category: mocksCategory[index],
-                                value: filter.categoryType[getCategoryType(
-                                    mocksCategory[index].name.toLowerCase())]!,
-                                onChanged: (currentValue) {
-                                  setState(() {
-                                    filter = filter.copyWith(
-                                      categoryType: Map.from(
-                                        filter.categoryType.map(
-                                          (key, value) {
-                                            return key ==
-                                                    getCategoryType(
-                                                        mocksCategory[index]
-                                                            .name
-                                                            .toLowerCase())
-                                                ? MapEntry(key, currentValue)
-                                                : MapEntry(key, value);
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  });
-                                  _filtrationPlace();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: (_width <= 375 && _height <= 667) ||
-                          MediaQuery.orientationOf(context) ==
-                              Orientation.landscape
-                      ? 24
-                      : 56,
-                ),
-                child: SliderRadiusSearch(
-                  value: filter.radius ?? 0,
-                  onChanged: (currentValue) {
-                    setState(() {
-                      filter = filter.copyWith(radius: currentValue);
-                    });
-                    _filtrationPlace();
-                  },
-                ),
-              ),
-            ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: (_width <= 375 && _height <= 667) ||
+                                MediaQuery.orientationOf(context) ==
+                                    Orientation.landscape
+                            ? 24
+                            : 56,
+                      ),
+                      child: SliderRadiusSearch(
+                        value: filter.radius ?? 0,
+                        onChanged: (currentValue) {
+                          _filterItemsBloc.add(ChangeFilter(
+                              filter: filter.copyWith(radius: currentValue)));
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }
+              throw ArgumentError(
+                  "Wrong state in FiltersScreen for FilterItemsBloc");
+            },
           ),
         ),
       ),
@@ -211,22 +218,34 @@ class _FiltersScreenState extends State<FiltersScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Consumer<PlaceInteractor>(
             builder: (context, placeInteractor, child) {
-              return ElevatedButton(
-                onPressed: placeInteractor.getPlaces.length == 0
-                    ? null
-                    : () {
-                        Navigator.of(context).pop(filter);
-                      },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Text(
-                    'filters.show_button'.tr(
-                      namedArgs: {
-                        'count': placeInteractor.getPlaces.length.toString(),
-                      },
+              return BlocBuilder<FilterButtonBloc, FilterButtonState>(
+                bloc: _filterButtonBloc,
+                builder: (context, state) {
+                  int count = 0;
+                  if (state is FilterButtonLoadedState) {
+                    count = state.places.length;
+                  }
+                  return ElevatedButton(
+                    onPressed: count != 0
+                        ? () {
+                            _filterButtonBloc.add(ApplyFilter());
+                            Navigator.of(context).pop();
+                          }
+                        : null,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      child: Text(
+                        'filters.show_button'.tr(
+                          namedArgs: {
+                            'count': state is FilterButtonLoadedState
+                                ? state.places.length.toString()
+                                : '...',
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                },
               );
             },
           ),
