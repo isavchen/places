@@ -66,6 +66,7 @@
     "plase.type.cafe": "Кафе",
     "plase.type.other": "Остальное",
     "camera.not_available": "Камера недоступна",
+    "add_place.error_upload_photo": "Не удалось загрузить фотографию.",
     "error_placeholder_screen.title": "Ошибка",
     "error_placeholder_screen.subtitle": "Что то пошло не так\nПопробуйте позже.",
     "snackbar.close": "Закрыть",

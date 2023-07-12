@@ -100,7 +100,6 @@ class _SightListScreenState extends State<SightListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.sizeOf(context).height);
     return SafeArea(
       child: Scaffold(
         body: OverscrollGlowAbsorber(
@@ -221,14 +220,17 @@ class _SightListScreenState extends State<SightListScreen> {
                                 child: GradientProgressIndicator(
                                   progress: 0.8,
                                   strokeWidth: 6.0,
-                                  backgroundColor:
-                                      Theme.of(context).colorScheme.background,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .background,
                                   gradient: SweepGradient(
                                     colors: [
                                       Theme.of(context)
                                           .colorScheme
                                           .secondaryContainer,
-                                      Theme.of(context).colorScheme.background,
+                                      Theme.of(context)
+                                          .colorScheme
+                                          .background,
                                     ],
                                   ),
                                 ),
@@ -353,7 +355,8 @@ class _SightListScreenState extends State<SightListScreen> {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
