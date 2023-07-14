@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/bloc/want_to_visit/want_to_visit_event.dart';
-import 'package:places/bloc/want_to_visit/want_to_visit_state.dart';
+import 'package:places/bloc/visiting_screen/want_to_visit/want_to_visit_event.dart';
+import 'package:places/bloc/visiting_screen/want_to_visit/want_to_visit_state.dart';
 
 class WantToVisitBloc extends Bloc<WantToVisitEvent, WantToVisitState> {
   WantToVisitBloc() : super(WantToVisitListUpdatedSuccess(places: [])) {

@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:places/domain/location.dart';
 
 enum CategoryType {
@@ -12,7 +13,7 @@ enum CategoryType {
   other
 }
 
-class Filter {
+class Filter extends Equatable {
   final Location? userLocation;
   final double? radius;
   final Map<CategoryType, bool> categoryType;
@@ -63,4 +64,7 @@ class Filter {
   String toString() {
     return 'Filter: userLocation(lat: ${userLocation?.lat}, lng: ${userLocation?.lng}), radius: $radius, categoryType: $categoryType';
   }
+
+  @override
+  List<Object?> get props => [userLocation, radius, categoryType];
 }

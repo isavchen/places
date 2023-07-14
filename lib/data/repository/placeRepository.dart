@@ -24,7 +24,7 @@ class PlaceRepository {
   }) async {
     late PlacesFilterRequestDto data;
 
-    if (filter != null && filter.userLocation != null && filter.radius != null)
+    if (filter != null)
       data = PlacesFilterRequestDto(
         lat: filter.userLocation?.lat,
         lng: filter.userLocation?.lng,

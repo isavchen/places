@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:places/bloc/visited/visited_bloc.dart';
-import 'package:places/bloc/want_to_visit/want_to_visit_bloc.dart';
+import 'package:places/bloc/place_list_screen/place_list_screen_bloc.dart';
+import 'package:places/bloc/settings_screen/settings_bloc.dart';
+import 'package:places/bloc/settings_screen/settings_state.dart';
+import 'package:places/bloc/visiting_screen/visited/visited_bloc.dart';
+import 'package:places/bloc/visiting_screen/want_to_visit/want_to_visit_bloc.dart';
 import 'package:places/data/interactor/place_interactor.dart';
 import 'package:places/data/interactor/search_interactor.dart';
-import 'package:places/data/interactor/settings_interactor.dart';
 import 'package:places/ui/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -14,8 +16,8 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => SettingsInteractor(),
+    BlocProvider(
+      create: (_) => SettingsBloc(),
       child: EasyLocalization(
         supportedLocales: [
           Locale('ru'),
@@ -39,22 +41,28 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => PlaceInteractor()),
-        ChangeNotifierProvider(create: (context) => SearchInteractor()),
+        Provider(create: (context) => PlaceInteractor()),
+        Provider(create: (context) => SearchInteractor()),
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => WantToVisitBloc()),
-          BlocProvider(create: (context) => VisitedBloc()),
+          BlocProvider(
+            create: (_) => PlaceListScreenBloc(PlaceInteractor())
+              ..add(
+                LoadPlacesList(),
+              ),
+          ),
+          BlocProvider(create: (_) => WantToVisitBloc()),
+          BlocProvider(create: (_) => VisitedBloc()),
         ],
-        child: Consumer<SettingsInteractor>(
-          builder: (context, settingsInteractor, child) {
+        child: BlocBuilder<SettingsBloc, AppSettingsState>(
+          builder: (context, settings) {
             return MaterialApp(
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
               debugShowCheckedModeBanner: false,
-              theme: settingsInteractor.getCurrentTheme,
+              theme: settings.theme,
               title: 'Places',
               home: SplashScreen(),
             );

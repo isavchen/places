@@ -17,7 +17,22 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   PageController _pageController = PageController();
+  final ValueNotifier<int> _currentPageNotifier = ValueNotifier<int>(0);
   bool isLastPageView = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      _currentPageNotifier.value = _pageController.page?.round() ?? 0;
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   final List<OnboardingPage> _onboardingPages = [
     OnboardingPage(
@@ -55,20 +70,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       appBar: AppBar(
         elevation: 0,
         actions: [
-          !isLastPageView
-              ? TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    'onboarding.skip'.tr(),
-                  ),
-                )
-              : SizedBox(),
+          ValueListenableBuilder<int>(
+            valueListenable: _currentPageNotifier,
+            builder: (context, value, child) => value != 2
+                ? TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'onboarding.skip'.tr(),
+                    ),
+                  )
+                : SizedBox.shrink(),
+          )
         ],
       ),
       body: Column(
@@ -83,13 +101,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
           Container(
-            child: PageIndicator(
-              controller: _pageController,
-              itemCount: 3,
-              selectedColor: Theme.of(context).colorScheme.surface,
-              normalColor: lmInactiveColor,
-              width: 24.0,
-              dotWidth: 8,
+            child: ValueListenableBuilder<int>(
+              valueListenable: _currentPageNotifier,
+              builder: (context, value, child) => PageIndicator(
+                currentIndex: value,
+                itemCount: 3,
+                selectedColor: Theme.of(context).colorScheme.surface,
+                normalColor: lmInactiveColor,
+                width: 24.0,
+                dotWidth: 8,
+              ),
             ),
           ),
           SizedBox(

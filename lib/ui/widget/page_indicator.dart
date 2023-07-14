@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PageIndicator extends StatelessWidget {
-  final PageController controller;
+  final int currentIndex;
   final int itemCount;
   final Color selectedColor;
   final Color normalColor;
@@ -10,7 +10,7 @@ class PageIndicator extends StatelessWidget {
 
   const PageIndicator({
     Key? key,
-    required this.controller,
+    required this.currentIndex,
     required this.itemCount,
     required this.selectedColor,
     required this.width,
@@ -25,10 +25,7 @@ class PageIndicator extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List<Widget>.generate(itemCount, (int index) {
-          bool isCurrentPageSelected = index ==
-              (controller.page != null
-                  ? controller.page!.round() % itemCount
-                  : 0);
+          bool isCurrentPageSelected = index == currentIndex;
           return Container(
             width: width,
             height: 8,
@@ -40,16 +37,18 @@ class PageIndicator extends StatelessWidget {
                       : normalColor,
               borderRadius: BorderRadius.circular(8.0),
             ),
-            child: dotWidth != null && !isCurrentPageSelected ? Center(
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color:  normalColor,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-            ) : Container(),
+            child: dotWidth != null && !isCurrentPageSelected
+                ? Center(
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: normalColor,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                    ),
+                  )
+                : Container(),
           );
         }),
       ),
