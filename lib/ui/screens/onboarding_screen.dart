@@ -18,7 +18,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   PageController _pageController = PageController();
   final ValueNotifier<int> _currentPageNotifier = ValueNotifier<int>(0);
-  bool isLastPageView = false;
 
   @override
   void initState() {
@@ -52,18 +51,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ),
   ];
 
-  void _pageChanged(int index) {
-    if (index == 2) {
-      setState(() {
-        isLastPageView = true;
-      });
-    } else {
-      setState(() {
-        isLastPageView = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +82,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: OverscrollGlowAbsorber(
               child: PageView(
                 controller: _pageController,
-                onPageChanged: _pageChanged,
                 children: _onboardingPages,
               ),
             ),
@@ -118,36 +104,39 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: isLastPageView
-          ? SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    child: Text('onboarding.start'.tr().toUpperCase()),
+      bottomNavigationBar: ValueListenableBuilder<int>(
+        valueListenable: _currentPageNotifier,
+        builder: (context, value, child) => value == 2
+            ? SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      child: Text('onboarding.start'.tr().toUpperCase()),
+                    ),
                   ),
                 ),
+              )
+            : SafeArea(
+                child: SizedBox(
+                  height: 64.0,
+                ),
               ),
-            )
-          : SafeArea(
-              child: SizedBox(
-                height: 64.0,
-              ),
-            ),
+      ),
     );
   }
 }
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPage extends StatefulWidget {
   final String image;
   final String title;
   final String subtitle;
@@ -159,13 +148,54 @@ class OnboardingPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<OnboardingPage> createState() => _OnboardingPageState();
+}
+
+class _OnboardingPageState extends State<OnboardingPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 400),
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 0,
+      end: 100,
+    ).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
+    );
+    _animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(
-          image,
-          color: Theme.of(context).colorScheme.secondary,
+        AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) => Container(
+            height: 104,
+            width: 104,
+            child: Center(
+              child: SvgPicture.asset(
+                widget.image,
+                height: _scaleAnimation.value,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+          ),
         ),
         SizedBox(
           height: 42.6,
@@ -173,7 +203,7 @@ class OnboardingPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 58.0),
           child: Text(
-            title,
+            widget.title,
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .primaryTextTheme
@@ -187,7 +217,7 @@ class OnboardingPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 58.0),
           child: Text(
-            subtitle,
+            widget.subtitle,
             textAlign: TextAlign.center,
             style: lmMatBodyText2,
           ),
