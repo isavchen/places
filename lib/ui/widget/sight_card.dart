@@ -179,11 +179,22 @@ class _SightCardPortraitWidget extends StatelessWidget {
                 child: BlocBuilder<WantToVisitBloc, WantToVisitState>(
                   builder: (context, state) {
                     if (state is WantToVisitListUpdatedSuccess) {
-                      bool isFavoutitePlace =
+                      final bool isFavoutitePlace =
                           state.places.any((place) => place.id == sight.id);
-                      return SvgPicture.asset(
-                        isFavoutitePlace ? icHeartFull : icHeart,
-                        color: Colors.white,
+
+                      return AnimatedCrossFade(
+                        firstChild: SvgPicture.asset(
+                          icHeartFull,
+                          color: Colors.white,
+                        ),
+                        secondChild: SvgPicture.asset(
+                          icHeart,
+                          color: Colors.white,
+                        ),
+                        crossFadeState: isFavoutitePlace
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                        duration: Duration(milliseconds: 400),
                       );
                     }
 
@@ -351,9 +362,20 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     if (state is WantToVisitListUpdatedSuccess) {
                       bool isFavoutitePlace =
                           state.places.any((place) => place.id == sight.id);
-                      return SvgPicture.asset(
-                        isFavoutitePlace ? icHeartFull : icHeart,
-                        color: Colors.white,
+                          
+                      return AnimatedCrossFade(
+                        firstChild: SvgPicture.asset(
+                          icHeartFull,
+                          color: Colors.white,
+                        ),
+                        secondChild: SvgPicture.asset(
+                          icHeart,
+                          color: Colors.white,
+                        ),
+                        crossFadeState: isFavoutitePlace
+                            ? CrossFadeState.showFirst
+                            : CrossFadeState.showSecond,
+                        duration: Duration(milliseconds: 400),
                       );
                     }
 
