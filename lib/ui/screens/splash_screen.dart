@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:places/ui/res/assets.dart';
@@ -12,25 +14,44 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-  late Future isInitialized;
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _rotateAnimation;
+
   bool showOnboarding = true;
 
   void _navigateToNext() async {
-    await Future.delayed(
-      Duration(seconds: 2),
-      () => Navigator.of(context).pushReplacement(
+    await Future.delayed(Duration(seconds: 2), () {
+      _animationController.dispose();
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => showOnboarding ? OnboardingScreen() : HomePage(),
+          builder: (context) =>
+              showOnboarding ? OnboardingScreen() : HomePage(),
         ),
-      ),
-    );
+      );
+    });
   }
 
   @override
   void initState() {
-    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1600),
+    );
+    _rotateAnimation = Tween<double>(begin: 2 * pi, end: 0).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.decelerate),
+    );
+    _animationController.repeat();
     _navigateToNext();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // Здесь не срабатывает dispose и происходит ошибка
+    // _animationController.dispose();
   }
 
   @override
@@ -49,7 +70,15 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
-          child: SvgPicture.asset(splashLogo),
+          child: AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) {
+              return Transform.rotate(
+                angle: _rotateAnimation.value,
+                child: SvgPicture.asset(splashLogo),
+              );
+            },
+          ),
         ),
       ),
     );
