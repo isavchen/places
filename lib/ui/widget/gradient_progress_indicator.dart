@@ -20,23 +20,21 @@ class GradientProgressIndicator extends StatefulWidget {
       _GradientProgressIndicatorState();
 }
 
-class _GradientProgressIndicatorState extends State<GradientProgressIndicator>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-
+class _GradientProgressIndicatorState extends State<GradientProgressIndicator> {
+  double turns = 0;
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat();
+    _makeTurns();
   }
 
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+  void _makeTurns() async {
+    while (true) {
+      await Future.delayed(Duration(seconds: 1));
+      setState(() {
+        turns++;
+      });
+    }
   }
 
   @override
@@ -53,27 +51,77 @@ class _GradientProgressIndicatorState extends State<GradientProgressIndicator>
           ),
         ),
         Positioned.fill(
-          child: AnimatedBuilder(
-            animation: _animationController,
-            builder: (context, child) {
-              final rotation = _animationController.value * 2.0 * pi;
-              return Transform.rotate(
-                angle: rotation,
-                child: CustomPaint(
-                  painter: _GradientProgressPainter(
-                    progress: widget.progress,
-                    strokeWidth: widget.strokeWidth,
-                    gradient: widget.gradient,
-                  ),
-                ),
-              );
-            },
+          child: AnimatedRotation(
+            turns: turns,
+            duration: Duration(seconds: 1),
+            child: CustomPaint(
+              painter: _GradientProgressPainter(
+                progress: widget.progress,
+                strokeWidth: widget.strokeWidth,
+                gradient: widget.gradient,
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 }
+
+// class _GradientProgressIndicatorState extends State<GradientProgressIndicator>
+//     with SingleTickerProviderStateMixin {
+//   late AnimationController _animationController;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _animationController = AnimationController(
+//       vsync: this,
+//       duration: const Duration(seconds: 1),
+//     )..repeat();
+//   }
+
+//   @override
+//   void dispose() {
+//     _animationController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         Container(
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(widget.strokeWidth * 5),
+//             border: Border.all(
+//               color: widget.backgroundColor,
+//               width: widget.strokeWidth,
+//             ),
+//           ),
+//         ),
+//         Positioned.fill(
+//           child: AnimatedBuilder(
+//             animation: _animationController,
+//             builder: (context, child) {
+//               final rotation = _animationController.value * 2.0 * pi;
+//               return Transform.rotate(
+//                 angle: rotation,
+//                 child: CustomPaint(
+//                   painter: _GradientProgressPainter(
+//                     progress: widget.progress,
+//                     strokeWidth: widget.strokeWidth,
+//                     gradient: widget.gradient,
+//                   ),
+//                 ),
+//               );
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class _GradientProgressPainter extends CustomPainter {
   final double progress;

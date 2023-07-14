@@ -19,6 +19,9 @@ class PlaceListScreenBloc
   Future<void> _loadPlaces(
       LoadPlacesList event, Emitter<PlaceListScreenState> emit) async {
     emit(PlaceListScreenLoadingState());
+    await Future.delayed(
+      Duration(seconds: 5),
+    );
     try {
       final places = await _placeInteractor.getAllPlaces();
       emit(PlaceListScreenSuccessState(places: places));
