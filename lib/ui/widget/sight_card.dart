@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -54,38 +51,50 @@ class _SightCardPortraitWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      if (wasSynchronouslyLoaded) {
                         return child;
                       }
-                      return Container(
-                        height: 96,
-                        color: Theme.of(context).colorScheme.background,
-                        child: Center(
-                          child: Platform.isAndroid
-                              ? CircularProgressIndicator(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                )
-                              : CupertinoActivityIndicator.partiallyRevealed(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  progress: loadingProgress
-                                              .expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : 0,
-                                ),
-                        ),
+                      return AnimatedOpacity(
+                        child: child,
+                        opacity: frame == null ? 0 : 1,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.easeOut,
                       );
                     },
+                    // loadingBuilder: (BuildContext context, Widget child,
+                    //     ImageChunkEvent? loadingProgress) {
+                    //   if (loadingProgress == null) {
+                    //     return child;
+                    //   }
+                    //   return Container(
+                    //     height: 96,
+                    //     color: Theme.of(context).colorScheme.background,
+                    //     child: Center(
+                    //       child: Platform.isAndroid
+                    //           ? CircularProgressIndicator(
+                    //               color:
+                    //                   Theme.of(context).colorScheme.secondary,
+                    //               value: loadingProgress.expectedTotalBytes !=
+                    //                       null
+                    //                   ? loadingProgress.cumulativeBytesLoaded /
+                    //                       loadingProgress.expectedTotalBytes!
+                    //                   : null,
+                    //             )
+                    //           : CupertinoActivityIndicator.partiallyRevealed(
+                    //               color:
+                    //                   Theme.of(context).colorScheme.secondary,
+                    //               progress: loadingProgress
+                    //                           .expectedTotalBytes !=
+                    //                       null
+                    //                   ? loadingProgress.cumulativeBytesLoaded /
+                    //                       loadingProgress.expectedTotalBytes!
+                    //                   : 0,
+                    //             ),
+                    //     ),
+                    //   );
+                    // },
                   ),
                 ),
                 Padding(
@@ -236,38 +245,50 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      if (wasSynchronouslyLoaded) {
                         return child;
                       }
-                      return Container(
-                        height: 96,
-                        color: Theme.of(context).colorScheme.background,
-                        child: Center(
-                          child: Platform.isAndroid
-                              ? CircularProgressIndicator(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  value: loadingProgress.expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
-                                )
-                              : CupertinoActivityIndicator.partiallyRevealed(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  progress: loadingProgress
-                                              .expectedTotalBytes !=
-                                          null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : 0,
-                                ),
-                        ),
+                      return AnimatedOpacity(
+                        child: child,
+                        opacity: frame == null ? 0 : 1,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.easeOut,
                       );
                     },
+                    // loadingBuilder: (BuildContext context, Widget child,
+                    //     ImageChunkEvent? loadingProgress) {
+                    //   if (loadingProgress == null) {
+                    //     return child;
+                    //   }
+                    //   return Container(
+                    //     height: 96,
+                    //     color: Theme.of(context).colorScheme.background,
+                    //     child: Center(
+                    //       child: Platform.isAndroid
+                    //           ? CircularProgressIndicator(
+                    //               color:
+                    //                   Theme.of(context).colorScheme.secondary,
+                    //               value: loadingProgress.expectedTotalBytes !=
+                    //                       null
+                    //                   ? loadingProgress.cumulativeBytesLoaded /
+                    //                       loadingProgress.expectedTotalBytes!
+                    //                   : null,
+                    //             )
+                    //           : CupertinoActivityIndicator.partiallyRevealed(
+                    //               color:
+                    //                   Theme.of(context).colorScheme.secondary,
+                    //               progress: loadingProgress
+                    //                           .expectedTotalBytes !=
+                    //                       null
+                    //                   ? loadingProgress.cumulativeBytesLoaded /
+                    //                       loadingProgress.expectedTotalBytes!
+                    //                   : 0,
+                    //             ),
+                    //     ),
+                    //   );
+                    // },
                   ),
                 ),
                 Padding(
