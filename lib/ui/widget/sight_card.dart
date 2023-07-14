@@ -54,6 +54,18 @@ class _SightCardPortraitWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      if (wasSynchronouslyLoaded) {
+                        return child;
+                      }
+                      return AnimatedOpacity(
+                        child: child,
+                        opacity: frame == null ? 0 : 1,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.easeOut,
+                      );
+                    },
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
@@ -236,6 +248,18 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     width: double.infinity,
                     height: 96,
                     fit: BoxFit.cover,
+                    frameBuilder:
+                        (context, child, frame, wasSynchronouslyLoaded) {
+                      if (wasSynchronouslyLoaded) {
+                        return child;
+                      }
+                      return AnimatedOpacity(
+                        child: child,
+                        opacity: frame == null ? 0 : 1,
+                        duration: Duration(milliseconds: 1500),
+                        curve: Curves.easeOut,
+                      );
+                    },
                     loadingBuilder: (BuildContext context, Widget child,
                         ImageChunkEvent? loadingProgress) {
                       if (loadingProgress == null) {
