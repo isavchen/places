@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _navigateToNext() async {
     await Future.delayed(Duration(seconds: 2), () {
-      _animationController.dispose();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) =>
@@ -49,9 +48,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
+    _animationController.dispose();
     super.dispose();
-    // Здесь не срабатывает dispose и происходит ошибка
-    // _animationController.dispose();
   }
 
   @override
