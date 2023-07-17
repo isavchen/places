@@ -148,11 +148,11 @@ class WantVisitingCard extends StatelessWidget {
               highlightColor: Colors.transparent,
               onTap: () {
                 MediaQuery.orientationOf(context) == Orientation.portrait
-                    ? _openDetailsScreen(sight.id, context)
+                    ? _openDetailsScreen(sight, context)
                     : Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => SightDetailsScreen(
-                            sightId: sight.id,
+                            place: sight,
                           ),
                         ),
                       );
@@ -215,7 +215,7 @@ class WantVisitingCard extends StatelessWidget {
     );
   }
 
-  void _openDetailsScreen(int sightId, BuildContext context) async {
+  void _openDetailsScreen(Place place, BuildContext context) async {
     showModalBottomSheet(
       context: context,
       builder: (_) {
@@ -229,7 +229,7 @@ class WantVisitingCard extends StatelessWidget {
                 maxHeight: MediaQuery.sizeOf(context).height * 0.92,
               ),
               child: SightDetailsScreen(
-                sightId: sightId,
+                place: place,
                 isBottomSheet: true,
               ),
             ));

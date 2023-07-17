@@ -198,7 +198,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                     : ClampingScrollPhysics(),
                 children: [
                   SizedBox(height: 32.0),
-                  for (final res in state.places)
+                  for (final place in state.places)
                     Column(
                       children: [
                         GestureDetector(
@@ -206,7 +206,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => SightDetailsScreen(
-                                  sightId: res.id,
+                                  place: place,
                                 ),
                               ),
                             );
@@ -219,7 +219,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12.0),
                                 child: Image.network(
-                                  res.urls.first,
+                                  place.urls.first,
                                   fit: BoxFit.cover,
                                   loadingBuilder: (BuildContext context,
                                       Widget child,
@@ -264,7 +264,7 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                             title: RichText(
                               text: TextSpan(
                                 children: highlightOccurrences(
-                                  res.name,
+                                  place.name,
                                   searchTextController.text.trim(),
                                   Theme.of(context),
                                 ),
@@ -280,12 +280,12 @@ class _SightSearchScreenState extends State<SightSearchScreen> {
                               ),
                             ),
                             subtitle: Text(
-                              "plase.type.${res.placeType}".tr(),
+                              "plase.type.${place.placeType}".tr(),
                               style: lmMatBodyText2,
                             ),
                           ),
                         ),
-                        if (state.places.last != res)
+                        if (state.places.last != place)
                           Padding(
                             padding: const EdgeInsets.only(
                                 left: 88.0, right: 16.0),

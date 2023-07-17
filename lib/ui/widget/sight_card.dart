@@ -35,6 +35,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(sight.toString());
     return Stack(
       children: [
         Column(
@@ -161,7 +162,7 @@ class _SightCardPortraitWidget extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => SightDetailsScreen(
-                      sightId: sight.id,
+                      place: sight,
                     ),
                   ),
                 );
@@ -240,55 +241,58 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     topLeft: Radius.circular(16.0),
                     topRight: Radius.circular(16.0),
                   ),
-                  child: Image.network(
-                    sight.urls.first,
-                    width: double.infinity,
-                    height: 96,
-                    fit: BoxFit.cover,
-                    frameBuilder:
-                        (context, child, frame, wasSynchronouslyLoaded) {
-                      if (wasSynchronouslyLoaded) {
-                        return child;
-                      }
-                      return AnimatedOpacity(
-                        child: child,
-                        opacity: frame == null ? 0 : 1,
-                        duration: Duration(milliseconds: 1500),
-                        curve: Curves.easeOut,
-                      );
-                    },
-                    // loadingBuilder: (BuildContext context, Widget child,
-                    //     ImageChunkEvent? loadingProgress) {
-                    //   if (loadingProgress == null) {
-                    //     return child;
-                    //   }
-                    //   return Container(
-                    //     height: 96,
-                    //     color: Theme.of(context).colorScheme.background,
-                    //     child: Center(
-                    //       child: Platform.isAndroid
-                    //           ? CircularProgressIndicator(
-                    //               color:
-                    //                   Theme.of(context).colorScheme.secondary,
-                    //               value: loadingProgress.expectedTotalBytes !=
-                    //                       null
-                    //                   ? loadingProgress.cumulativeBytesLoaded /
-                    //                       loadingProgress.expectedTotalBytes!
-                    //                   : null,
-                    //             )
-                    //           : CupertinoActivityIndicator.partiallyRevealed(
-                    //               color:
-                    //                   Theme.of(context).colorScheme.secondary,
-                    //               progress: loadingProgress
-                    //                           .expectedTotalBytes !=
-                    //                       null
-                    //                   ? loadingProgress.cumulativeBytesLoaded /
-                    //                       loadingProgress.expectedTotalBytes!
-                    //                   : 0,
-                    //             ),
-                    //     ),
-                    //   );
-                    // },
+                  child: Hero(
+                    tag: 'photo_gallery',
+                    child: Image.network(
+                      sight.urls.first,
+                      width: double.infinity,
+                      height: 96,
+                      fit: BoxFit.cover,
+                      frameBuilder:
+                          (context, child, frame, wasSynchronouslyLoaded) {
+                        if (wasSynchronouslyLoaded) {
+                          return child;
+                        }
+                        return AnimatedOpacity(
+                          child: child,
+                          opacity: frame == null ? 0 : 1,
+                          duration: Duration(milliseconds: 1500),
+                          curve: Curves.easeOut,
+                        );
+                      },
+                      // loadingBuilder: (BuildContext context, Widget child,
+                      //     ImageChunkEvent? loadingProgress) {
+                      //   if (loadingProgress == null) {
+                      //     return child;
+                      //   }
+                      //   return Container(
+                      //     height: 96,
+                      //     color: Theme.of(context).colorScheme.background,
+                      //     child: Center(
+                      //       child: Platform.isAndroid
+                      //           ? CircularProgressIndicator(
+                      //               color:
+                      //                   Theme.of(context).colorScheme.secondary,
+                      //               value: loadingProgress.expectedTotalBytes !=
+                      //                       null
+                      //                   ? loadingProgress.cumulativeBytesLoaded /
+                      //                       loadingProgress.expectedTotalBytes!
+                      //                   : null,
+                      //             )
+                      //           : CupertinoActivityIndicator.partiallyRevealed(
+                      //               color:
+                      //                   Theme.of(context).colorScheme.secondary,
+                      //               progress: loadingProgress
+                      //                           .expectedTotalBytes !=
+                      //                       null
+                      //                   ? loadingProgress.cumulativeBytesLoaded /
+                      //                       loadingProgress.expectedTotalBytes!
+                      //                   : 0,
+                      //             ),
+                      //     ),
+                      //   );
+                      // },
+                    ),
                   ),
                 ),
                 Padding(
@@ -355,7 +359,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => SightDetailsScreen(
-                      sightId: sight.id,
+                      place: sight,
                     ),
                   ),
                 );
