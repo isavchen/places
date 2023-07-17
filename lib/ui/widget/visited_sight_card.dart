@@ -29,41 +29,47 @@ class VisitedSightCard extends StatelessWidget {
                     topLeft: Radius.circular(16.0),
                     topRight: Radius.circular(16.0),
                   ),
-                  child: Image.network(
-                    sight.urls.first,
-                    height: 96,
-                    width: MediaQuery.sizeOf(context).width - 32.0,
-                    fit: BoxFit.cover,
-                    colorBlendMode: BlendMode.srcATop,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.24),
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      }
-                      return Center(
-                        child: Platform.isAndroid
-                            ? CircularProgressIndicator(
-                                color: Theme.of(context).colorScheme.secondary,
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              )
-                            : CupertinoActivityIndicator.partiallyRevealed(
-                                color: Theme.of(context).colorScheme.secondary,
-                                progress: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : 0,
-                              ),
-                      );
-                    },
+                  child: Hero(
+                    tag: sight.id,
+                    child: Image.network(
+                      sight.urls.first,
+                      height: 96,
+                      width: MediaQuery.sizeOf(context).width - 32.0,
+                      fit: BoxFit.cover,
+                      colorBlendMode: BlendMode.srcATop,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(0.24),
+                      loadingBuilder: (BuildContext context, Widget child,
+                          ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return Center(
+                          child: Platform.isAndroid
+                              ? CircularProgressIndicator(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                )
+                              : CupertinoActivityIndicator.partiallyRevealed(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  progress: loadingProgress
+                                              .expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : 0,
+                                ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Positioned(

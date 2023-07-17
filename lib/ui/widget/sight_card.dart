@@ -42,60 +42,63 @@ class _SightCardPortraitWidget extends StatelessWidget {
           children: [
             Stack(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16.0),
-                    topRight: Radius.circular(16.0),
-                  ),
-                  child: Image.network(
-                    sight.urls.first,
-                    width: double.infinity,
-                    height: 96,
-                    fit: BoxFit.cover,
-                    frameBuilder:
-                        (context, child, frame, wasSynchronouslyLoaded) {
-                      if (wasSynchronouslyLoaded) {
-                        return child;
-                      }
-                      return AnimatedOpacity(
-                        child: child,
-                        opacity: frame == null ? 0 : 1,
-                        duration: Duration(milliseconds: 1500),
-                        curve: Curves.easeOut,
-                      );
-                    },
-                    // loadingBuilder: (BuildContext context, Widget child,
-                    //     ImageChunkEvent? loadingProgress) {
-                    //   if (loadingProgress == null) {
-                    //     return child;
-                    //   }
-                    //   return Container(
-                    //     height: 96,
-                    //     color: Theme.of(context).colorScheme.background,
-                    //     child: Center(
-                    //       child: Platform.isAndroid
-                    //           ? CircularProgressIndicator(
-                    //               color:
-                    //                   Theme.of(context).colorScheme.secondary,
-                    //               value: loadingProgress.expectedTotalBytes !=
-                    //                       null
-                    //                   ? loadingProgress.cumulativeBytesLoaded /
-                    //                       loadingProgress.expectedTotalBytes!
-                    //                   : null,
-                    //             )
-                    //           : CupertinoActivityIndicator.partiallyRevealed(
-                    //               color:
-                    //                   Theme.of(context).colorScheme.secondary,
-                    //               progress: loadingProgress
-                    //                           .expectedTotalBytes !=
-                    //                       null
-                    //                   ? loadingProgress.cumulativeBytesLoaded /
-                    //                       loadingProgress.expectedTotalBytes!
-                    //                   : 0,
-                    //             ),
-                    //     ),
-                    //   );
-                    // },
+                Hero(
+                  tag: sight.id,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0),
+                    ),
+                    child: Image.network(
+                      sight.urls.first,
+                      width: double.infinity,
+                      height: 96,
+                      fit: BoxFit.cover,
+                      frameBuilder:
+                          (context, child, frame, wasSynchronouslyLoaded) {
+                        if (wasSynchronouslyLoaded) {
+                          return child;
+                        }
+                        return AnimatedOpacity(
+                          child: child,
+                          opacity: frame == null ? 0 : 1,
+                          duration: Duration(milliseconds: 1500),
+                          curve: Curves.easeOut,
+                        );
+                      },
+                      // loadingBuilder: (BuildContext context, Widget child,
+                      //     ImageChunkEvent? loadingProgress) {
+                      //   if (loadingProgress == null) {
+                      //     return child;
+                      //   }
+                      //   return Container(
+                      //     height: 96,
+                      //     color: Theme.of(context).colorScheme.background,
+                      //     child: Center(
+                      //       child: Platform.isAndroid
+                      //           ? CircularProgressIndicator(
+                      //               color:
+                      //                   Theme.of(context).colorScheme.secondary,
+                      //               value: loadingProgress.expectedTotalBytes !=
+                      //                       null
+                      //                   ? loadingProgress.cumulativeBytesLoaded /
+                      //                       loadingProgress.expectedTotalBytes!
+                      //                   : null,
+                      //             )
+                      //           : CupertinoActivityIndicator.partiallyRevealed(
+                      //               color:
+                      //                   Theme.of(context).colorScheme.secondary,
+                      //               progress: loadingProgress
+                      //                           .expectedTotalBytes !=
+                      //                       null
+                      //                   ? loadingProgress.cumulativeBytesLoaded /
+                      //                       loadingProgress.expectedTotalBytes!
+                      //                   : 0,
+                      //             ),
+                      //     ),
+                      //   );
+                      // },
+                    ),
                   ),
                 ),
                 Padding(
@@ -242,7 +245,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     topRight: Radius.circular(16.0),
                   ),
                   child: Hero(
-                    tag: 'photo_gallery',
+                    tag: sight.id,
                     child: Image.network(
                       sight.urls.first,
                       width: double.infinity,
@@ -387,7 +390,7 @@ class _SightCardLandscapeWidget extends StatelessWidget {
                     if (state is WantToVisitListUpdatedSuccess) {
                       bool isFavoutitePlace =
                           state.places.any((place) => place.id == sight.id);
-                          
+
                       return AnimatedCrossFade(
                         firstChild: SvgPicture.asset(
                           icHeartFull,
