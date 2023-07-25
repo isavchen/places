@@ -59,54 +59,57 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        child: PageView.builder(
-                          controller: _pageController,
-                          itemCount: widget.place.urls.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Image.network(
-                              widget.place.urls[index],
-                              fit: BoxFit.cover,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Center(
-                                  child: Platform.isAndroid
-                                      ? CircularProgressIndicator(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          value: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : null,
-                                        )
-                                      : CupertinoActivityIndicator
-                                          .partiallyRevealed(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                          progress: loadingProgress
-                                                      .expectedTotalBytes !=
-                                                  null
-                                              ? loadingProgress
-                                                      .cumulativeBytesLoaded /
-                                                  loadingProgress
-                                                      .expectedTotalBytes!
-                                              : 0,
-                                        ),
-                                );
-                              },
-                            );
-                          },
+                      Hero(
+                        tag: widget.place.id,
+                        child: Container(
+                          width: double.infinity,
+                          child: PageView.builder(
+                            controller: _pageController,
+                            itemCount: widget.place.urls.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Image.network(
+                                widget.place.urls[index],
+                                fit: BoxFit.cover,
+                                loadingBuilder: (BuildContext context,
+                                    Widget child,
+                                    ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  }
+                                  return Center(
+                                    child: Platform.isAndroid
+                                        ? CircularProgressIndicator(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          )
+                                        : CupertinoActivityIndicator
+                                            .partiallyRevealed(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            progress: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : 0,
+                                          ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ),
                       widget.isBottomSheet
@@ -126,8 +129,9 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                                   ),
                                   child: Icon(
                                     Icons.close,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary,
                                     size: 24,
                                   ),
                                 ),
@@ -149,8 +153,9 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                                   ),
                                   child: Icon(
                                     Icons.arrow_back_ios_new_rounded,
-                                    color:
-                                        Theme.of(context).colorScheme.secondary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary,
                                     size: 20,
                                   ),
                                 ),
@@ -302,7 +307,8 @@ class _SightDetailsScreenState extends State<SightDetailsScreen> {
                                     if (state
                                         is WantToVisitListUpdatedSuccess) {
                                       bool isFavoutitePlace = state.places.any(
-                                          (element) => element.id == widget.place.id);
+                                          (element) =>
+                                              element.id == widget.place.id);
                                       return Container(
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 8.0),
